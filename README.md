@@ -5,9 +5,9 @@ LIeC - Linguaggi, Interpreti e Compilatori presso l'Università degli Studi di P
 ```bash
 Guida directory:
 .
-├── esercizi
 ├── pdf
-└── slides
+├── slides
+└── teoria
 ```
 
 ---
