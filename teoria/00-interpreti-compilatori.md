@@ -45,7 +45,11 @@ La compilazione è un'attività "off-line", per vari motivi:
 - Il tempo di compilazione deve essere accettabile.
 - L’occupazione in spazio del programma compilato deve essere accettabile.
 
-> Un esempio lo si vede nella programmazione generica con i generics in Java e i template in C++.
+Un esempio lo si vede nella _programmazione generica_ con i generics in Java e i template in C++:
+- nel primo caso, il compilatore `javac` applica la cosiddetta *type erasure*, sostituendo (nei casi più comuni) tutti i parametri di tipo con `Object`; ciò assicura che a tempo di esecuzione non verrà creato nuovo codice in corrispondenza dell'istanziazione di oggetti generici [[rif.](https://docs.oracle.com/javase/tutorial/java/generics/erasure.html)];
+- nell'altro, il compilatore si occupa di "leggere"" il template in questione e generare il codice _ad hoc_ per il tipo concreto richiesto.
+
+È chiaro dunque che la compilazione di un template C++ introduce un overhead maggiore rispetto alla controparte in Java. Si rifletta però sul fatto che il conoscere i tipi utilizzati permette al compilatore di poter introdurre in alcuni casi delle ottimizzazioni; ne è un esempio intuitivo il caso di un "vettore" parametrico rispetto al tipo dell'oggetto contenuto: per Java, il tipo generico è una reference ad una porzione di memoria e non è assicurato che posizioni successive del vettore si riferiscano a segmenti contigui della stessa; al contrario, conoscendo la dimensione dell'oggetto contenuto, il compilatore C++ è in grado di disporre gli oggetti su porzioni successive di memoria.
 
 ### Esempi per gli approcci misti
 
