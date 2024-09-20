@@ -26,6 +26,9 @@ Per mantenere l'ordine e la coerenza della cartella, vi chiediamo gentilmente di
 
 Vi ricordo che gli appunti presenti in questa cartella sono forniti a titolo informativo e non sostituiscono in alcun modo lo studio dei testi di riferimento consigliati dal docente.
 
+> Nella cartella `teoria/src` le immagini sono identificate secondo questo pattern `{progressivo_appunti_di_appartenenza}-{numero_progressivo}`
+
+
 Buono studio!
 
 ---
