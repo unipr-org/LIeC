@@ -19,6 +19,7 @@ In un normale processo di compilazione il codice $L$ raggiunge la parte di **fro
 > Questa distinsione non è cosi marcata nei compilatori odierni.
 
 È possibile avere più front end e/o back end: 
+
 ![[01-02.png]]
 
 ## Linguaggio IR
@@ -191,5 +192,86 @@ Mentre l'AST generato utilizzando la compilazione C++ sarà:
 ---
 
 # Il back end del compilatore
+Il compito del back end è quello di tradurre la IR in linguaggio (macchina) $M$. 
+Vengono scelte le istruzioni per implementare le operazioni. Inoltre viene deciso quali valori mantenere nei registri.
+Deve rispettare le interfacce di sistema (e.g., le eccezioni che arrivano).
+
 ![[01-12.png]]
 
+Il back end si divide in tre sottosezioni:
+1. Vengono selezionate le istruzioni.
+2. Vengono allocati i registri.
+3. Vengono schedulate le istruzioni.
+
+Sono problemi inerentemente complicati (NPC), e quindi ci si basa sull'applicazione di tecniche euristiche.
+
+![[01-13.png]]
+
+## Instruction selection
+Ha il compito di produrre un codice veloce (tempo) e compatto (spazio). Deve sfruttare caratteristiche della “macchina” per M. Spesso visto come problema di pattern matching. Ricerca di ottimi locali (approssimazione).
+
+## Register allocation
+Gestione di un insieme finito di risorse (registri CPU). Splilling dei registri: istruzioni di LOAD e STORE (vanno evitate). Colorazione di grafi.
+
+## Instruction scheduling
+Gestione dipendenze a livello hardware: evitare le attese. Ottimizzare l’uso delle unità funzionali della CPU. Può modificare il tempo di vita dei valori nei registri (quindi influenzare la loro allocazione)
+
+### Esempio di scheduling
+Operazioni da seguire:
+```
+a <- b * c + d
+e <- f + a
+```
+
+Dobbiamo tenere traccia dei cicli di clock per ogni istruzione: supponiamo che per load e store impieghiamo 2 cicli e con le altre operazioni solo 1.
+
+Il codice pseudo-macchina sarà:
+```
+load @b -> r1
+load @c -> r2
+mult r1, r2 -> r3
+load @d -> r4
+add r3, r4 -> r5
+store r5 -> @a
+load @f -> r6
+add r5, r6 -> r7
+store r7 -> @e
+```
+
+Ma per esempio l'istruzione 3 non può essere eseguita il ciclo dopo di clock della istruzione 2 perchè la 2 ci impiega 2 cicli. Dobbiamo aggiungere un "nop" (operazione vuota, attendi). Questo porta ad una perdita di tempo e spreco di spazio. Possiamo ottimizzare queste sequenze di nop andando a diminuire i registri utilizzati.
+
+---
+
+# Front end e back end (riassumendo)
+Quindi riassumendo, la separazione responsabilità e competenze sarà:
+- Front end: linguaggi sorgente, generatori automatici, problema “risolto”.
+- Back end: macchine target, approcci ad hoc, problema “in evoluzione” (nuove CPU, GPU, ...).
+
+---
+
+# Middle end
+Analizza e trasforma il codice IR. 
+Obiettivo: migliorare il codice
+- metriche classiche: tempo di esecuzione, spazio memoria
+- metriche recenti: consumo energia, risorse hardware, ...
+Deve preservare la semantica del programma.
+
+![[01-14.png]]
+
+Suddivisione in passi (possibilmente ripetuti, quisti loop vanno in esecuzione un numero finito di volte)
+Ogni passo mantiene la semantica del programma
+Un singolo passo implementa una analisi o trasformazione IR:
+- passo di analisi: faccio analisi per dedurre nuove informazioni per eventuali nuove modifiche (e.g., identificazione di valori costanti, identificazione di codice o valori inutili, analisi di aliasing)
+- passo di trasformazione: effettua la trasformazione (e.g., propagazione di valori costanti, rimozione di codice inutile (tipo strutturare un software per più architetture e rimuovo le architetture non supportate), inlining di chiamate a funzioni, loop unrolling)
+Un passo può dipendere e/o invalidare altri passi
+Sequenza dei passi dipende dal compilatore (e opzioni)
+
+> Non passiamo i tipi piccoli per riferimento nelle funzioni perchè cosi evitiamo l'aliasing e il compilatore è molto più veloce.
+
+![[01-15.png]]
+
+Altri benefici della strutturazione del compilatore
+- front end riutilizzabili per implementare interpreti
+- compilazione JIT (Just In Time): passi middle end scelti a run-time
+- semplificazione sviluppo di analisi ad hoc (clang-tidy)
+- integrazione con IDE (editori, debugger, ...)
