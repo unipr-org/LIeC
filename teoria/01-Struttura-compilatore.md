@@ -16,7 +16,7 @@ Un compilatore deve rispettare i seguenti requisiti:
 
 In un compilatore a 2 passi si vede una separazione delle responsabilità. 
 In un normale processo di compilazione il codice $L$ raggiunge la parte di **front end** ("esperto del linguaggio") che produce una **rappresentazione intermedia** (**IR**) che viene mandata alla parte di **back end** ("esperto dell'architettura"), la quale si occuperà di produrre il codice macchina $M$.
-> Questa distinsione non è cosi marcata nei compilatori odierni.
+> Questa distinzione non è cosi marcata nei compilatori odierni.
 
 È possibile avere più front end e/o back end: 
 
@@ -25,7 +25,7 @@ In un normale processo di compilazione il codice $L$ raggiunge la parte di **fro
 ## Linguaggio IR
 Il linguaggio IR (Intermediate Representation), è una rappresentazione intermedia utilizzata dal compilatore per descrivere il codice sorgente in una forma che sia più facilmente manipolabile e analizzabile durante le fasi di ottimizzazione e generazione del codice macchina. L'IR funge da ponte tra il front-end del compilatore, che analizza e interpreta il codice sorgente, e il back-end, che genera il codice macchina eseguibile.
 
-Esistono varie tipologie di do linguaggio IR, più o meno specializzate, che possono essere:
+Esistono varie tipologie di linguaggio IR, più o meno specializzate, che possono essere:
 - Strutturali: alberi, grafi, DAG (Direct Acyclic Graph).
 - Lineari: 
 	- 3-address code: l'assembler vede un'istruzione e 3 indirizzi (dato a, dato b, risultato) a dei registri.
