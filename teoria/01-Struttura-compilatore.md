@@ -16,15 +16,16 @@ Un compilatore deve rispettare i seguenti requisiti:
 
 In un compilatore a 2 passi si vede una separazione delle responsabilità. 
 In un normale processo di compilazione il codice $L$ raggiunge la parte di **front end** ("esperto del linguaggio") che produce una **rappresentazione intermedia** (**IR**) che viene mandata alla parte di **back end** ("esperto dell'architettura"), la quale si occuperà di produrre il codice macchina $M$.
-> Questa distinsione non è cosi marcata nei compilatori odierni.
+> Questa distinzione non è cosi marcata nei compilatori odierni.
 
 È possibile avere più front end e/o back end: 
+
 ![[01-02.png]]
 
 ## Linguaggio IR
 Il linguaggio IR (Intermediate Representation), è una rappresentazione intermedia utilizzata dal compilatore per descrivere il codice sorgente in una forma che sia più facilmente manipolabile e analizzabile durante le fasi di ottimizzazione e generazione del codice macchina. L'IR funge da ponte tra il front-end del compilatore, che analizza e interpreta il codice sorgente, e il back-end, che genera il codice macchina eseguibile.
 
-Esistono varie tipologie di do linguaggio IR, più o meno specializzate, che possono essere:
+Esistono varie tipologie di linguaggio IR, più o meno specializzate, che possono essere:
 - Strutturali: alberi, grafi, DAG (Direct Acyclic Graph).
 - Lineari: 
 	- 3-address code: l'assembler vede un'istruzione e 3 indirizzi (dato a, dato b, risultato) a dei registri.
@@ -191,5 +192,106 @@ Mentre l'AST generato utilizzando la compilazione C++ sarà:
 ---
 
 # Il back end del compilatore
+Il back end del compilatore ha il compito di prendere la rappresentazione intermedia (IR) generata dal front end e tradurla in un linguaggio macchina $M$ specifico per l'architettura target. Questo processo coinvolge la scelta delle istruzioni più appropriate per implementare le operazioni definite dalla IR, nonché la decisione su quali valori mantenere nei registri durante l'esecuzione del codice generato. Inoltre, il back end deve garantire che il codice prodotto rispetti tutte le interfacce e i protocolli di sistema, come ad esempio la gestione delle eccezioni e il rispetto delle chiamate di sistema.
+
 ![[01-12.png]]
 
+Il back end è generalmente suddiviso in tre sottoprocessi principali:
+1. Selezione delle istruzioni: durante questa fase, il compilatore traduce le operazioni della IR in istruzioni specifiche per l'architettura target. Questo processo richiede di selezionare la sequenza di istruzioni macchina più efficiente per realizzare l'operazione desiderata, tenendo conto delle caratteristiche e delle limitazioni dell'hardware, come i set di istruzioni disponibili e la presenza di istruzioni complesse.
+2. Allocazione dei registri: una volta selezionate le istruzioni, è necessario decidere quali variabili verranno mantenute nei registri dell'hardware per minimizzare l'accesso alla memoria e ottimizzare le prestazioni. L'allocazione dei registri è un problema complesso poiché la maggior parte delle architetture ha un numero limitato di registri, il che richiede un'attenta pianificazione per ridurre i costi associati allo "spilling" (i.e., il trasferimento di dati dalla memoria ai registri e viceversa).
+3. Schedulazione delle istruzioni: l'ultima fase consiste nel determinare l'ordine ottimale di esecuzione delle istruzioni per sfruttare al massimo l'hardware disponibile. Questo include la gestione delle dipendenze tra le istruzioni e l'ottimizzazione per l'esecuzione in parallelo su architetture che supportano l'esecuzione simultanea di più istruzioni.
+
+Le tre fasi descritte sopra rappresentano problemi di ottimizzazione estremamente complessi, appartenenti alla classe di problemi NPC (NP-Completo). Ciò significa che, in generale, trovare la soluzione ottimale è computazionalmente complesso, soprattutto per programmi di grandi dimensioni. Per questa ragione, i compilatori reali si affidano a tecniche euristiche, che cercano soluzioni "abbastanza buone" entro un tempo ragionevole, piuttosto che trovare la soluzione perfetta.
+
+Queste tecniche euristiche possono variare dal semplice utilizzo di regole predefinite fino all'applicazione di algoritmi più sofisticati, come l'ottimizzazione locale, il branch and bound, o algoritmi genetici, a seconda delle esigenze di prestazioni e del contesto in cui il compilatore viene utilizzato.
+
+![[01-13.png]]
+
+## Instruction selection
+L'obiettivo della fase di *instruction selection* è produrre un codice che sia sia veloce (ottimizzato per il tempo di esecuzione) che compatto (ottimizzato per l'uso della memoria). Per farlo, il compilatore deve sfruttare al massimo le caratteristiche specifiche dell'architettura target $M$. Questo processo può essere visto come un problema di *pattern matching*, in cui il compilatore cerca di mappare le operazioni della rappresentazione intermedia (IR) alle istruzioni macchina disponibili nel set di istruzioni dell'architettura target.
+
+Dal momento che trovare la soluzione ottimale è generalmente molto complesso, questa fase si basa spesso sulla ricerca di ottimi locali, ovvero soluzioni approssimate che funzionano bene per sezioni specifiche del codice senza garantire l'ottimalità globale. Ad esempio, il compilatore potrebbe selezionare la sequenza di istruzioni più efficiente per un determinato blocco di codice, anche se ciò non garantisce che l'intero programma sia ottimizzato al massimo.
+
+## Register allocation
+La fase di *register allocation* si occupa della gestione dei registri della CPU, che sono una risorsa estremamente limitata. L'obiettivo è assegnare variabili o valori temporanei a un numero finito di registri disponibili, cercando di minimizzare l'accesso alla memoria esterna. Quando non ci sono abbastanza registri per contenere tutte le variabili necessarie, si verifica il cosiddetto *spilling*, ovvero il trasferimento temporaneo di dati tra i registri e la memoria principale attraverso istruzioni di `LOAD` e `STORE`. Poiché queste operazioni sono costose in termini di tempo di esecuzione, è importante evitarle il più possibile.
+
+Un approccio comune per risolvere il problema dell'allocazione dei registri è la _colorazione di grafi_. In questa tecnica, ogni variabile è rappresentata come un nodo in un grafo, e un arco tra due nodi indica che le due variabili sono attive nello stesso intervallo di tempo e quindi non possono condividere lo stesso registro. Il problema si riduce quindi a colorare il grafo con il minor numero possibile di colori, dove ogni colore rappresenta un registro fisico.
+
+## Instruction scheduling
+L'*instruction scheduling* ha il compito di gestire le dipendenze tra le istruzioni a livello hardware, evitando inutili attese e ottimizzando l'uso delle unità funzionali della CPU. L'obiettivo è organizzare l'ordine delle istruzioni in modo che la CPU possa eseguire il maggior numero possibile di operazioni contemporaneamente, riducendo i tempi di inattività causati da dipendenze tra le istruzioni o dal tempo di latenza dell'hardware.
+
+Questa fase può influenzare il tempo di vita dei valori nei registri, poiché cambiando l'ordine delle istruzioni potrebbe essere necessario mantenere un valore nei registri per un periodo di tempo più lungo o più breve. Di conseguenza, l'instruction scheduling può avere un impatto sulla fase di allocazione dei registri, rendendo necessaria un'interazione tra queste due fasi per ottenere un codice più efficiente.
+
+### Esempio di scheduling
+Operazioni da seguire:
+```
+a <- b * c + d
+e <- f + a
+```
+
+Dobbiamo tenere traccia dei cicli di clock per ogni istruzione: supponiamo che per load e store impieghiamo 2 cicli e con le altre operazioni solo 1.
+
+Il codice pseudo-macchina sarà:
+```
+load @b -> r1
+load @c -> r2
+mult r1, r2 -> r3
+load @d -> r4
+add r3, r4 -> r5
+store r5 -> @a
+load @f -> r6
+add r5, r6 -> r7
+store r7 -> @e
+```
+
+Ma per esempio l'istruzione 3 non può essere eseguita il ciclo dopo di clock della istruzione 2 perchè la 2 ci impiega 2 cicli. Dobbiamo aggiungere un "nop" (operazione vuota, attendi). Questo porta ad una perdita di tempo e spreco di spazio. Possiamo ottimizzare queste sequenze di nop andando a diminuire i registri utilizzati.
+
+---
+
+# Front end e back end (riassumendo)
+Quindi riassumendo, la separazione responsabilità e competenze sarà:
+- Front end: linguaggi sorgente, generatori automatici, problema “risolto”.
+- Back end: macchine target, approcci ad hoc, problema “in evoluzione” (nuove CPU, GPU, ...).
+
+---
+
+# Middle end
+Analizza e trasforma il codice IR. 
+Obiettivo: migliorare il codice
+- metriche classiche: tempo di esecuzione, spazio memoria
+- metriche recenti: consumo energia, risorse hardware, ...
+Deve preservare la semantica del programma.
+
+Il *middle end* è la componente del compilatore responsabile dell'analisi e trasformazione del codice IR, con l'obiettivo principale di migliorare il codice generato. Le ottimizzazioni mirano a soddisfare diverse metriche:
+- Metriche classiche: riduzione del tempo di esecuzione e dello spazio in memoria.
+- Metriche recenti: minimizzazione del consumo energetico, miglior utilizzo delle risorse hardware, e altre considerazioni legate all'efficienza.
+
+Un aspetto cruciale è che il middle end deve sempre preservare la semantica del programma, garantendo che le trasformazioni effettuate non modifichino il comportamento originale del codice.
+
+![[01-14.png]]
+
+Il processo del middle end è suddiviso in una serie di passi, spesso eseguiti più volte (iterativamente). L'esecuzione iterativa viene gestita in modo tale da assicurare che il numero di iterazioni sia sempre finito. Ogni passo mantiene la semantica del programma e si focalizza su due tipi principali di operazioni:
+1. Passi di Analisi: questi passi hanno il compito di raccogliere informazioni dal codice IR che potrebbero essere utili per successive trasformazioni.
+	- Esempi:
+		- Identificazione di valori costanti (rilevare variabili che non cambiano mai durante l'esecuzione).
+		- Identificazione di codice o variabili inutili.
+		- Analisi di aliasing (per determinare se due puntatori o riferimenti possono puntare alla stessa area di memoria).
+
+2. Passi di Trasformazione: questi passi applicano effettivamente le modifiche al codice IR basandosi sulle informazioni raccolte.
+	- Esempi:
+		- Propagazione di valori costanti (sostituire variabili con i loro valori noti).
+		- Rimozione di codice inutile (come rimuovere codice condizionale per architetture non utilizzate).
+		- _Inlining_ delle chiamate a funzioni (sostituire la chiamata a una funzione con il corpo stesso della funzione).
+		- _Loop unrolling_ (replicare il corpo del ciclo più volte per ridurre il numero totale di iterazioni).
+
+Un singolo passo può dipendere da informazioni raccolte da altri passi e può anche invalidare informazioni precedenti. Questo rende la sequenza dei passi un aspetto cruciale, con l’ordine e le opzioni configurabili che spesso dipendono dal compilatore specifico.
+
+> Ad esempio, non passare tipi piccoli per riferimento nelle funzioni aiuta a evitare l'aliasing e rende il compilatore più efficiente nel generare codice ottimizzato.
+
+![[01-15.png]]
+
+Altri benefici della strutturazione del compilatore:
+- Riutilizzo del front end: può essere utilizzato per implementare interpreti, offrendo una maggiore flessibilità.
+- Compilazione JIT (Just-In-Time): permette di scegliere quali passi del middle end eseguire durante il runtime, adattandosi alle esigenze specifiche del contesto di esecuzione.
+- Semplificazione dello sviluppo di analisi ad hoc: ad esempio, tool come clang-tidy utilizzano la struttura del middle end per eseguire analisi di codice personalizzate.
+- Integrazione con IDE: fornisce supporto avanzato per editor, debugger, e altri strumenti di sviluppo, facilitando il lavoro degli sviluppatori.
