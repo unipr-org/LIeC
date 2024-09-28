@@ -1,0 +1,106 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{syntax}
+
+\makeatletter
+\makeatother
+
+\title{\Huge{\texttt{C\textsuperscript{$\pm$}}: a simple language for calculus, inspired by C}}
+\author{Manuel Di Agostino}
+
+\begin{document}
+\maketitle
+
+\section{Lexical elements}
+\begin{grammar}
+
+	<token> ::= <keyword>
+		\alt <identifier>
+		\alt <constant>
+		\alt <string-literal>
+		\alt <punctuator>
+	
+\end{grammar}
+
+\subsection{Keywords}
+
+\begin{grammar}
+	<keyword> ::=  `bool' | `char' | `const' | `do' | `double' | `else' | `float' | `for' | `if' | `int' | `long' | `unsigned' | `while'
+\end{grammar}
+
+\subsection{identifiers}
+
+\begin{grammar}
+	<identifier> ::= \hfill \\
+		<identifier-nondigit>
+		\alt <identifier> <identifier-nondigit>
+		\alt <identifier> <digit>
+
+	<identifier-nondigit> ::= <nondigit>
+
+	<nondigit> ::= `_' | `a' | \dots | `z' | `A' | \dots | `Z'
+
+	<digit> ::= `0' | \dots | `9'
+\end{grammar}
+
+\subsection{Constants}
+
+\begin{grammar}
+	<constant> ::= \hfill \\
+		<integer-constant>
+		\alt <floating-constant>
+		\alt <character-constant>
+\end{grammar}
+
+\subsubsection{Integer constants}
+
+\begin{grammar}
+	<integer-constant> ::= <decimal-constant> <integer-suffix>?
+
+	<decimal-constant> ::= <digit> | <decimal-constant> <digit>
+
+	<digit> ::= `0' | \dots | `9'
+
+	<integer-suffix> ::= \hfill \\
+		<unsigned-suffix> <long-suffix>?
+		\alt <long-suffix> <unsigned-suffix>?
+	
+	<unsigned-suffix> ::= `u' | `U'
+
+	<long-suffix> ::= `l' | `L'
+	
+\end{grammar}
+
+\subsubsection{floating-constant}
+
+\begin{grammar}
+	<floating-constant> ::= <decimal-floating-constant>
+
+	<decimal-floating-constant> ::= \hfill \\
+		<fractional-constant> <exponent-part>? <floating-suffix>?
+		\alt <digit-sequence> <exponent-part> <floating-suffix>?
+
+	<fractional-constant> ::= \hfill \\ 
+		<digit-sequence>? `.' <digit-sequence> 
+		\alt <digit-sequence> `.'
+
+	<exponent-part> ::= \hfill \\
+		`e' <sign>? <digit-sequence>
+		\alt `E' <sign>? <digit-sequence>
+	
+	<sign> ::= `+' | `-'
+
+	<digit-sequence> ::= <digit> | <digit-sequence> <digit>
+
+	<floating-suffix> ::= `f' | `l' | `F' | `L'
+\end{grammar}
+
+\section{ToDo}
+\begin{itemize}
+	\item \emph{string-literal}
+	\item \emph{punctuator}
+\end{itemize}
+	
+\end{document}
