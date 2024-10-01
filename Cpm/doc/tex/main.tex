@@ -97,10 +97,30 @@
 	<floating-suffix> ::= `f' | `l' | `F' | `L'
 \end{grammar}
 
-\section{ToDo}
-\begin{itemize}
-	\item \emph{string-literal}
-	\item \emph{punctuator}
-\end{itemize}
+\subsection{String literals}
+
+\begin{grammar}
+	<string-literal> ::= \hfill \\
+		`"' <s-char-sequence>? `"'
+			\alt `L'`"' <s-char-sequence>? `"'
+	
+	<s-char-sequence> ::= \hfill \\ 
+		<s-char>
+		\alt <s-char-sequence> <s-char>
+	
+	<s-char> ::= any character except `"', `\\', `\\n'
+		\alt <escape-sequence>
+\end{grammar}
+
+\subsection{Punctuator}
+
+\begin{grammar}
+	<punctuator> ::= `[' | `]' | `(' | `)' | `{' | `}' | `,' | `;'
+		`++' | `--' | `*' | `+' | `-' | `!' | `/' | `\%' | `<' | `>' |
+		`<=' | `>=' | `==' | `!=' | `^' | `&&' | `||' |
+		`=' | `*=' | `\/=' | `+=' | `-=' | `^=' |
+		`#' | `##'
+	
+\end{grammar}
 	
 \end{document}
