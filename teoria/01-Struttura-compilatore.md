@@ -47,8 +47,8 @@ Il compito del front end è quello di riconoscere se i programmi (di un codice $
 
 Il front end è diviso in 3 parti:
 - Lexer: si occupa di effettuare l'analisi lessicale, che si occupa di scannerizzare l'input, dividerlo in blocchi e produrre dei token. Riconosce (ferma sono quello che considera illegale, ma in caso di dubbio lascia passare) ed etichetta le parole contenute nell'input.
-- Parser, che si occupa di effettuare l'analisi sintattica e produrre un IR (un astrazione dell'abstract syntax stree),. L'analisi viene effettuata in modo libera dal contesto. 
-- Checker, che si occupa di fare l'analisi di semantica statica su problemi decidibili (es. esistenza di una variabile, chiamate di funzione corrette). L'analisi viene effettuata in modo dipendente dal contesto.
+- Parser: che si occupa di effettuare l'analisi sintattica e produrre una IR (i.e., un'astrazione dell'abstract syntax stree). L'analisi viene effettuata in modo libera dal contesto. 
+- Checker: che si occupa di fare l'analisi di semantica statica su problemi decidibili (e.g., esistenza di una variabile, chiamate di funzione corrette). L'analisi viene effettuata in modo dipendente dal contesto.
   
 ### Esempi di analisi libere dal contesto
 - Il controllo di bilanciamento delle parentesi è un operazione che si può effettuare in modo libero dal contesto.
@@ -60,6 +60,7 @@ La maggior parte degli errori presenti in un codice $L$, sono riscontrati nella 
 
 ## Lexer
 Il processo di analisi lessicale (lexing) rappresenta la prima fase del front end di un compilatore, dove il codice sorgente viene suddiviso in unità significative chiamate "token". 
+
 Un token è una coppia $<\text{part\_of\_speech,\ lexeme}>$ composta da 2 parti:
 - $\text{part\_of\_speech}$, che definisce la categoria lessicale a cui appartiene la parola letta;
 - $\text{lexeme}$, che corrisponde alla sequenza di caratteri che produce quella categoria.
