@@ -25,21 +25,12 @@ In un normale processo di compilazione il codice $L$ raggiunge la parte di **fro
 ## Linguaggio IR
 Il linguaggio IR (Intermediate Representation), è una rappresentazione intermedia utilizzata dal compilatore per descrivere il codice sorgente in una forma che sia più facilmente manipolabile e analizzabile durante le fasi di ottimizzazione e generazione del codice macchina. L'IR funge da ponte tra il front-end del compilatore, che analizza e interpreta il codice sorgente, e il back-end, che genera il codice macchina eseguibile.
 
-Esistono varie tipologie di linguaggio IR, più o meno specializzate, che possono essere:
-- Strutturali: alberi, grafi, DAG (Direct Acyclic Graph).
-- Lineari: 
-	- 3-address code: l'assembler vede un'istruzione e 3 indirizzi (dato a, dato b, risultato) a dei registri.
-	- stack-machine code: effettua una sequenza di operazioni: `push a`, `push b`, (operazione), `return {res}`. 
-- Ibridi: CFG (control flow graph) per BB (basic block, blocchi o sequenze di istruzioni).
-
-Attualmente sono utilizzate le rappresentazioni ibride che vede una una rappresentazione lineare, di blocchi o sequenze di istruzioni (non separabili tra loro), intrecciata ad una rappresentazione strutturale per effettuare i cambi di flusso mediante CFG.
-
 Esistono diverse tipologie di linguaggi IR, ciascuna con caratteristiche e scopi specifici. Possiamo classificarle principalmente in tre categorie:
 1. **Rappresentazioni Strutturali**: queste rappresentazioni organizzano le informazioni in strutture gerarchiche, come alberi, grafi o DAG (Directed Acyclic Graph).
 	- **Alberi di Sintassi Astratta (AST)**: rappresentano la struttura sintattica del codice in modo gerarchico, riflettendo la grammatica del linguaggio sorgente.
 	- **Grafi e DAG**: utilizzati per rappresentare le dipendenze tra le operazioni, in cui i nodi rappresentano le operazioni e gli archi le dipendenze tra di esse. I DAG sono particolarmente utili per evitare la ridondanza e per ottimizzare le espressioni comuni.
 2. **Rappresentazioni Lineari**: il codice è descritto come una sequenza di istruzioni eseguite in un ordine specifico. Le più comuni sono:
-	- **Three-Address Code (TAC)**: ogni istruzione in TAC coinvolge al massimo tre indirizzi o operand. Ad esempio, un’istruzione può essere del tipo `x = y + z`, dove `x`, `y`, e `z` sono variabili o indirizzi di memoria. Questa forma è semplice e ricorda molto un linguaggio assembly, rendendo facile la mappatura diretta sul codice macchina.
+	- **Three-Address Code (TAC)**: ogni istruzione in TAC coinvolge al massimo tre indirizzi o operand (e.g., un’istruzione può essere del tipo `x = y + z`, dove `x`, `y`, e `z` sono variabili o indirizzi di memoria). Questa forma è semplice e ricorda molto un linguaggio assembly, rendendo facile la mappatura diretta sul codice macchina.
 	- **Stack-Machine Code**: in questo modello, le operazioni sono eseguite utilizzando una pila (stack). Le istruzioni tipicamente eseguono operazioni come `push` (per aggiungere valori alla pila), eseguire un'operazione (ad esempio `add`), e `pop` (per rimuovere e ottenere il risultato). Questo approccio è semplice da implementare, ma meno efficiente rispetto a TAC in termini di accesso diretto agli operand.
 3. **Rappresentazioni Ibride**: combinano aspetti delle rappresentazioni strutturali e lineari. La forma più comune è:
 	- **CFG (Control Flow Graph) per BB (Basic Block)**: in questa rappresentazione, il codice è suddiviso in "Basic Blocks" (BB), ossia sequenze di istruzioni che vengono eseguite linearmente senza interruzioni. Questi blocchi sono poi collegati tra loro tramite un CFG, che rappresenta le possibili transizioni di flusso tra i blocchi.
