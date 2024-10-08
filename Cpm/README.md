@@ -6,7 +6,7 @@ understanding of its specifications, please refer to the
 
 Currently, we are implementing the lexer using Flex.
 
-## Build the lexer
+## How to build the lexer
 
 ```bash
 cd flex ; mkdir build ; cd build
