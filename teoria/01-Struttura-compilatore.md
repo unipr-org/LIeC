@@ -47,8 +47,8 @@ Il compito del front end è quello di riconoscere se i programmi (di un codice $
 
 Il front end è diviso in 3 parti:
 - Lexer: si occupa di effettuare l'analisi lessicale, che si occupa di scannerizzare l'input, dividerlo in blocchi e produrre dei token. Riconosce (ferma sono quello che considera illegale, ma in caso di dubbio lascia passare) ed etichetta le parole contenute nell'input.
-- Parser: che si occupa di effettuare l'analisi sintattica e produrre una IR (i.e., un'astrazione dell'abstract syntax stree). L'analisi viene effettuata in modo libera dal contesto. 
-- Checker: che si occupa di fare l'analisi di semantica statica su problemi decidibili (e.g., esistenza di una variabile, chiamate di funzione corrette). L'analisi viene effettuata in modo dipendente dal contesto.
+- Parser: che si occupa di effettuare l'analisi sintattica e produrre una IR (i.e., un'astrazione dell'abstract syntax stree). L'analisi viene effettuata in modo <u>libera dal contesto</u>. 
+- Checker: che si occupa di fare l'analisi di semantica statica su problemi decidibili (e.g., esistenza di una variabile, chiamate di funzione corrette). L'analisi viene effettuata in modo <u>dipendente dal contesto</u>.
   
 ### Esempi di analisi libere dal contesto
 - Il controllo di bilanciamento delle parentesi è un operazione che si può effettuare in modo libero dal contesto.
@@ -70,7 +70,7 @@ Un token è una coppia $<\text{part\_of\_speech,\ lexeme}>$ composta da 2 parti:
 ### Specifica vs implementazione (Lexer)
 La specifica del lexer definisce in modo formale e rigoroso quali sono i token validi del linguaggio. Questa definizione avviene utilizzando un linguaggio formale che risulti comprensibile e utilizzabile dal progettista umano. Lo strumento principale per questa specifica sono le **Espressioni Regolari (RE)**, che forniscono un modo conciso per descrivere i pattern che i token devono seguire.
 
-Le espressioni regolari sono potenti ma presentano alcune limitazioni, ad esempio quando si tratta di esprimere intersezioni e complementi di insiemi di caratteri. Per superare queste limitazioni, possono essere estese con operatori aggiuntivi che ne aumentano la flessibilità e consentono di specificare in modo più dettagliato i token richiesti.
+Le espressioni regolari sono potenti ma presentano alcune limitazioni (e.g., quando si tratta di esprimere intersezioni e complementi di insiemi di caratteri). Per superare queste limitazioni, possono essere estese con operatori aggiuntivi che ne aumentano la flessibilità e consentono di specificare in modo più dettagliato i token richiesti.
 
 Un esempio classico di espressione regolare per identificare gli identificatori di un linguaggio è il seguente:
 ```
@@ -80,10 +80,10 @@ ID = LETTER ( LETTER | DIGIT ) *
 ```
 
 In questo caso:
-- `[ 0 - 9 ]` e `[ a-zA-Z ]` rappresentano le character class, ovvero insiemi di caratteri definiti attraverso intervalli.
-- I caratteri in grassetto fanno parte del linguaggio specificato, mentre i caratteri non in grassetto sono meta-sintassi utilizzata per definire i token.
+- `[ 0 - 9 ]` e `[ a-zA-Z ]` rappresentano le character class (i.e., insiemi di caratteri definiti attraverso intervalli).
+- I caratteri in maiuscolo fanno parte del linguaggio specificato, mentre i caratteri in minuscolo sono meta-sintassi utilizzata per definire i token.
 
-> Le espressioni regolari consentono diverse forme di abbreviazione, come iterazione positiva, complemento, e altre convenzioni che rendono più chiara la specifica del token.
+> Le espressioni regolari consentono diverse forme di abbreviazione, come l'iterazione positiva, il complemento, e le altre convenzioni che rendono più chiara la specifica del token.
 
 L'implementazione del lexer si concentra sulla trasformazione delle specifiche dei token in un meccanismo efficiente per la loro identificazione nel codice sorgente. Questa fase è critica dal punto di vista dell'efficienza, poiché il lexer è l'unica componente del front-end che deve leggere l'intero input del programma.
 
@@ -103,9 +103,9 @@ Il parser è responsabile dell'analisi sintattica, ovvero della fase in cui una 
 La specifica di un parser definisce quali sequenze di token costituiscono programmi validi secondo le regole del linguaggio. Per fare ciò, si utilizza una **Context-Free Grammar (CFG)** (i.e., grammatica libera dal contesto), che è in grado di esprimere le strutture sintattiche più comuni nei linguaggi di programmazione.
 
 Le CFG sono composte da un insieme di regole di produzione che definiscono come i simboli non terminali possono essere sostituiti da combinazioni di terminali e altri non terminali.
-Tuttavia, lavorare con le CFG presenta diverse sfide, come la gestione dell'ambiguità (dove una stessa stringa può essere generata da più di una derivazione), l’efficienza del parsing e il determinismo.
+Tuttavia, lavorare con le CFG presenta diverse sfide, come la gestione dell'ambiguità (e.g., dove una stessa stringa può essere generata da più di una derivazione), l’efficienza del parsing e il determinismo.
 
-L'implementazione del parser prevede la costruzione di un meccanismo in grado di riconoscere le strutture definite dalla CFG. Questo riconoscimento avviene tramite un PDA (automa a pila non deterministico), un automa a pila non deterministico che ha la capacità di gestire un contesto grazie all'uso di una pila.
+L'implementazione del parser prevede la costruzione di un meccanismo in grado di riconoscere le strutture definite dalla CFG. Questo riconoscimento avviene tramite un PDA, un automa a pila non deterministico che ha la capacità di gestire un contesto grazie all'uso di una pila.
 
 Il PDA può essere implementato direttamente (in modo implicito) utilizzando tecniche come la ricorsione e il backtracking. Questo approccio permette di definire parser ricorsivi discendenti che seguono direttamente la struttura della grammatica specificata.
 In alternativa, è possibile utilizzare tool di generazione automatica di parser (e.g., Yacc, Bison o ANTLR) che producono un parser partendo dalla grammatica specificata. 
@@ -184,9 +184,11 @@ Mentre l'AST generato utilizzando la compilazione C++ sarà:
 ---
 
 # Il back end del compilatore
-Il back end del compilatore ha il compito di prendere la rappresentazione intermedia (IR) generata dal front end e tradurla in un linguaggio macchina $M$ specifico per l'architettura target. Questo processo coinvolge la scelta delle istruzioni più appropriate per implementare le operazioni definite dalla IR, nonché la decisione su quali valori mantenere nei registri durante l'esecuzione del codice generato. Inoltre, il back end deve garantire che il codice prodotto rispetti tutte le interfacce e i protocolli di sistema, come ad esempio la gestione delle eccezioni e il rispetto delle chiamate di sistema.
+Il back end del compilatore ha il compito di prendere la rappresentazione intermedia (IR) generata dal front end e tradurla in un linguaggio macchina $M$ specifico per l'architettura target. Questo processo coinvolge la scelta delle istruzioni più appropriate per implementare le operazioni definite dalla IR, nonché la decisione su quali valori mantenere nei registri durante l'esecuzione del codice generato. Inoltre, il back end deve garantire che il codice prodotto rispetti tutte le interfacce e i protocolli di sistema, come ad esempio la gestione delle eccezioni e il rispetto delle system call.
 
 ![[01-12.png]]
+
+![[01-13.png]]
 
 Il back end è generalmente suddiviso in tre sottoprocessi principali:
 1. Selezione delle istruzioni: durante questa fase, il compilatore traduce le operazioni della IR in istruzioni specifiche per l'architettura target. Questo processo richiede di selezionare la sequenza di istruzioni macchina più efficiente per realizzare l'operazione desiderata, tenendo conto delle caratteristiche e delle limitazioni dell'hardware, come i set di istruzioni disponibili e la presenza di istruzioni complesse.
@@ -197,10 +199,8 @@ Le tre fasi descritte sopra rappresentano problemi di ottimizzazione estremament
 
 Queste tecniche euristiche possono variare dal semplice utilizzo di regole predefinite fino all'applicazione di algoritmi più sofisticati, come l'ottimizzazione locale, il branch and bound, o algoritmi genetici, a seconda delle esigenze di prestazioni e del contesto in cui il compilatore viene utilizzato.
 
-![[01-13.png]]
-
 ## Instruction selection
-L'obiettivo della fase di *instruction selection* è produrre un codice che sia sia veloce (ottimizzato per il tempo di esecuzione) che compatto (ottimizzato per l'uso della memoria). Per farlo, il compilatore deve sfruttare al massimo le caratteristiche specifiche dell'architettura target $M$. Questo processo può essere visto come un problema di *pattern matching*, in cui il compilatore cerca di mappare le operazioni della rappresentazione intermedia (IR) alle istruzioni macchina disponibili nel set di istruzioni dell'architettura target.
+L'obiettivo della fase di *instruction selection* è produrre un codice che sia veloce (ottimizzato per il tempo di esecuzione) e che sia compatto (ottimizzato per l'uso della memoria). Per farlo, il compilatore deve sfruttare al massimo le caratteristiche specifiche dell'architettura target $M$. Questo processo può essere visto come un problema di *pattern matching*, in cui il compilatore cerca di mappare le operazioni della rappresentazione intermedia (IR) alle istruzioni macchina disponibili nel set di istruzioni dell'architettura target.
 
 Dal momento che trovare la soluzione ottimale è generalmente molto complesso, questa fase si basa spesso sulla ricerca di ottimi locali, ovvero soluzioni approssimate che funzionano bene per sezioni specifiche del codice senza garantire l'ottimalità globale. Ad esempio, il compilatore potrebbe selezionare la sequenza di istruzioni più efficiente per un determinato blocco di codice, anche se ciò non garantisce che l'intero programma sia ottimizzato al massimo.
 
@@ -236,24 +236,11 @@ add r5, r6 -> r7
 store r7 -> @e
 ```
 
-Ma per esempio l'istruzione 3 non può essere eseguita il ciclo dopo di clock della istruzione 2 perchè la 2 ci impiega 2 cicli. Dobbiamo aggiungere un "nop" (operazione vuota, attendi). Questo porta ad una perdita di tempo e spreco di spazio. Possiamo ottimizzare queste sequenze di nop andando a diminuire i registri utilizzati.
-
----
-
-# Front end e back end (riassumendo)
-Quindi riassumendo, la separazione responsabilità e competenze sarà:
-- Front end: linguaggi sorgente, generatori automatici, problema “risolto”.
-- Back end: macchine target, approcci ad hoc, problema “in evoluzione” (nuove CPU, GPU, ...).
+Ma per esempio l'istruzione 3 non può essere eseguita il ciclo dopo di clock della istruzione 2 perchè la 2 ci impiega 2 cicli. Dobbiamo aggiungere un "nop" (operazione vuota, "attendi"). Questo porta ad una perdita di tempo e spreco di spazio. Possiamo ottimizzare queste sequenze di nop andando a diminuire i registri utilizzati.
 
 ---
 
 # Middle end
-Analizza e trasforma il codice IR. 
-Obiettivo: migliorare il codice
-- metriche classiche: tempo di esecuzione, spazio memoria
-- metriche recenti: consumo energia, risorse hardware, ...
-Deve preservare la semantica del programma.
-
 Il *middle end* è la componente del compilatore responsabile dell'analisi e trasformazione del codice IR, con l'obiettivo principale di migliorare il codice generato. Le ottimizzazioni mirano a soddisfare diverse metriche:
 - Metriche classiche: riduzione del tempo di esecuzione e dello spazio in memoria.
 - Metriche recenti: minimizzazione del consumo energetico, miglior utilizzo delle risorse hardware, e altre considerazioni legate all'efficienza.
@@ -262,7 +249,10 @@ Un aspetto cruciale è che il middle end deve sempre preservare la semantica del
 
 ![[01-14.png]]
 
-Il processo del middle end è suddiviso in una serie di passi, spesso eseguiti più volte (iterativamente). L'esecuzione iterativa viene gestita in modo tale da assicurare che il numero di iterazioni sia sempre finito. Ogni passo mantiene la semantica del programma e si focalizza su due tipi principali di operazioni:
+Il processo del middle end è suddiviso in una serie di passi, spesso eseguiti più volte (iterativamente). 
+L'esecuzione iterativa viene gestita in modo tale da assicurare che il numero di iterazioni sia sempre finito.
+
+Ogni passo mantiene la semantica del programma e si focalizza su due tipi principali di operazioni:
 1. Passi di Analisi: questi passi hanno il compito di raccogliere informazioni dal codice IR che potrebbero essere utili per successive trasformazioni.
 	- Esempi:
 		- Identificazione di valori costanti (rilevare variabili che non cambiano mai durante l'esecuzione).
