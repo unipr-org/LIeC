@@ -1,10 +1,16 @@
 # LIeC - Linguaggi, Interpreti e Compilatori
 
-LIeC - Linguaggi, Interpreti e Compilatori presso l'Università degli Studi di Parma (6 CFU).
+LIeC - Linguaggi, Interpreti e Compilatori presso l'Università degli Studi di Parma (9 CFU).
 
 ```bash
 Guida directory:
 .
+├── Cpm
+│   ├── doc
+│   └── flex
+├── code
+│   ├── 01-flex
+│   └── 02-bison
 ├── pdf
 ├── slides
 └── teoria
