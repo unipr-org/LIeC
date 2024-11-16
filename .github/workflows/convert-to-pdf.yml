@@ -30,8 +30,10 @@ jobs:
       
       - name: Preprocess Obsidian Markdown
         run: |
-          find teoria -type f -name "*.md" -exec sed -i 's/!\[\[\(.*\)\]\]/![\1](teoria\/images\/\1)/g' {} +
+          find teoria -type f -name "*.md" -exec sed -i '/table-of-contents/{N;d;}' {} +
+          find teoria -type f -name "*.md" -exec sed -i 's/!\[\[\(.*\)\]\]/![\1](images\/\1)/g' {} +
           cat teoria/03-test.md
+        # find teoria -type f -name "*.md" -exec sed -i 's/!\[\[\(.*\)\]\]/![\1](teoria\/images\/\1)/g' {} +
 
         # https://github.com/BaileyJM02/markdown-to-pdf
       - name: Convert Markdown to PDF

@@ -67,6 +67,13 @@ jobs:
           cp teoria/images/*.svg artifacts/html/images/     || echo "No svg files to copy"
           ls -la artifacts/html/images/
       
+      - name: Inject MathJax for LaTeX rendering
+        run: |
+          # Aggiungi il link a MathJax nel file HTML generato
+          for html_file in artifacts/html/*.html; do
+            sed -i '/<\/head>/i <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>' $html_file
+          done
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
