@@ -7,7 +7,7 @@ Come prima cosa, partendo da un'espressione regolare, costruiremo un automa a st
 ## NFA
 Costruiamo un NFA per la seguente RE: $(\text{a} | \text{b})^* \text{abb}$
 
-![[NFA.jpeg|center|500]]
+![[NFA.jpeg]]
 
 Partendo dallo stato iniziale $S_0$ e seguendo le frecce possiamo ricostruire la RE precedente, che ci diceva: "possiamo avere una sequenza di zero o più (\*) a o b, l'importante è che la stringa si concluda con la sequenza abb".
 Dunque se noi dovessimo avere una stringa del tipo "baabababb" in questo caso il nostro automa sarebbe in grado di riconoscerla e accettarla, analizziamola:
@@ -91,7 +91,7 @@ Esempi:
 	- floating poit: \[+-]?\[0-9]+.\[0-9]
 	- carattere: '\[^']' (^' = qualsiasi carattere che non sia l'apostrofo)
 - **Operatori e punteggiatura**, ogni lessema ha la sua categoria lessicale: 
-	![[operatori-punteggiatura.png | left | 500]]
+	![[operatori-punteggiatura.png]]
 - **Commenti**: 
 	- //\[^\n]\* \n (C++)
 	- --\[^\n]\* \n (SQL)
@@ -187,7 +187,7 @@ Se volessi conoscere il lessema che è stato identificato dal lexer, esso viene 
 >E' possibile andare a capo con pattern disgiuntivi usando | al posto del codice, **l'ordine delle regole ne stabilisce la priorità**.
 
 Come specificare i pattern in Flex:
-![[pattern-flex.png | center | 500]]
+![[pattern-flex.png]]
 ## 3- Sezione del codice utente
 La sezione del codice utente inizia dopo il secondo marker `%%`,  può contenere codice utente arbitrario, inserito verbatim dopo la definizione yylex.
 Tipicamente vengono definite delle funzioni ausiliarie precedentemente dichiarate nella sezione delle definizioni e la funzione **main**.
