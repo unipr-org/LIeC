@@ -50,5 +50,3 @@
 - Commenti (singola linea, multi linea)
 	- Commento (singola linea) del C++
 		- `//[^\n]*\n`
-	- Commento (singola linea) di SQL
-		- `--[^\n]*\n`

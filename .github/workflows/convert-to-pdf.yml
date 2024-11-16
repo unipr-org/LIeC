@@ -1,4 +1,4 @@
-name: Docs to PDF
+name: Docs to PDF & HTML
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
         uses: baileyjm02/markdown-to-pdf@v1
         with:
           input_dir: docs
-          output_dir: pdfs/
+          output_dir: artifacts/
           images_dir: docs/images
           build_html: true
 
@@ -30,11 +30,26 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-      - name: Commit and Push PDFs
+      - name: Refactor artifacts
         run: |
-          ls -la
-          git add .
-          git commit -m "Add generated PDFs [skip ci]"
+          mkdir -p artifacts/pdf
+          mkdir -p artifacts/html
+          mv artifacts/*.pdf artifacts/pdf/
+          mv artifacts/*.html artifacts/html/
+          ls -la artifacts/pdf
+          ls -la artifacts/html
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs
+          path: artifacts
+
+      - name: Commit and Push artifacts
+        run: |
+          git add artifacts/
+          git status
+          git commit -m "Add generated artifacts [skip ci]"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
