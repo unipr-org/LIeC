@@ -27,7 +27,7 @@ jobs:
           images_dir: docs/images/**
           build_pdf: true
           build_html: true
-          extend_default_theme: .github/style/markdown-theme.css
+          # extend_default_theme: .github/style/markdown-theme.css
           table_of_contents: true
 
       - name: Configure Git
