@@ -4,7 +4,6 @@
 
 # Visuale ad alto livello di astrazione
 ![[01-00.png]]
-<img src="images/01-00.png">
 
 Un compilatore deve rispettare i seguenti requisiti:
 - Riconoscimento di programmi validi/invalidi.

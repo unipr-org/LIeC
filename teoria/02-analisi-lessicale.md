@@ -17,6 +17,7 @@
 > Manca l'insieme vuoto.
 
 ![[02-05.png]]
+![02-05.png](images/02-05.png)
 
 ---
 
