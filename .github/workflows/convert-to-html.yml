@@ -1,4 +1,4 @@
-name: Docs to PDF
+name: Docs to HTML
 
 on:
   push:
@@ -11,8 +11,8 @@ on:
       - 'teoria/images/**'
 
 jobs:
-  converttopdf:
-    name: Build PDF
+  converttohtml:
+    name: Build HTML
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -31,17 +31,16 @@ jobs:
       - name: Preprocess Obsidian Markdown
         run: |
           find teoria -type f -name "*.md" -exec sed -i 's/!\[\[\(.*\)\]\]/![\1](images\/\1)/g' {} +
-          cat teoria/03-test.md
 
         # https://github.com/BaileyJM02/markdown-to-pdf
-      - name: Convert Markdown to PDF
+      - name: Convert Markdown to HTML
         uses: baileyjm02/markdown-to-pdf@v1
         with:
           input_dir: teoria
           output_dir: tmp/
           images_dir: teoria/images/**
-          build_pdf: true
-          build_html: false
+          build_pdf: false
+          build_html: true
           table_of_contents: true
 
       - name: Configure Git
@@ -53,21 +52,31 @@ jobs:
         run: |
           ls -la
           ls -la tmp
-          mkdir -p artifacts/pdf
-          cp tmp/*.pdf artifacts/pdf/   || echo "No PDF files to copy"
-          ls -la artifacts/pdf
+          mkdir -p artifacts/html
+          cp tmp/*.html artifacts/html/ || echo "No HTML files to copy"
+          ls -la artifacts/html
+        
+      - name: Copy images for HTML files
+        run: |
+          mkdir -p artifacts/html/images/
+          cp teoria/images/*.png artifacts/html/images/     || echo "No png files to copy"
+          cp teoria/images/*.jpg artifacts/html/images/     || echo "No jpg files to copy"
+          cp teoria/images/*.jpeg artifacts/html/images/    || echo "No jpeg files to copy"
+          cp teoria/images/*.gif artifacts/html/images/     || echo "No gif files to copy"
+          cp teoria/images/*.svg artifacts/html/images/     || echo "No svg files to copy"
+          ls -la artifacts/html/images/
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: docs
+          name: docs-html
           path: artifacts
 
       - name: Commit and Push artifacts
         run: |
           git add artifacts/
           git status
-          git commit -m "Add generated artifacts [PDF]"
+          git commit -m "Add generated artifacts [HTML]"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
