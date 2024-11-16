@@ -1,11 +1,10 @@
 name: Docs to PDF
-# This workflow is triggered on pushes to the repository.
+
 on:
   push:
     branches:
       - main
       - test-action
-    # Paths can be used to only trigger actions when you have edited certain files, such as a file within the /docs directory
     paths:
       - 'docs/**.md'
       - 'docs/images/**'
@@ -15,17 +14,27 @@ jobs:
     name: Build PDF
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: baileyjm02/markdown-to-pdf@v1
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Convert Markdown to PDF
+        uses: baileyjm02/markdown-to-pdf@v1
         with:
           input_dir: docs
           output_dir: pdfs
           images_dir: docs/images
-          # for example <img src="./images/file-name.png">
           image_import: ./images
-          # Default is true, can set to false to only get PDF files
           build_html: true
-      - uses: actions/upload-artifact@v3
-        with:
-          name: docs
-          path: pdfs
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Commit and Push PDFs
+        run: |
+          git add pdfs/
+          git commit -m "Add generated PDFs [skip ci]"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
