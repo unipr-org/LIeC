@@ -1109,8 +1109,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 			<pre><code class="language-table-of-contents"></code></pre>
 <hr>
 <h1 id="visuale-ad-alto-livello-di-astrazione" tabindex="-1"><a class="anchor" href="#visuale-ad-alto-livello-di-astrazione" aria-hidden="true"><span class="octicon octicon-link"></span></a> Visuale ad alto livello di astrazione</h1>
-<p><img src="teoria/images/01-00.png" alt="01-00.png">
-<img src="./images/01/01-00.png"></p>
+<p><img src="images/01-00.png" alt="01-00.png">
+<img src="images/01-00.png"></p>
 <p>Un compilatore deve rispettare i seguenti requisiti:</p>
 <ul>
 <li>Riconoscimento di programmi validi/invalidi.</li>
@@ -1119,14 +1119,14 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 <li>Iterazione con il sistema operativo (e.g., linker dinamico).</li>
 </ul>
 <h2 id="tradizionale-compilatore-a-due-passi" tabindex="-1"><a class="anchor" href="#tradizionale-compilatore-a-due-passi" aria-hidden="true"><span class="octicon octicon-link"></span></a> Tradizionale compilatore a due passi</h2>
-<p><img src="teoria/images/01-01.png" alt="01-01.png"></p>
+<p><img src="images/01-01.png" alt="01-01.png"></p>
 <p>In un compilatore a 2 passi si vede una separazione delle responsabilità.
 In un normale processo di compilazione il codice $L$ raggiunge la parte di <strong>front end</strong> ("esperto del linguaggio") che produce una <strong>rappresentazione intermedia</strong> (<strong>IR</strong>) che viene mandata alla parte di <strong>back end</strong> ("esperto dell'architettura"), la quale si occuperà di produrre il codice macchina $M$.</p>
 <blockquote>
 <p>Questa distinzione non è cosi marcata nei compilatori odierni.</p>
 </blockquote>
 <p>È possibile avere più front end e/o back end:</p>
-<p><img src="teoria/images/01-02.png" alt="01-02.png"></p>
+<p><img src="images/01-02.png" alt="01-02.png"></p>
 <h2 id="linguaggio-ir" tabindex="-1"><a class="anchor" href="#linguaggio-ir" aria-hidden="true"><span class="octicon octicon-link"></span></a> Linguaggio IR</h2>
 <p>Il linguaggio IR (Intermediate Representation), è una rappresentazione intermedia utilizzata dal compilatore per descrivere il codice sorgente in una forma che sia più facilmente manipolabile e analizzabile durante le fasi di ottimizzazione e generazione del codice macchina. L'IR funge da ponte tra il front-end del compilatore, che analizza e interpreta il codice sorgente, e il back-end, che genera il codice macchina eseguibile.</p>
 <p>Esistono diverse tipologie di linguaggi IR, ciascuna con caratteristiche e scopi specifici. Possiamo classificarle principalmente in tre categorie:</p>
@@ -1154,7 +1154,7 @@ In un normale processo di compilazione il codice $L$ raggiunge la parte di <stro
 <h1 id="il-front-end-del-compilatore" tabindex="-1"><a class="anchor" href="#il-front-end-del-compilatore" aria-hidden="true"><span class="octicon octicon-link"></span></a> Il front end del compilatore</h1>
 <p>Il compito del front end è quello di riconoscere se i programmi (di un codice $L$) sono validi (e invalidi), segnalando errori e warning <em>facilmente leggibili</em>, per infine produrre codice IR (e strutture dati ausiliarie).</p>
 <h2 id="decomposizione-del-front-end" tabindex="-1"><a class="anchor" href="#decomposizione-del-front-end" aria-hidden="true"><span class="octicon octicon-link"></span></a> Decomposizione del front end</h2>
-<p><img src="teoria/images/01-03.png" alt="01-03.png"></p>
+<p><img src="images/01-03.png" alt="01-03.png"></p>
 <p>Il front end è diviso in 3 parti:</p>
 <ul>
 <li>Lexer: si occupa di effettuare l'analisi lessicale, che si occupa di scannerizzare l'input, dividerlo in blocchi e produrre dei token. Riconosce (ferma sono quello che considera illegale, ma in caso di dubbio lascia passare) ed etichetta le parole contenute nell'input.</li>
@@ -1247,11 +1247,11 @@ Con le seguenti abbreviazioni:</p>
 7         | num
 </code></pre>
 <p>L'esempio di derivazione di <code>x + 2 - y</code> (top down) sarà:</p>
-<p><img src="teoria/images/01-07.png" alt="01-07.png"></p>
+<p><img src="images/01-07.png" alt="01-07.png"></p>
 <p>L'esempio di parsing di <code>x + 2 - y</code> (bottom up) sarà:</p>
-<p><img src="teoria/images/01-08.png" alt="01-08.png"></p>
+<p><img src="images/01-08.png" alt="01-08.png"></p>
 <p>Ma questo parse tree può essere trasformato nel seguente abstract syntax tree (AST):</p>
-<p><img src="teoria/images/01-09.png" alt="01-09.png"></p>
+<p><img src="images/01-09.png" alt="01-09.png"></p>
 <hr>
 <h2 id="checker" tabindex="-1"><a class="anchor" href="#checker" aria-hidden="true"><span class="octicon octicon-link"></span></a> Checker</h2>
 <p>Il checker è responsabile della Context-Sensitive Analysis (CSA), un'analisi semantica statica che trasforma un AST "grezzo" in un AST arricchito con informazioni contestuali. Queste informazioni includono dettagli come i tipi di dato, le conversioni implicite e la risoluzione del sovraccarico (overloading).</p>
@@ -1266,14 +1266,14 @@ Con le seguenti abbreviazioni:</p>
 }
 </code></pre>
 <p>Il dump dell'AST prodotto da clang sarà:</p>
-<p><img src="teoria/images/01-10.png" alt="01-10.png"></p>
+<p><img src="images/01-10.png" alt="01-10.png"></p>
 <p>Mentre l'AST generato utilizzando la compilazione C++ sarà:</p>
-<p><img src="teoria/images/01-11.png" alt="01-11.png"></p>
+<p><img src="images/01-11.png" alt="01-11.png"></p>
 <hr>
 <h1 id="il-back-end-del-compilatore" tabindex="-1"><a class="anchor" href="#il-back-end-del-compilatore" aria-hidden="true"><span class="octicon octicon-link"></span></a> Il back end del compilatore</h1>
 <p>Il back end del compilatore ha il compito di prendere la rappresentazione intermedia (IR) generata dal front end e tradurla in un linguaggio macchina $M$ specifico per l'architettura target. Questo processo coinvolge la scelta delle istruzioni più appropriate per implementare le operazioni definite dalla IR, nonché la decisione su quali valori mantenere nei registri durante l'esecuzione del codice generato. Inoltre, il back end deve garantire che il codice prodotto rispetti tutte le interfacce e i protocolli di sistema, come ad esempio la gestione delle eccezioni e il rispetto delle system call.</p>
-<p><img src="teoria/images/01-12.png" alt="01-12.png"></p>
-<p><img src="teoria/images/01-13.png" alt="01-13.png"></p>
+<p><img src="images/01-12.png" alt="01-12.png"></p>
+<p><img src="images/01-13.png" alt="01-13.png"></p>
 <p>Il back end è generalmente suddiviso in tre sottoprocessi principali:</p>
 <ol>
 <li>Selezione delle istruzioni: durante questa fase, il compilatore traduce le operazioni della IR in istruzioni specifiche per l'architettura target. Questo processo richiede di selezionare la sequenza di istruzioni macchina più efficiente per realizzare l'operazione desiderata, tenendo conto delle caratteristiche e delle limitazioni dell'hardware, come i set di istruzioni disponibili e la presenza di istruzioni complesse.</li>
@@ -1317,7 +1317,7 @@ store r7 -&gt; @e
 <li>Metriche recenti: minimizzazione del consumo energetico, miglior utilizzo delle risorse hardware, e altre considerazioni legate all'efficienza.</li>
 </ul>
 <p>Un aspetto cruciale è che il middle end deve sempre preservare la semantica del programma, garantendo che le trasformazioni effettuate non modifichino il comportamento originale del codice.</p>
-<p><img src="teoria/images/01-14.png" alt="01-14.png"></p>
+<p><img src="images/01-14.png" alt="01-14.png"></p>
 <p>Il processo del middle end è suddiviso in una serie di passi, spesso eseguiti più volte (iterativamente).
 L'esecuzione iterativa viene gestita in modo tale da assicurare che il numero di iterazioni sia sempre finito.</p>
 <p>Ogni passo mantiene la semantica del programma e si focalizza su due tipi principali di operazioni:</p>
@@ -1352,7 +1352,7 @@ L'esecuzione iterativa viene gestita in modo tale da assicurare che il numero di
 <blockquote>
 <p>Ad esempio, non passare tipi piccoli per riferimento nelle funzioni aiuta a evitare l'aliasing e rende il compilatore più efficiente nel generare codice ottimizzato.</p>
 </blockquote>
-<p><img src="teoria/images/01-15.png" alt="01-15.png"></p>
+<p><img src="images/01-15.png" alt="01-15.png"></p>
 <p>Altri benefici della strutturazione del compilatore:</p>
 <ul>
 <li>Riutilizzo del front end: può essere utilizzato per implementare interpreti, offrendo una maggiore flessibilità.</li>
