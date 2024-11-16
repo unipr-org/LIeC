@@ -1101,7 +1101,8 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   }
 		</style>
 	</head>
-	<body>
+<!-- configs/mathjax_config.html --> <script> MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } }; </script> <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+ 	<body>
 		<nav id="table-of-contents">
 			<ul><li><a href="#visuale-ad-alto-livello-di-astrazione"> Visuale ad alto livello di astrazione</a><ul><li><a href="#tradizionale-compilatore-a-due-passi"> Tradizionale compilatore a due passi</a></li><li><a href="#linguaggio-ir"> Linguaggio IR</a></li></ul></li><li><a href="#il-front-end-del-compilatore"> Il front end del compilatore</a><ul><li><a href="#decomposizione-del-front-end"> Decomposizione del front end</a><ul><li><a href="#esempi-di-analisi-libere-dal-contesto"> Esempi di analisi libere dal contesto</a></li></ul></li><li><a href="#lexer"> Lexer</a><ul><li><a href="#specifica-vs-implementazione-lexer"> Specifica vs implementazione (Lexer)</a></li></ul></li><li><a href="#parser"> Parser</a><ul><li><a href="#specifica-vs-implementazione-parser"> Specifica vs implementazione (Parser)</a></li><li><a href="#esempio-di-cfg"> Esempio di CFG</a></li></ul></li><li><a href="#checker"> Checker</a><ul><li><a href="#specifica-vs-implementazione-checker"> Specifica vs implementazione (Checker)</a></li><li><a href="#esempio-di-ast"> Esempio di AST</a></li></ul></li></ul></li><li><a href="#il-back-end-del-compilatore"> Il back end del compilatore</a><ul><li><a href="#instruction-selection"> Instruction selection</a></li><li><a href="#register-allocation"> Register allocation</a></li><li><a href="#instruction-scheduling"> Instruction scheduling</a><ul><li><a href="#esempio-di-scheduling"> Esempio di scheduling</a></li></ul></li></ul></li><li><a href="#middle-end"> Middle end</a></li></ul>
 		</nav>

@@ -70,7 +70,7 @@ jobs:
       - name: Inject MathJax for LaTeX rendering
         run: |
           for html_file in artifacts/html/*.html; do
-            sed -i "/<\/head>/r configs/convert-to-html-configs.html" $html_file  
+            sed -i '' '/<\/head>/r .github/configs/mathjax_config.html' $html_file
           done
 
       - name: Upload artifacts
