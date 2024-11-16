@@ -42,4 +42,3 @@
 		- `[+-]?[0-9]+.[0-9]*`
 		- occorre distinguere iterazione positiva dal carattere `+` ?
 	- Costanti carattere
-		- `’[^’]’`
