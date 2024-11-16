@@ -63,6 +63,7 @@ jobs:
         
       - name: Copy images for HTML files
         run: |
+          mkdir -p artifacts/html/images/
           cp teoria/images/*.png artifacts/html/images/ 
           cp teoria/images/*.jpg artifacts/html/images/ 
           cp teoria/images/*.jpeg artifacts/html/images/
