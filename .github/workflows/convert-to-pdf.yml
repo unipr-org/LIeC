@@ -17,6 +17,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        
+      - name: Flatten image directory by copying
+        run: |
+            find teoria/images -type f -name "*.png" -exec cp {} teoria/images/ \;
+            find teoria/images -type f -name "*.jpg" -exec cp {} teoria/images/ \;
+            find teoria/images -type f -name "*.jpeg" -exec cp {} teoria/images/ \;
+            find teoria/images -type f -name "*.gif" -exec cp {} teoria/images/ \;
+            find teoria/images -type f -name "*.svg" -exec cp {} teoria/images/ \;
       
       - name: Preprocess Obsidian Markdown
         run: |
