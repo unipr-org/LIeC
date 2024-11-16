@@ -71,8 +71,11 @@ jobs:
         run: |
           pwd
           ls -la
+          ls -la .github
+          ls -la .github/configs
+          ls -la .github/workflows
           for html_file in artifacts/html/*.html; do
-            sed -i '' '/<\/head>/r configs/mathjax_config.html' $html_file
+            sed -i '' '/<\/head>/r ./.github/configs/mathjax_config.html' $html_file
           done
 
       - name: Upload artifacts
