@@ -39,7 +39,7 @@ jobs:
           input_dir: teoria
           output_dir: tmp/
           images_dir: teoria/images/**
-          image_import: teoria/images
+          # image_import: teoria/images
           build_pdf: true
           build_html: true
           # extend_default_theme: .github/style/markdown-theme.css
@@ -60,6 +60,15 @@ jobs:
           cp tmp/*.html artifacts/html/ || echo "No HTML files to copy"
           ls -la artifacts/pdf
           ls -la artifacts/html
+        
+      - name: Copy images for HTML files
+        run: |
+          cp teoria/images/*.png artifacts/html/images/ \;
+          cp teoria/images/*.jpg artifacts/html/images/ \;
+          cp teoria/images/*.jpeg artifacts/html/images/ \;
+          cp teoria/images/*.gif artifacts/html/images/ \;
+          cp teoria/images/*.svg artifacts/html/images/ \;
+          ls -la artifacts/html/images/
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
