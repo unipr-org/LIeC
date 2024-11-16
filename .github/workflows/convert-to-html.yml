@@ -69,10 +69,8 @@ jobs:
       
       - name: Inject MathJax for LaTeX rendering
         run: |
-          # Aggiungi il link a MathJax nel file HTML generato
           for html_file in artifacts/html/*.html; do
-            sed -i '/<\/head>/i <script>MathJax = { tex: { inlineMath: [[\'$\', \'$\'], [\'\\\\(\', \'\\\\)\']] } }; </script>' $html_file
-            sed -i '/<\/head>/i <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>' $html_file
+            sed -i "/<\/head>/r ../configs/convert-to-html-configs.html" $html_file  
           done
 
       - name: Upload artifacts
