@@ -40,4 +40,4 @@
 		- Nota: accetta `000000`, non accetta `-1`
 	- Costanti floating point
 		- `[+-]?[0-9]+.[0-9]*`
-		- occorre distinguere iterazione positiva dal carattere
+		- occorre distinguere iterazione positiva dal caratter

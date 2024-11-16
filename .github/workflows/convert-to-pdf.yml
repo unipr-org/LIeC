@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
       - name: Flatten image directory by copying
         run: |
             find teoria/images -type f -name "*.png" -exec cp {} teoria/images/ \;
@@ -25,6 +25,7 @@ jobs:
             find teoria/images -type f -name "*.jpeg" -exec cp {} teoria/images/ \;
             find teoria/images -type f -name "*.gif" -exec cp {} teoria/images/ \;
             find teoria/images -type f -name "*.svg" -exec cp {} teoria/images/ \;
+            ls -la teoria/images
       
       - name: Preprocess Obsidian Markdown
         run: |
@@ -37,6 +38,7 @@ jobs:
           input_dir: teoria
           output_dir: tmp/
           images_dir: teoria/images/**
+          image_import: ./images
           build_pdf: true
           build_html: true
           # extend_default_theme: .github/style/markdown-theme.css
