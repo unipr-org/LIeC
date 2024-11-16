@@ -43,4 +43,3 @@
 		- occorre distinguere iterazione positiva dal carattere `+` ?
 	- Costanti carattere
 		- `’[^’]’`
-		- come specifichiamo la costante carattere `’` ?
