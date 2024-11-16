@@ -18,7 +18,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-        # Devo fare questa cosa perche' le immagini devo essere tutte in una cartella 
       - name: Flatten image directory by copying
         run: |
             find teoria/images -type f -name "*.png" -exec cp {} teoria/images/ \;
@@ -67,18 +66,10 @@ jobs:
           cp teoria/images/*.svg artifacts/html/images/     || echo "No svg files to copy"
           ls -la artifacts/html/images/
       
-      # sed -i '' '/<\/head>/r $(pwd)/.github/configs/mathjax_config.html' $html_file
       - name: Inject MathJax for LaTeX rendering
         run: |
-          pwd
-          ls -la
-          ls -la .github
-          ls -la .github/configs
-          ls -la .github/workflows
-          cat .github/configs/mathjax_config.html
-
           for html_file in artifacts/html/*.html; do
-            sed -i '/<\/head>/i <script> MathJax = { tex: { inlineMath: [["$", "$"], ["\\(", "\\)"]] } }; </script>' $html_file
+            sed -i '/<\/head>/i <script> MathJax = { tex: { inlineMath: ["$", "$"] } }; </script>' $html_file
             sed -i '/<\/head>/i <script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>' $html_file
           done
 
