@@ -23,7 +23,7 @@ jobs:
           input_dir: docs
           output_dir: pdfs
           images_dir: docs/images
-          image_import: ./images
+          image_import: ./docs/images
           build_html: true
 
       - name: Configure Git
@@ -33,7 +33,8 @@ jobs:
 
       - name: Commit and Push PDFs
         run: |
-          git add pdfs/
+          ls -la
+          git add .
           git commit -m "Add generated PDFs [skip ci]"
           git push
         env:
