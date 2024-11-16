@@ -45,6 +45,4 @@
 		- `’[^’]’`
 		- come specifichiamo la costante carattere `’` ?
 - Operatori (matematici, logici, ecc.)
-- Punteggiatura (parentesi, virgola, punto e virgola, ecc.)
-	- ![[02-06.png]]
 

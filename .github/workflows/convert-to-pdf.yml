@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main
-      - test-action
+      - master
+      - test-action # Temporaneo per lo sviluppo
     paths:
       - 'docs/**.md'
       - 'docs/images/**'
@@ -17,6 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+        # https://github.com/BaileyJM02/markdown-to-pdf
       - name: Convert Markdown to PDF & HTML
         uses: baileyjm02/markdown-to-pdf@v1
         with:
@@ -37,8 +39,8 @@ jobs:
           mkdir artifacts
           mkdir artifacts/pdf
           mkdir artifacts/html
-          mv tmp/*.pdf artifacts/pdf/
-          mv tmp/*.html artifacts/html/
+          cp tmp/*.pdf artifacts/pdf/   || echo "No PDF files to copy"
+          cp tmp/*.html artifacts/html/ || echo "No HTML files to copy"
           ls -la artifacts/pdf
           ls -la artifacts/html
       
