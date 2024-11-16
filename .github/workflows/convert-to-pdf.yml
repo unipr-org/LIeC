@@ -11,18 +11,18 @@ on:
 
 jobs:
   converttopdf:
-    name: Build PDF
+    name: Build PDF & HTML
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Convert Markdown to PDF
+      - name: Convert Markdown to PDF & HTML
         uses: baileyjm02/markdown-to-pdf@v1
         with:
           input_dir: docs
           output_dir: artifacts/
-          images_dir: docs/images
+          images_dir: docs/images/**
           build_html: true
 
       - name: Configure Git
@@ -32,8 +32,10 @@ jobs:
 
       - name: Refactor artifacts
         run: |
-          mkdir -p artifacts/pdf
-          mkdir -p artifacts/html
+          ls -la
+          mkdir artifacts
+          mkdir artifacts/pdf
+          mkdir artifacts/html
           mv artifacts/*.pdf artifacts/pdf/
           mv artifacts/*.html artifacts/html/
           ls -la artifacts/pdf
@@ -49,7 +51,7 @@ jobs:
         run: |
           git add artifacts/
           git status
-          git commit -m "Add generated artifacts [skip ci]"
+          git commit -m "Add generated artifacts"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

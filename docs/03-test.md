@@ -48,5 +48,4 @@
 - Punteggiatura (parentesi, virgola, punto e virgola, ecc.)
 	- ![[02-06.png]]
 - Commenti (singola linea, multi linea)
-	- Commento (singola linea) del C++
-		- `//[^\n]*\n`
+
