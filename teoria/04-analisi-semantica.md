@@ -30,19 +30,19 @@ Gli elementi principali sono:
 - **Funzioni semantiche**: le regole di attribuzione spesso usano funzioni definite dall'utente, che calcolano gli attributi in base a valori disponibili o logica specifica.
 Vediamo un esempio, la seguente grammatica descrive i numeri binari con segno:
 
-![[binarysign_grammar.png | center | 300]]
+![[binarysign_grammar.png]]
 
 Formiamo due AST per due input differenti (-1 e -101):
 
-![[ast_signbinary.png | center | 550]]
+![[ast_signbinary.png]]
 
 Vogliamo dunque calcolare il valore decimale, dobbiamo quindi aggiungere delle regole per farlo:
 
-![[attribute_signbinary.png| left |400]] ![[result_signbinary.png|right|220]]
+![[attribute_signbinary.png]]  ![[result_signbinary.png]]
 
 Possiamo dedurre che, dall'immagine sopra, abbiamo degli attributi per ogni tipo di produzione, ad esempio banalmente per il "BIt" e "List" abbiamo due attributi necessari: posizione e valore.
 Andiamo con ordine vediamo come valutare un AST con gli attributi:
- ![[AST_attribute.jpeg | center | 450]]
+ ![[AST_attribute.jpeg]]
  **Spiegazione**
  In input abbiamo la stringa -101, che dovrà essere trasformata in decimale tramite una grammatica con attributi.
  Partiamo a sinistra dove abbiamo il segno -, questo porterà la produzione di Sign con l'attributo neg a true e lo "assegna" a number.
