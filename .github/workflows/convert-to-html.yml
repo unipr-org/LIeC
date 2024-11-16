@@ -74,6 +74,7 @@ jobs:
 
       - name: Commit and Push artifacts
         run: |
+          git pull
           git add artifacts/
           git status
           git commit -m "Add generated artifacts [HTML]"

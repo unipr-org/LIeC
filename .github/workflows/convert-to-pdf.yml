@@ -30,7 +30,7 @@ jobs:
       
       - name: Preprocess Obsidian Markdown
         run: |
-          find teoria -type f -name "*.md" -exec sed -i 's/!\[\[\(.*\)\]\]/![\1](images\/\1)/g' {} +
+          find teoria -type f -name "*.md" -exec sed -i 's/!\[\[\(.*\)\]\]/![\1](teoria\/images\/\1)/g' {} +
           cat teoria/03-test.md
 
         # https://github.com/BaileyJM02/markdown-to-pdf
@@ -65,6 +65,7 @@ jobs:
 
       - name: Commit and Push artifacts
         run: |
+          git pull
           git add artifacts/
           git status
           git commit -m "Add generated artifacts [PDF]"
