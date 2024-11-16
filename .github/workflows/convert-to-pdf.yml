@@ -18,6 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+        # Devo fare questa cosa perche' le immagini devo essere tutte in un acartella 
       - name: Flatten image directory by copying
         run: |
             find teoria/images -type f -name "*.png" -exec cp {} teoria/images/ \;
@@ -29,7 +30,7 @@ jobs:
       
       - name: Preprocess Obsidian Markdown
         run: |
-          find teoria -type f -name "*.md" -exec sed -i 's/!\[\[\(.*\)\]\]/![\1](\1)/g' {} +
+          find teoria -type f -name "*.md" -exec sed -i 's/!\[\[\(.*\)\]\]/![\1](teoria\/images\/\1)/g' {} +
 
         # https://github.com/BaileyJM02/markdown-to-pdf
       - name: Convert Markdown to PDF & HTML
@@ -38,7 +39,7 @@ jobs:
           input_dir: teoria
           output_dir: tmp/
           images_dir: teoria/images/**
-          image_import: ./images
+          image_import: teoria/images
           build_pdf: true
           build_html: true
           # extend_default_theme: .github/style/markdown-theme.css
