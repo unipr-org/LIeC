@@ -52,5 +52,3 @@
 		- `//[^\n]*\n`
 	- Commento (singola linea) di SQL
 		- `--[^\n]*\n`
-	- Commento multilinea (C / C++ / Java / SQL / ... )
-		- `/\*([^*]|\*+[^/*])*\*+/`
