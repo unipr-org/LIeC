@@ -44,5 +44,3 @@
 	- Costanti carattere
 		- `’[^’]’`
 		- come specifichiamo la costante carattere `’` ?
-- Operatori (matematici, logici, ecc.)
-

@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - master
-      - test-action # Temporaneo per lo sviluppo
+      - test-action # Temporaneo per lo sviluppo, da rimuovere
     paths:
       - 'docs/**.md'
       - 'docs/images/**'
@@ -25,7 +25,10 @@ jobs:
           input_dir: docs
           output_dir: tmp/
           images_dir: docs/images/**
+          build_pdf: true
           build_html: true
+          theme: .github/style/markdown-theme.css
+          table_of_contents: true
 
       - name: Configure Git
         run: |
