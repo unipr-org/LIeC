@@ -7,8 +7,8 @@ on:
       - master
       - test-action # Temporaneo per lo sviluppo, da rimuovere
     paths:
-      - 'docs/**.md'
-      - 'docs/images/**'
+      - 'teoria/**.md'
+      - 'teoria/images/**'
 
 jobs:
   converttopdf:
@@ -22,9 +22,9 @@ jobs:
       - name: Convert Markdown to PDF & HTML
         uses: baileyjm02/markdown-to-pdf@v1
         with:
-          input_dir: docs
+          input_dir: teoria
           output_dir: tmp/
-          images_dir: docs/images/**
+          images_dir: teoria/images/**
           build_pdf: true
           build_html: true
           # extend_default_theme: .github/style/markdown-theme.css
