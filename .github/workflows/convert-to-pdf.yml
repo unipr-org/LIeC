@@ -21,7 +21,7 @@ jobs:
         uses: baileyjm02/markdown-to-pdf@v1
         with:
           input_dir: docs
-          output_dir: artifacts/
+          output_dir: tmp/
           images_dir: docs/images/**
           build_html: true
 
@@ -33,11 +33,12 @@ jobs:
       - name: Refactor artifacts
         run: |
           ls -la
+          ls -la tmp
           mkdir artifacts
           mkdir artifacts/pdf
           mkdir artifacts/html
-          mv artifacts/*.pdf artifacts/pdf/
-          mv artifacts/*.html artifacts/html/
+          mv tmp/*.pdf artifacts/pdf/
+          mv tmp/*.html artifacts/html/
           ls -la artifacts/pdf
           ls -la artifacts/html
       
