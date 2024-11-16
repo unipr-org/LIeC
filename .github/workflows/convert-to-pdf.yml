@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - master
-      - test-action # Temporaneo per lo sviluppo, da rimuovere
+      # - test-action # Temporaneo per lo sviluppo, da rimuovere
     paths:
       - 'teoria/**.md'
       - 'teoria/images/**'

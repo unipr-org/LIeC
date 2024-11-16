@@ -77,7 +77,7 @@ jobs:
           cat .github/configs/mathjax_config.html
 
           for html_file in artifacts/html/*.html; do
-            sed -i '' '/<\/head>/r ./.github/configs/mathjax_config.html' $html_file
+            sed -i '' '/<\/head>/r $(pwd)/.github/configs/mathjax_config.html' $html_file
           done
 
       - name: Upload artifacts
