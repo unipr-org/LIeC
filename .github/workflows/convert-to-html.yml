@@ -82,8 +82,11 @@ jobs:
         run: |
           git pull
           git add artifacts/
-          git status
-          git commit -m "Add generated artifacts [HTML]"
-          git push
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Add generated artifacts [HTML]"
+            git push
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
