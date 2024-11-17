@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+		<title>02-analisi-lessicale</title>
+		<style>
+			/* PDF Specific */
+
+@media print {
+  body {
+    min-width: initial;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+/* General */
+
+.octicon {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: text-bottom;
+}
+
+.anchor {
+  float: left;
+  line-height: 1;
+  margin-left: -20px;
+  padding-right: 4px;
+}
+
+.anchor:focus {
+  outline: none;
+}
+
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+  color: #1b1f23;
+  vertical-align: middle;
+  visibility: hidden;
+}
+
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+  text-decoration: none;
+}
+
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+  visibility: visible;
+}
+
+h1:hover .anchor .octicon-link:before,
+h2:hover .anchor .octicon-link:before,
+h3:hover .anchor .octicon-link:before,
+h4:hover .anchor .octicon-link:before,
+h5:hover .anchor .octicon-link:before,
+h6:hover .anchor .octicon-link:before {
+  width: 16px;
+  height: 16px;
+  content: ' ';
+  display: inline-block;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' width='16' height='16' aria-hidden='true'%3E%3Cpath fill-rule='evenodd' d='M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-print-color-adjust: exact;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #24292e;
+  word-wrap: break-word;
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 1rem auto;
+}
+
+details {
+  display: block;
+}
+
+summary {
+  display: list-item;
+}
+
+a {
+  background-color: initial;
+}
+
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+strong {
+  font-weight: inherit;
+  font-weight: bolder;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+img {
+  border-style: none;
+}
+
+code,
+kbd,
+pre {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+hr {
+  box-sizing: initial;
+  height: 0;
+  overflow: visible;
+}
+
+input {
+  font: inherit;
+  margin: 0;
+}
+
+input {
+  overflow: visible;
+}
+
+[type='checkbox'] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+strong {
+  font-weight: 600;
+}
+
+hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe2e5;
+}
+
+hr:after,
+hr:before {
+  display: table;
+  content: '';
+}
+
+hr:after {
+  clear: both;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  padding: 0;
+}
+
+details summary {
+  cursor: pointer;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h1,
+h2 {
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+h3,
+h4 {
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h5,
+h6 {
+  font-weight: 600;
+}
+
+h6 {
+  font-size: 12px;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+blockquote {
+  margin: 0;
+}
+
+ol,
+ul {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+ol ol,
+ul ol {
+  list-style-type: lower-roman;
+}
+
+ol ol ol,
+ol ul ol,
+ul ol ol,
+ul ul ol {
+  list-style-type: lower-alpha;
+}
+
+dd {
+  margin-left: 0;
+}
+
+code,
+pre {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+}
+
+pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+:checked + .radio-label {
+  position: relative;
+  z-index: 1;
+  border-color: #0366d6;
+}
+
+.border {
+  border: 1px solid #e1e4e8 !important;
+}
+
+.border-0 {
+  border: 0 !important;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #e1e4e8 !important;
+}
+
+.rounded-1 {
+  border-radius: 3px !important;
+}
+
+.bg-white {
+  background-color: #fff !important;
+}
+
+.bg-gray-light {
+  background-color: #fafbfc !important;
+}
+
+.text-gray-light {
+  color: #6a737d !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.my-2 {
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+.pl-0 {
+  padding-left: 0 !important;
+}
+
+.py-0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.pl-1 {
+  padding-left: 4px !important;
+}
+
+.pl-2 {
+  padding-left: 8px !important;
+}
+
+.py-2 {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.pl-3,
+.px-3 {
+  padding-left: 16px !important;
+}
+
+.px-3 {
+  padding-right: 16px !important;
+}
+
+.pl-4 {
+  padding-left: 24px !important;
+}
+
+.pl-5 {
+  padding-left: 32px !important;
+}
+
+.pl-6 {
+  padding-left: 40px !important;
+}
+
+.f6 {
+  font-size: 12px !important;
+}
+
+.lh-condensed {
+  line-height: 1.25 !important;
+}
+
+.text-bold {
+  font-weight: 600 !important;
+}
+
+.pl-c {
+  color: #6a737d;
+}
+
+.pl-c1,
+.pl-s .pl-v {
+  color: #005cc5;
+}
+
+.pl-e,
+.pl-en {
+  color: #6f42c1;
+}
+
+.pl-s .pl-s1,
+.pl-smi {
+  color: #24292e;
+}
+
+.pl-ent {
+  color: #22863a;
+}
+
+.pl-k {
+  color: #d73a49;
+}
+
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+  color: #032f62;
+}
+
+.pl-smw,
+.pl-v {
+  color: #e36209;
+}
+
+.pl-bu {
+  color: #b31d28;
+}
+
+.pl-ii {
+  color: #fafbfc;
+  background-color: #b31d28;
+}
+
+.pl-c2 {
+  color: #fafbfc;
+  background-color: #d73a49;
+}
+
+.pl-c2:before {
+  content: '^M';
+}
+
+.pl-sr .pl-cce {
+  font-weight: 700;
+  color: #22863a;
+}
+
+.pl-ml {
+  color: #735c0f;
+}
+
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+  font-weight: 700;
+  color: #005cc5;
+}
+
+.pl-mi {
+  font-style: italic;
+  color: #24292e;
+}
+
+.pl-mb {
+  font-weight: 700;
+  color: #24292e;
+}
+
+.pl-md {
+  color: #b31d28;
+  background-color: #ffeef0;
+}
+
+.pl-mi1 {
+  color: #22863a;
+  background-color: #f0fff4;
+}
+
+.pl-mc {
+  color: #e36209;
+  background-color: #ffebda;
+}
+
+.pl-mi2 {
+  color: #f6f8fa;
+  background-color: #005cc5;
+}
+
+.pl-mdr {
+  font-weight: 700;
+  color: #6f42c1;
+}
+
+.pl-ba {
+  color: #586069;
+}
+
+.pl-sg {
+  color: #959da5;
+}
+
+.pl-corl {
+  text-decoration: underline;
+  color: #032f62;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.my-2 {
+  margin-bottom: 8px !important;
+}
+
+.my-2 {
+  margin-top: 8px !important;
+}
+
+.pl-0 {
+  padding-left: 0 !important;
+}
+
+.py-0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.pl-1 {
+  padding-left: 4px !important;
+}
+
+.pl-2 {
+  padding-left: 8px !important;
+}
+
+.py-2 {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.pl-3 {
+  padding-left: 16px !important;
+}
+
+.pl-4 {
+  padding-left: 24px !important;
+}
+
+.pl-5 {
+  padding-left: 32px !important;
+}
+
+.pl-6 {
+  padding-left: 40px !important;
+}
+
+.pl-7 {
+  padding-left: 48px !important;
+}
+
+.pl-8 {
+  padding-left: 64px !important;
+}
+
+.pl-9 {
+  padding-left: 80px !important;
+}
+
+.pl-10 {
+  padding-left: 96px !important;
+}
+
+.pl-11 {
+  padding-left: 112px !important;
+}
+
+.pl-12 {
+  padding-left: 128px !important;
+}
+
+hr {
+  border-bottom-color: #eee;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+body:after,
+body:before {
+  display: table;
+  content: '';
+}
+
+body:after {
+  clear: both;
+}
+
+body > :first-child {
+  margin-top: 0 !important;
+}
+
+body > :last-child {
+  margin-bottom: 0 !important;
+}
+
+a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+blockquote,
+details,
+dl,
+ol,
+p,
+pre,
+table,
+ul {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e1e4e8;
+  border: 0;
+}
+
+blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: 0.25em solid #dfe2e5;
+}
+
+blockquote > :first-child {
+  margin-top: 0;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h1,
+h2 {
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #eaecef;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.25em;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+h5 {
+  font-size: 0.875em;
+}
+
+h6 {
+  font-size: 0.85em;
+  color: #6a737d;
+}
+
+ol,
+ul {
+  padding-left: 2em;
+}
+
+ol ol,
+ol ul,
+ul ol,
+ul ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+li {
+  word-wrap: break-all;
+}
+
+li > p {
+  margin-top: 16px;
+}
+
+li + li {
+  margin-top: 0.25em;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 600;
+}
+
+dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+table th {
+  font-weight: 600;
+}
+
+table td,
+table th {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+img {
+  max-width: 80%;
+  box-sizing: initial;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+}
+
+code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27, 31, 35, 0.05);
+  border-radius: 3px;
+}
+
+pre {
+  word-wrap: normal;
+}
+
+pre > code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  -webkit-print-color-adjust: exact;
+  background: #f8f8f8;
+}
+
+.hljs pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.hljs pre,
+pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  -webkit-print-color-adjust: exact;
+
+  border-radius: 3px;
+}
+
+pre code {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: initial;
+  border: 0;
+}
+
+.commit-tease-sha {
+  display: inline-block;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 90%;
+  color: #444d56;
+}
+
+.full-commit .btn-outline:not(:disabled):hover {
+  color: #005cc5;
+  border-color: #005cc5;
+}
+
+.blob-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.blob-wrapper-embedded {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.blob-num {
+  width: 1%;
+  min-width: 50px;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+  line-height: 20px;
+  color: rgba(27, 31, 35, 0.3);
+  text-align: right;
+  white-space: nowrap;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.blob-num:hover {
+  color: rgba(27, 31, 35, 0.6);
+}
+
+.blob-num:before {
+  content: attr(data-line-number);
+}
+
+.blob-code {
+  position: relative;
+  padding-right: 10px;
+  padding-left: 10px;
+  line-height: 20px;
+  vertical-align: top;
+}
+
+.blob-code-inner {
+  overflow: visible;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+  color: #24292e;
+  word-wrap: normal;
+  white-space: pre;
+}
+
+.pl-token.active,
+.pl-token:hover {
+  cursor: pointer;
+  background: #ffea7f;
+}
+
+.tab-size[data-tab-size='1'] {
+  -moz-tab-size: 1;
+  tab-size: 1;
+}
+
+.tab-size[data-tab-size='2'] {
+  -moz-tab-size: 2;
+  tab-size: 2;
+}
+
+.tab-size[data-tab-size='3'] {
+  -moz-tab-size: 3;
+  tab-size: 3;
+}
+
+.tab-size[data-tab-size='4'] {
+  -moz-tab-size: 4;
+  tab-size: 4;
+}
+
+.tab-size[data-tab-size='5'] {
+  -moz-tab-size: 5;
+  tab-size: 5;
+}
+
+.tab-size[data-tab-size='6'] {
+  -moz-tab-size: 6;
+  tab-size: 6;
+}
+
+.tab-size[data-tab-size='7'] {
+  -moz-tab-size: 7;
+  tab-size: 7;
+}
+
+.tab-size[data-tab-size='8'] {
+  -moz-tab-size: 8;
+  tab-size: 8;
+}
+
+.tab-size[data-tab-size='9'] {
+  -moz-tab-size: 9;
+  tab-size: 9;
+}
+
+.tab-size[data-tab-size='10'] {
+  -moz-tab-size: 10;
+  tab-size: 10;
+}
+
+.tab-size[data-tab-size='11'] {
+  -moz-tab-size: 11;
+  tab-size: 11;
+}
+
+.tab-size[data-tab-size='12'] {
+  -moz-tab-size: 12;
+  tab-size: 12;
+}
+
+.task-list-item {
+  list-style-type: none;
+}
+
+.task-list-item + .task-list-item {
+  margin-top: 3px;
+}
+
+.task-list-item input {
+  margin: 0 0.2em 0.25em -1.6em;
+  vertical-align: middle;
+}
+/*
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+*/
+  
+  .hljs-comment,
+  .hljs-quote {
+    color: #998;
+    font-style: italic;
+  }
+  
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-subst {
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .hljs-number,
+  .hljs-literal,
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-tag .hljs-attr {
+    color: #008080;
+  }
+  
+  .hljs-string,
+  .hljs-doctag {
+    color: #d14;
+  }
+  
+  .hljs-title,
+  .hljs-section,
+  .hljs-selector-id {
+    color: #900;
+    font-weight: bold;
+  }
+  
+  .hljs-subst {
+    font-weight: normal;
+  }
+  
+  .hljs-type,
+  .hljs-class .hljs-title {
+    color: #458;
+    font-weight: bold;
+  }
+  
+  .hljs-tag,
+  .hljs-name,
+  .hljs-attribute {
+    color: #000080;
+    font-weight: normal;
+  }
+  
+  .hljs-regexp,
+  .hljs-link {
+    color: #009926;
+  }
+  
+  .hljs-symbol,
+  .hljs-bullet {
+    color: #990073;
+  }
+  
+  .hljs-built_in,
+  .hljs-builtin-name {
+    color: #0086b3;
+  }
+  
+  .hljs-meta {
+    color: #999;
+    font-weight: bold;
+  }
+  
+  .hljs-deletion {
+    background: #fdd;
+  }
+  
+  .hljs-addition {
+    background: #dfd;
+  }
+  
+  .hljs-emphasis {
+    font-style: italic;
+  }
+  
+  .hljs-strong {
+    font-weight: bold;
+  }
+		</style>
+<script> MathJax = { tex: { inlineMath: [["$", "$"]] } }; </script>
+<script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+	</head>
+	<body>
+		<nav id="table-of-contents">
+			<ul><li><a href="#re---nfa---dfa"> RE - NFA - DFA</a><ul><li><a href="#nfa"> NFA</a></li><li><a href="#nfa-vs-dfa"> NFA vs DFA</a></li><li><a href="#dfa"> DFA</a></li></ul></li><li><a href="#token"> Token</a></li><li><a href="#flex"> Flex</a><ul><li><a href="#1---sezione-delle-definizioni"> 1 - Sezione delle definizioni</a><ul><li><a href="#literal-block"> Literal block</a></li><li><a href="#pattern-con-nome"> Pattern con nome</a></li><li><a href="#opzioni-per-flex"> Opzioni per flex</a></li><li><a href="#start-states"> Start States</a></li></ul></li><li><a href="#2---sezione-delle-regole"> 2 - Sezione delle regole</a><ul><li><a href="#regole-lessicali"> Regole lessicali</a></li></ul></li><li><a href="#3--sezione-del-codice-utente"> 3- Sezione del codice utente</a></li></ul></li></ul>
+		</nav>
+		<main>
+			<h1 id="re---nfa---dfa" tabindex="-1"><a class="anchor" href="#re---nfa---dfa" aria-hidden="true"><span class="octicon octicon-link"></span></a> RE - NFA - DFA</h1>
+<p>Nel seguente paragrafo costruiremo un automa a stati finiti deterministico (DFA) per riconoscere un'espressione regolare (RE).
+Come prima cosa, partendo da un'espressione regolare, costruiremo un automa a stati finiti non deterministico (NFA). Successivamente dal NFA passeremo all'automa a stati finiti deterministico (DFA) per poi minimizzarlo (renderlo più semplice).</p>
+<h2 id="nfa" tabindex="-1"><a class="anchor" href="#nfa" aria-hidden="true"><span class="octicon octicon-link"></span></a> NFA</h2>
+<p>Costruiamo un NFA per la seguente RE: $(\text{a} | \text{b})^* \text{abb}$</p>
+<p><img src="images/NFA.jpeg" alt="NFA.jpeg"></p>
+<p>Partendo dallo stato iniziale $S_0$ e seguendo le frecce possiamo ricostruire la RE precedente, che ci diceva: "possiamo avere una sequenza di zero o più (*) a o b, l'importante è che la stringa si concluda con la sequenza abb".
+Dunque se noi dovessimo avere una stringa del tipo "baabababb" in questo caso il nostro automa sarebbe in grado di riconoscerla e accettarla, analizziamola:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Carattere letto</th>
+<th style="text-align:center">Stato corrente</th>
+<th style="text-align:center">Stato successivo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>leggo nulla</code></td>
+<td style="text-align:center">$S_0$</td>
+<td style="text-align:center">$S_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+<td style="text-align:center">$S_1$</td>
+<td style="text-align:center">$S_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">$S_1$</td>
+<td style="text-align:center">$S_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">$S_1$</td>
+<td style="text-align:center">$S_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+<td style="text-align:center">$S_1$</td>
+<td style="text-align:center">$S_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">$S_1$</td>
+<td style="text-align:center">$S_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+<td style="text-align:center">$S_1$</td>
+<td style="text-align:center">$S_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">$S_1$</td>
+<td style="text-align:center">$S_2$</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+<td style="text-align:center">$S_2$</td>
+<td style="text-align:center">$S_3$</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+<td style="text-align:center">$S_3$</td>
+<td style="text-align:center">$S_4$</td>
+</tr>
+<tr>
+<td style="text-align:center">Finiamo dunque in uno stato finale accettante $S_4$ quindi l'espressione è corretta e accettata dall'automa.</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>le $\varepsilon$ transizioni permettono all'automa di passare da uno stato a un altro&nbsp;<strong>senza leggere alcun simbolo dell'input</strong>. In altre parole, l'automa può "saltare" da uno stato a un altro senza consumare nessun carattere della stringa in input.</p>
+</blockquote>
+<p>Vediamo più nella teoria come si costruisce un NFA, tramite la costruzione di <strong>Thompson</strong>.
+Generalizziamo i casi base:</p>
+<p><img src="images/thompson-NFA.jpeg" alt="thompson-NFA.jpeg"></p>
+<h2 id="nfa-vs-dfa" tabindex="-1"><a class="anchor" href="#nfa-vs-dfa" aria-hidden="true"><span class="octicon octicon-link"></span></a> NFA vs DFA</h2>
+<p>Un automa a stati finiti deterministico è un caso speciale di automa a stati finiti non deterministico, questo perché un DFA non contiene le $\varepsilon$ transizioni, di conseguenza questo porta anche al fatto che un DFA sia deterministico e quindi significa che per ogni stato e simbolo dell'alfabeto esiste una sola transizione verso un altro stato specifico (non ci sono ulteriori opzioni), cosa che nel NFA non accade in quanto non è deterministico, quindi possiamo avere più di una transizione o anche nessuna.</p>
+<p>Vediamo nell'esempio precedente che quando mi trovo nello stato $S_1$ e leggo il carattere a, posso avere diverse transizioni in stato differenti, infatti posso continuare a rimanere nello stato $S_1$ oppure passare allo stato $S_2$.</p>
+<h2 id="dfa" tabindex="-1"><a class="anchor" href="#dfa" aria-hidden="true"><span class="octicon octicon-link"></span></a> DFA</h2>
+<p><img src="images/NFA-to-DFA.jpeg" alt="NFA-to-DFA.jpeg"></p>
+<p>Vediamo come siamo passati da un NFA a un DFA:</p>
+<ol>
+<li>il nostro stato $S_0$ del DFA corrisponde allo stato $q_0$ dell'NFA, a questo punto, per ogni lettera presente nel nell'NFA guardo quali stati attraverso partendo da $q_0$ (contando anche le $\varepsilon$), nel nostro caso con la lettera a attraverso gli stati ${q_1, q_2, q_3, q_4, q_6, q_9}$, mentre per le lettere b e c non faccio spostamenti in quanto partendo da $q_0$ devo per forza avere una a per passare agli stati successivi.</li>
+<li>Il nuovo stato $S_1$ dunque corrisponderà all'insieme di stati trovati prima, ora da un qualsiasi stato dichiarato con la lettera a non mi sposto in un nessun nuovo stato, mentre con b posso raggiungere nuovi stati ${q_5, q_8, q_3, q_4, q_6, q_9}$, mentre con il carattere c raggiungo gli stati ${q_7, q_8, q_3, q_4, q_6, q_9}$.</li>
+<li>Questi stati trovati precedentemente diventano nuovi stati del DFA $S_2$ e $S_3$, a questo punto da $S_2$ con il carattere b incontro nuovamente ancora tutti gli stati di $S_2$, stessa cosa per c che incontro nuovamente tutti gli stati di $S_3$.</li>
+<li>Infine nello stato $S_3$, si ripete ancora la stessa cosa precedente.
+Da qui costruiamo il DFA.</li>
+</ol>
+<p>Ora vediamo come <strong>minimizzare</strong> il DFA:
+<img src="images/minimizzazione-DFA.jpeg" alt="minimizzazione-DFA.jpeg"></p>
+<p>Un DFA - Automa a Stati Finiti Deterministico è una quintupla M = $\braket{\Sigma, , \text{Q}, , \delta, , q_0, , \text{F}}$, dove:</p>
+<ul>
+<li>$\Sigma$: alfabeto finito ($\Sigma$* = insieme di tutte le stringhe finite sull'alfabeto $\Sigma$)</li>
+<li>Q: insieme finito degli stati dell'automa</li>
+<li>$\delta$: $\text{Q} \times \Sigma \rightarrow \text{Q}$: funzione di transizione</li>
+<li>$q_0 \in \text{Q}$ lo stato iniziale</li>
+<li>F $\subseteq$ Q: sottoinsieme degli stati finali (accettanti)
+Il linguaggio riconosciuto da un DFA è l'insieme delle stringhe che sono <strong>accettate</strong> dall'automa, partendo dallo stato iniziale $q_0$, sono quelle per le quali la transizione estesa termina in una configurazione finale accettante.</li>
+</ul>
+<p>Linguaggi formali:</p>
+<ul>
+<li>$\Sigma$: alfabeto finito</li>
+<li>$\Sigma$*: insieme di tutte le stringhe finite sull'alfabeto $\Sigma$</li>
+<li>$\epsilon \in \Sigma$*: indica la stringa vuota</li>
+<li>L $\subseteq \Sigma$*: linguaggio
+<ul>
+<li>$\emptyset = {}$ è un linguaggio</li>
+<li>${\epsilon}$ è un linguaggio</li>
+<li>$\Sigma$ è un linguaggio</li>
+<li>$\Sigma$* è un linguaggio</li>
+</ul>
+</li>
+</ul>
+<h1 id="token" tabindex="-1"><a class="anchor" href="#token" aria-hidden="true"><span class="octicon octicon-link"></span></a> Token</h1>
+<p>Come vengono classificati i token:</p>
+<ul>
+<li>parole chiavi</li>
+<li>identificatori</li>
+<li>costanti letterali (interi, floating point, stringa, ...)</li>
+<li>operatori (matematici, logici, ...)</li>
+<li>"punteggiatura" (parentesi, virgola, punto e virgola, ...)</li>
+<li>commenti (singola linea, multi linea)</li>
+</ul>
+<p>Esempi:</p>
+<ul>
+<li><strong>Keyword</strong>: if, then, else, while, ... (attenzione al case sensitive).</li>
+<li><strong>Identificatori</strong>:
+<ul>
+<li>[a-zA-Z_][0-9a-zA-Z_]$\star$</li>
+<li>[a-zA-Z_]([0-9] | [a-zA-Z_])$\star$</li>
+<li>oppure
+<ul>
+<li>DIGIT = [0-9]</li>
+<li>LETTER = [a-zA-Z] | [_]</li>
+<li>LETTER (LETTER | DIGIT)$\star$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Costanti</strong>:
+<ul>
+<li>intere: DIGIT+ (accetta 000000 non accetta -1)</li>
+<li>floating poit: [+-]?[0-9]+.[0-9]</li>
+<li>carattere: '[^']' (^' = qualsiasi carattere che non sia l'apostrofo)</li>
+</ul>
+</li>
+<li><strong>Operatori e punteggiatura</strong>, ogni lessema ha la sua categoria lessicale:
+<img src="images/operatori-punteggiatura.png" alt="operatori-punteggiatura.png"></li>
+<li><strong>Commenti</strong>:
+<ul>
+<li>//[^\n]* \n (C++)</li>
+<li>--[^\n]* \n (SQL)</li>
+<li>commento multilinea:
+<ul>
+<li>/\*([^*] | \* + [^/*])*\*+/</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="flex" tabindex="-1"><a class="anchor" href="#flex" aria-hidden="true"><span class="octicon octicon-link"></span></a> Flex</h1>
+<p>Lo strumento flex è un generatore di analizzatori lessicali, che è quindi un compilatore.
+Viene diviso in 3 sezioni generali:</p>
+<h2 id="1---sezione-delle-definizioni" tabindex="-1"><a class="anchor" href="#1---sezione-delle-definizioni" aria-hidden="true"><span class="octicon octicon-link"></span></a> 1 - Sezione delle definizioni</h2>
+<p>Come prima sezione in un flexer abbiamo quella parte delle definizioni che può contenere:</p>
+<ul>
+<li>Literal Block</li>
+<li>Definizioni di pattern con nome</li>
+<li>Opzioni per flex</li>
+<li>Stat states</li>
+</ul>
+<h3 id="literal-block" tabindex="-1"><a class="anchor" href="#literal-block" aria-hidden="true"><span class="octicon octicon-link"></span></a> Literal block</h3>
+<p>Il literal block è un blocco di codice C racchiuso da <code>%{ ... %}</code> a inizio riga, questo viene copiato verbatim (letteralmente così come lo scriviamo) nella parte iniziale del sorgente generato da flex, solitamente contiene:</p>
+<ul>
+<li>definizioni di costanti per categorie lessicali</li>
+<li>dichiarazioni di variabili (usate nelle regole)</li>
+<li>dichiarazioni di funzioni (invocate nelle regole)</li>
+<li>definizioni di funzioni inline</li>
+</ul>
+<pre><code class="language-lex">enum P_LANGUAGE {
+	KEY_W = 1,
+	IDENT,
+	BOOL,
+	INTEGER,
+	FLOAT,
+	CHAR,
+	STRING,
+	COMMENT,
+};
+</code></pre>
+<p>Nell'esempio soprastante ho definito delle costanti che rappresentano i tipi di di token che posso riconoscere e restituire, queste vengono utilizzate successivamente nella sezione delle regole per classificare i pattern.</p>
+<h3 id="pattern-con-nome" tabindex="-1"><a class="anchor" href="#pattern-con-nome" aria-hidden="true"><span class="octicon octicon-link"></span></a> Pattern con nome</h3>
+<p>Successivamente al litteral block vengono definiti i pattern con nome, cioè i pattern riutilizzabili che vengono associati a nomi specifici che verranno poi utilizzati nelle regole del lexer.
+la sintassi di questa sezione è del tipo: NOME_PATTERN espressione_regolare.</p>
+<pre><code class="language-lex">DIGIT [0-9] 
+LETTER [a-zA-Z] 
+IDENTIFIER {LETTER}({LETTER}|{DIGIT})* 
+NUMBER {DIGIT}+ 
+WHITESPACE [ \t\n]+
+</code></pre>
+<p>Nell'esempio vediamo che il pattern DIGIT rappresenta una cifra da 0 a 9, il pattern LETTER rappresenta una lettera maiuscola o minuscola, il pattern IDENTIFIER rappresenta un identificatore, formato da una lettera iniziale seguita da lettere o cifre, il pattern NUMBER rappresenta una sequenza di una o più cifre consecutive, infine, il patter WHITESPACE rappresenta una sequenza di spazi bianchi (spazio, tabulazione, o nuova riga).</p>
+<p>Come specifico i pattern in flex?</p>
+<ul>
+<li>Uso le <strong>virgolette</strong> per simboli non alfanumerici e le *<em>parentesi</em>
+<ul>
+<li>("<font color="green">/<em></em></font><em>")([^*] | ("<font color="green"></font></em>") +[^*/]) * (("<font color="green">*</font>") + "<font color="green">/</font>") questa espressione viene utilizzata per riconoscere i commenti multi-linea in C.</li>
+</ul>
+</li>
+<li>Usare nomi di pattern per evitare ripetizioni:
+<ul>
+<li>STARS ("*")+ <code>nella sezione delle definizioni</code></li>
+<li>("/*&lt;")([^*] | {STARS} +[^*/]) * ({STARS} "/")</li>
+</ul>
+</li>
+</ul>
+<h3 id="opzioni-per-flex" tabindex="-1"><a class="anchor" href="#opzioni-per-flex" aria-hidden="true"><span class="octicon octicon-link"></span></a> Opzioni per flex</h3>
+<p>Sono due quelle da usare sempre:</p>
+<ul>
+<li><code>%option noyywrap</code>: evita la generazione della funzione <code>yywrap()</code> e della sua chiamata fine input</li>
+<li><code>%option nodefault</code>: evita la generazione della regola <em>catch-all (. ECHO</em>😉 che causa la stampa dei token non riconosciuti.
+Due sono quelle da usare quando utile:</li>
+<li><code>%option yylienno</code>: definisce la variabile intera yylineno che mantiene il numero di riga della posizione corrente (la fine del lessema, usarla causa una perdita di efficienza)</li>
+<li><code>%option case-insensitive</code>: rende case-insensitive i pattern, non modifica il file di input (i lessemi riconosciuti rimangono case-sensitive)</li>
+</ul>
+<h3 id="start-states" tabindex="-1"><a class="anchor" href="#start-states" aria-hidden="true"><span class="octicon octicon-link"></span></a> Start States</h3>
+<p>Servono a limitare l'applicabilità di alcune regole, le regole che abbiamo vediamo successivamente si applicano quando il lexer è nello stato/condition INITIAL, possiamo definire altri stati/condition nella sezione delle definizioni, con la sintassi: <code>%x NOME_STATO</code>.
+<code>%x</code> indica che si tratta di uno stato esclusivo, cioè che il lexer quando entra in quello stato deve uscire dagli altri stati, <code>%s</code> definirebbe uno stato shared, consentendo al lexer di essere contemporaneamente in più stati (complicato).</p>
+<h2 id="2---sezione-delle-regole" tabindex="-1"><a class="anchor" href="#2---sezione-delle-regole" aria-hidden="true"><span class="octicon octicon-link"></span></a> 2 - Sezione delle regole</h2>
+<p>Questa sezione inizia dopo il marker <code>%%</code>, serve a fornire la definizione della funzione <strong>int yylex()</strong>, questa deve leggere un lessema dall'input e restituire al chiamante il token corrispondente.
+La sezione quindi contiene le regole lessicali per riconoscere i token.</p>
+<h3 id="regole-lessicali" tabindex="-1"><a class="anchor" href="#regole-lessicali" aria-hidden="true"><span class="octicon octicon-link"></span></a> Regole lessicali</h3>
+<p>Il formato di ogni regola è: <em>pattern codice</em>.
+Il pattern è un’<strong>espressione regolare</strong> che identifica una specifica sequenza di caratteri (lessema) che il lexer deve riconoscere, questo rappresenta la struttura dei caratteri che corrispondono a un token specifico.
+Il codice è un blocco di codice associato al pattern, che viene eseguito quando il pattern viene riconosciuto nell’input, questo specifica cosa fare quando si incontra il lessema: in genere, restituire il token corrispondente o gestire il lessema in modo particolare.</p>
+<pre><code class="language-lex">bool           { return BOOL; }
+if             { return KEY_W; }
+{NUMBER}       { return INTEGER; }
+{LETTER}       { return IDENTIFIER; } 
+{WHITESPACE}   { }
+</code></pre>
+<p>Nell'esempio soprastante vediamo:</p>
+<ul>
+<li>il pattern <code>bool</code> che riconosce un booleano e il codice <code>{ return BOOL; }</code> restituisce il token&nbsp;<code>BOOL</code>&nbsp;quando viene riconosciuto il pattern (costante definita nel litteral block).</li>
+<li>il pattern <code>if</code> che riconosce un if e il codice <code>{ return KEY_W; }</code> restituisce il token&nbsp;<code>KEY_W</code>&nbsp;quando viene riconosciuto il pattern (costante definita nel litteral block).</li>
+<li>Pattern <code>NUMBER</code> riconosce un numero intero, il codice <code>{ return INTEGER; }</code> restituisce il token <code>INTEGER</code>.</li>
+<li>Pattern <code>LETTER</code> riconosce una stringa, il codice <code>{ return IDENTIFIER; }</code> restituisce il token <code>IDENTIFIER</code>.</li>
+<li>Infine, il pattern <code>WHITESPACE</code> riconosce uno o più spazi, tabulazioni o nuove righe, il codice associato <code>{ }</code> indica di ignorare quel tipo di lessema senza restituire alcun token.</li>
+</ul>
+<p>Se volessi conoscere il lessema che è stato identificato dal lexer, esso viene contenuto nelle variabili globali <strong>yytext</strong> (puntatore al primo carattere) e la sua lunghezza tramite la variabile <strong>yyleng</strong>.</p>
+<blockquote>
+<p>Il pattern deve essere specificato ad inizio riga, il codice deve iniziare nella stessa riga del pattern, è possibile andare a capo nel codice se lo si racchiude in un blocco: {codice}.
+E' possibile andare a capo con pattern disgiuntivi usando | al posto del codice, <strong>l'ordine delle regole ne stabilisce la priorità</strong>.</p>
+</blockquote>
+<p>Come specificare i pattern in Flex:
+<img src="images/pattern-flex.png" alt="pattern-flex.png"></p>
+<h2 id="3--sezione-del-codice-utente" tabindex="-1"><a class="anchor" href="#3--sezione-del-codice-utente" aria-hidden="true"><span class="octicon octicon-link"></span></a> 3- Sezione del codice utente</h2>
+<p>La sezione del codice utente inizia dopo il secondo marker <code>%%</code>,  può contenere codice utente arbitrario, inserito verbatim dopo la definizione yylex.
+Tipicamente vengono definite delle funzioni ausiliarie precedentemente dichiarate nella sezione delle definizioni e la funzione <strong>main</strong>.</p>
+<pre><code class="language-lex">int main() {
+	int token;
+	while(1) {
+		token = yylex();
+		if (token == 0)
+			break;
+		if (token == ERROR)
+			exit(1);
+	}
+	return 0;
+}
+</code></pre>
+
+		</main>
+	</body>
+</html>
