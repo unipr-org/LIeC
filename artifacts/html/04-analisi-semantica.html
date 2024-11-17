@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+		<title>04-analisi-semantica</title>
+		<style>
+			/* PDF Specific */
+
+@media print {
+  body {
+    min-width: initial;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+/* General */
+
+.octicon {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: text-bottom;
+}
+
+.anchor {
+  float: left;
+  line-height: 1;
+  margin-left: -20px;
+  padding-right: 4px;
+}
+
+.anchor:focus {
+  outline: none;
+}
+
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+  color: #1b1f23;
+  vertical-align: middle;
+  visibility: hidden;
+}
+
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+  text-decoration: none;
+}
+
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+  visibility: visible;
+}
+
+h1:hover .anchor .octicon-link:before,
+h2:hover .anchor .octicon-link:before,
+h3:hover .anchor .octicon-link:before,
+h4:hover .anchor .octicon-link:before,
+h5:hover .anchor .octicon-link:before,
+h6:hover .anchor .octicon-link:before {
+  width: 16px;
+  height: 16px;
+  content: ' ';
+  display: inline-block;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' width='16' height='16' aria-hidden='true'%3E%3Cpath fill-rule='evenodd' d='M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-print-color-adjust: exact;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #24292e;
+  word-wrap: break-word;
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 1rem auto;
+}
+
+details {
+  display: block;
+}
+
+summary {
+  display: list-item;
+}
+
+a {
+  background-color: initial;
+}
+
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+strong {
+  font-weight: inherit;
+  font-weight: bolder;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+img {
+  border-style: none;
+}
+
+code,
+kbd,
+pre {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+hr {
+  box-sizing: initial;
+  height: 0;
+  overflow: visible;
+}
+
+input {
+  font: inherit;
+  margin: 0;
+}
+
+input {
+  overflow: visible;
+}
+
+[type='checkbox'] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+strong {
+  font-weight: 600;
+}
+
+hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe2e5;
+}
+
+hr:after,
+hr:before {
+  display: table;
+  content: '';
+}
+
+hr:after {
+  clear: both;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  padding: 0;
+}
+
+details summary {
+  cursor: pointer;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h1,
+h2 {
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+h3,
+h4 {
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h5,
+h6 {
+  font-weight: 600;
+}
+
+h6 {
+  font-size: 12px;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+blockquote {
+  margin: 0;
+}
+
+ol,
+ul {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+ol ol,
+ul ol {
+  list-style-type: lower-roman;
+}
+
+ol ol ol,
+ol ul ol,
+ul ol ol,
+ul ul ol {
+  list-style-type: lower-alpha;
+}
+
+dd {
+  margin-left: 0;
+}
+
+code,
+pre {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+}
+
+pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+:checked + .radio-label {
+  position: relative;
+  z-index: 1;
+  border-color: #0366d6;
+}
+
+.border {
+  border: 1px solid #e1e4e8 !important;
+}
+
+.border-0 {
+  border: 0 !important;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #e1e4e8 !important;
+}
+
+.rounded-1 {
+  border-radius: 3px !important;
+}
+
+.bg-white {
+  background-color: #fff !important;
+}
+
+.bg-gray-light {
+  background-color: #fafbfc !important;
+}
+
+.text-gray-light {
+  color: #6a737d !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.my-2 {
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+.pl-0 {
+  padding-left: 0 !important;
+}
+
+.py-0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.pl-1 {
+  padding-left: 4px !important;
+}
+
+.pl-2 {
+  padding-left: 8px !important;
+}
+
+.py-2 {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.pl-3,
+.px-3 {
+  padding-left: 16px !important;
+}
+
+.px-3 {
+  padding-right: 16px !important;
+}
+
+.pl-4 {
+  padding-left: 24px !important;
+}
+
+.pl-5 {
+  padding-left: 32px !important;
+}
+
+.pl-6 {
+  padding-left: 40px !important;
+}
+
+.f6 {
+  font-size: 12px !important;
+}
+
+.lh-condensed {
+  line-height: 1.25 !important;
+}
+
+.text-bold {
+  font-weight: 600 !important;
+}
+
+.pl-c {
+  color: #6a737d;
+}
+
+.pl-c1,
+.pl-s .pl-v {
+  color: #005cc5;
+}
+
+.pl-e,
+.pl-en {
+  color: #6f42c1;
+}
+
+.pl-s .pl-s1,
+.pl-smi {
+  color: #24292e;
+}
+
+.pl-ent {
+  color: #22863a;
+}
+
+.pl-k {
+  color: #d73a49;
+}
+
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+  color: #032f62;
+}
+
+.pl-smw,
+.pl-v {
+  color: #e36209;
+}
+
+.pl-bu {
+  color: #b31d28;
+}
+
+.pl-ii {
+  color: #fafbfc;
+  background-color: #b31d28;
+}
+
+.pl-c2 {
+  color: #fafbfc;
+  background-color: #d73a49;
+}
+
+.pl-c2:before {
+  content: '^M';
+}
+
+.pl-sr .pl-cce {
+  font-weight: 700;
+  color: #22863a;
+}
+
+.pl-ml {
+  color: #735c0f;
+}
+
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+  font-weight: 700;
+  color: #005cc5;
+}
+
+.pl-mi {
+  font-style: italic;
+  color: #24292e;
+}
+
+.pl-mb {
+  font-weight: 700;
+  color: #24292e;
+}
+
+.pl-md {
+  color: #b31d28;
+  background-color: #ffeef0;
+}
+
+.pl-mi1 {
+  color: #22863a;
+  background-color: #f0fff4;
+}
+
+.pl-mc {
+  color: #e36209;
+  background-color: #ffebda;
+}
+
+.pl-mi2 {
+  color: #f6f8fa;
+  background-color: #005cc5;
+}
+
+.pl-mdr {
+  font-weight: 700;
+  color: #6f42c1;
+}
+
+.pl-ba {
+  color: #586069;
+}
+
+.pl-sg {
+  color: #959da5;
+}
+
+.pl-corl {
+  text-decoration: underline;
+  color: #032f62;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.my-2 {
+  margin-bottom: 8px !important;
+}
+
+.my-2 {
+  margin-top: 8px !important;
+}
+
+.pl-0 {
+  padding-left: 0 !important;
+}
+
+.py-0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.pl-1 {
+  padding-left: 4px !important;
+}
+
+.pl-2 {
+  padding-left: 8px !important;
+}
+
+.py-2 {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.pl-3 {
+  padding-left: 16px !important;
+}
+
+.pl-4 {
+  padding-left: 24px !important;
+}
+
+.pl-5 {
+  padding-left: 32px !important;
+}
+
+.pl-6 {
+  padding-left: 40px !important;
+}
+
+.pl-7 {
+  padding-left: 48px !important;
+}
+
+.pl-8 {
+  padding-left: 64px !important;
+}
+
+.pl-9 {
+  padding-left: 80px !important;
+}
+
+.pl-10 {
+  padding-left: 96px !important;
+}
+
+.pl-11 {
+  padding-left: 112px !important;
+}
+
+.pl-12 {
+  padding-left: 128px !important;
+}
+
+hr {
+  border-bottom-color: #eee;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+body:after,
+body:before {
+  display: table;
+  content: '';
+}
+
+body:after {
+  clear: both;
+}
+
+body > :first-child {
+  margin-top: 0 !important;
+}
+
+body > :last-child {
+  margin-bottom: 0 !important;
+}
+
+a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+blockquote,
+details,
+dl,
+ol,
+p,
+pre,
+table,
+ul {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e1e4e8;
+  border: 0;
+}
+
+blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: 0.25em solid #dfe2e5;
+}
+
+blockquote > :first-child {
+  margin-top: 0;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h1,
+h2 {
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #eaecef;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.25em;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+h5 {
+  font-size: 0.875em;
+}
+
+h6 {
+  font-size: 0.85em;
+  color: #6a737d;
+}
+
+ol,
+ul {
+  padding-left: 2em;
+}
+
+ol ol,
+ol ul,
+ul ol,
+ul ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+li {
+  word-wrap: break-all;
+}
+
+li > p {
+  margin-top: 16px;
+}
+
+li + li {
+  margin-top: 0.25em;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 600;
+}
+
+dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+table th {
+  font-weight: 600;
+}
+
+table td,
+table th {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+img {
+  max-width: 80%;
+  box-sizing: initial;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+}
+
+code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27, 31, 35, 0.05);
+  border-radius: 3px;
+}
+
+pre {
+  word-wrap: normal;
+}
+
+pre > code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  -webkit-print-color-adjust: exact;
+  background: #f8f8f8;
+}
+
+.hljs pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.hljs pre,
+pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  -webkit-print-color-adjust: exact;
+
+  border-radius: 3px;
+}
+
+pre code {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: initial;
+  border: 0;
+}
+
+.commit-tease-sha {
+  display: inline-block;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 90%;
+  color: #444d56;
+}
+
+.full-commit .btn-outline:not(:disabled):hover {
+  color: #005cc5;
+  border-color: #005cc5;
+}
+
+.blob-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.blob-wrapper-embedded {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.blob-num {
+  width: 1%;
+  min-width: 50px;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+  line-height: 20px;
+  color: rgba(27, 31, 35, 0.3);
+  text-align: right;
+  white-space: nowrap;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.blob-num:hover {
+  color: rgba(27, 31, 35, 0.6);
+}
+
+.blob-num:before {
+  content: attr(data-line-number);
+}
+
+.blob-code {
+  position: relative;
+  padding-right: 10px;
+  padding-left: 10px;
+  line-height: 20px;
+  vertical-align: top;
+}
+
+.blob-code-inner {
+  overflow: visible;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+  color: #24292e;
+  word-wrap: normal;
+  white-space: pre;
+}
+
+.pl-token.active,
+.pl-token:hover {
+  cursor: pointer;
+  background: #ffea7f;
+}
+
+.tab-size[data-tab-size='1'] {
+  -moz-tab-size: 1;
+  tab-size: 1;
+}
+
+.tab-size[data-tab-size='2'] {
+  -moz-tab-size: 2;
+  tab-size: 2;
+}
+
+.tab-size[data-tab-size='3'] {
+  -moz-tab-size: 3;
+  tab-size: 3;
+}
+
+.tab-size[data-tab-size='4'] {
+  -moz-tab-size: 4;
+  tab-size: 4;
+}
+
+.tab-size[data-tab-size='5'] {
+  -moz-tab-size: 5;
+  tab-size: 5;
+}
+
+.tab-size[data-tab-size='6'] {
+  -moz-tab-size: 6;
+  tab-size: 6;
+}
+
+.tab-size[data-tab-size='7'] {
+  -moz-tab-size: 7;
+  tab-size: 7;
+}
+
+.tab-size[data-tab-size='8'] {
+  -moz-tab-size: 8;
+  tab-size: 8;
+}
+
+.tab-size[data-tab-size='9'] {
+  -moz-tab-size: 9;
+  tab-size: 9;
+}
+
+.tab-size[data-tab-size='10'] {
+  -moz-tab-size: 10;
+  tab-size: 10;
+}
+
+.tab-size[data-tab-size='11'] {
+  -moz-tab-size: 11;
+  tab-size: 11;
+}
+
+.tab-size[data-tab-size='12'] {
+  -moz-tab-size: 12;
+  tab-size: 12;
+}
+
+.task-list-item {
+  list-style-type: none;
+}
+
+.task-list-item + .task-list-item {
+  margin-top: 3px;
+}
+
+.task-list-item input {
+  margin: 0 0.2em 0.25em -1.6em;
+  vertical-align: middle;
+}
+/*
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+*/
+  
+  .hljs-comment,
+  .hljs-quote {
+    color: #998;
+    font-style: italic;
+  }
+  
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-subst {
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .hljs-number,
+  .hljs-literal,
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-tag .hljs-attr {
+    color: #008080;
+  }
+  
+  .hljs-string,
+  .hljs-doctag {
+    color: #d14;
+  }
+  
+  .hljs-title,
+  .hljs-section,
+  .hljs-selector-id {
+    color: #900;
+    font-weight: bold;
+  }
+  
+  .hljs-subst {
+    font-weight: normal;
+  }
+  
+  .hljs-type,
+  .hljs-class .hljs-title {
+    color: #458;
+    font-weight: bold;
+  }
+  
+  .hljs-tag,
+  .hljs-name,
+  .hljs-attribute {
+    color: #000080;
+    font-weight: normal;
+  }
+  
+  .hljs-regexp,
+  .hljs-link {
+    color: #009926;
+  }
+  
+  .hljs-symbol,
+  .hljs-bullet {
+    color: #990073;
+  }
+  
+  .hljs-built_in,
+  .hljs-builtin-name {
+    color: #0086b3;
+  }
+  
+  .hljs-meta {
+    color: #999;
+    font-weight: bold;
+  }
+  
+  .hljs-deletion {
+    background: #fdd;
+  }
+  
+  .hljs-addition {
+    background: #dfd;
+  }
+  
+  .hljs-emphasis {
+    font-style: italic;
+  }
+  
+  .hljs-strong {
+    font-weight: bold;
+  }
+		</style>
+<script> MathJax = { tex: { inlineMath: [["$", "$"]] } }; </script>
+<script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+	</head>
+	<body>
+		<nav id="table-of-contents">
+			<ul><li><a href="#analisi-semantica"> Analisi semantica</a><ul><li><a href="#grammatiche-attribuite"> Grammatiche attribuite</a><ul><li><a href="#tipologie-di-attributi"> Tipologie di Attributi</a></li><li><a href="#metodi-per-calcolare-gli-attributi"> Metodi per calcolare gli attributi</a></li></ul></li></ul></li></ul>
+		</nav>
+		<main>
+			<h1 id="analisi-semantica" tabindex="-1"><a class="anchor" href="#analisi-semantica" aria-hidden="true"><span class="octicon octicon-link"></span></a> Analisi semantica</h1>
+<p>Per generare codice abbiamo bisogno di capire il suo significato, quindi il compilatore ha bisogno di porsi tante domande, ad esempio:</p>
+<ul>
+<li>"x" è uno scalare, un array o una funzione? "x" è dichiarata?</li>
+<li>Ci sono nomi che non sono stati dichiarati? Magari dichiarati e non usati? etc.
+Queste domande fanno parte dell'analisi context-sensitive, cioè che hanno bisogno di un contesto per avere senso.
+Come possiamo dunque rispondere a queste domande?</li>
+<li>Usando metodi formali
+<ul>
+<li>Grammatiche context-sensitive: consentono di definire regole in cui la produzione di un simbolo dipende dai simboli circostanti (difficili da implementare e poco efficienti).</li>
+<li>Grammatiche attribuite: ai simboli vengono associati&nbsp;attributi&nbsp;(valori o informazioni aggiuntive) e regole semantiche per calcolare questi attributi (molto utili).</li>
+</ul>
+</li>
+<li>Tecniche ad-hoc
+<ul>
+<li>Tabelle dei simboli: strutture dati utilizzate per tenere traccia delle informazioni sulle entità del programma, come variabili, funzioni, classi e scope.</li>
+<li>Codice ad-hoc (action routines): frammenti di codice specifici (o funzioni) eseguiti durante la compilazione per risolvere problemi contestuali.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Nel parsing (analisi sintattica) vincono le grammatiche libere dal contesto, mentre nell'analisi semantica (context-sensitive) le tecniche ad-hoc dominano loa pratica.</p>
+</blockquote>
+<h2 id="grammatiche-attribuite" tabindex="-1"><a class="anchor" href="#grammatiche-attribuite" aria-hidden="true"><span class="octicon octicon-link"></span></a> Grammatiche attribuite</h2>
+<p>Le grammatiche attribuite combinano la struttura di una grammatica sintattica con regole semantiche per arricchire i simboli del linguaggio con&nbsp;<strong>attributi</strong>, che rappresentano informazioni aggiuntive come il tipo di una variabile o il valore di un’espressione, e le regole semantiche permettono di&nbsp;<strong>calcolare e verificare</strong>&nbsp;questi attributi.
+<strong>PROBLEMI</strong>:</p>
+<ul>
+<li>calcoli non locali: se un attributo in un punto del codice dipende da informazioni lontane (come l’assegnazione di una variabile definita in un altro blocco), risulta difficile gestirlo in una grammatica attribuita.</li>
+<li>informazioni centralizzate: per molte analisi, serve una&nbsp;tabella centrale delle informazioni&nbsp;(tabella dei simboli) per tenere traccia delle variabili, funzioni e tipi le grammatiche attribuite non sono pensate per gestire direttamente strutture centralizzate, risultando quindi poco pratiche.
+Arriviamo dunque a prediligere le <strong>Tecniche ad-hoc</strong>, più flessibili e pratiche per problemi complessi, per ora però capiamo come funzionano queste.</li>
+</ul>
+<p>Gli elementi principali sono:</p>
+<ul>
+<li><strong>Simboli e Attributi</strong>: ogni simbolo della grammatica (sia terminale che non terminale) è arricchito con un insieme di&nbsp;attributi, quest'ultimi sono valori associati ai simboli, che possono contenere informazioni semantiche come il tipo, il valore o altre proprietà rilevanti, esistono due tipi principali di attributi:
+<ol>
+<li>Attributi sintetizzati: calcolati dalle regole semantiche sulla base dei figli del simbolo nell'albero sintattico</li>
+<li>Attributi ereditati: derivano da informazioni che provengono dai genitori o dai fratelli del simbolo nell'albero.</li>
+</ol>
+</li>
+<li><strong>Regole  di attribuzione</strong>: per ogni produzione della grammatica vengono definite regole che descrivono come calcolare gli attributi. Le regole sono funzionali, cioè determinano univocamente il valore di ogni attributo basandosi sugli attributi disponibili.</li>
+<li><strong>Funzioni semantiche</strong>: le regole di attribuzione spesso usano funzioni definite dall'utente, che calcolano gli attributi in base a valori disponibili o logica specifica.
+Vediamo un esempio, la seguente grammatica descrive i numeri binari con segno:</li>
+</ul>
+<p><img src="images/binarysign_grammar.png" alt="binarysign_grammar.png"></p>
+<p>Formiamo due AST per due input differenti (-1 e -101):</p>
+<p><img src="images/ast_signbinary.png" alt="ast_signbinary.png"></p>
+<p>Vogliamo dunque calcolare il valore decimale, dobbiamo quindi aggiungere delle regole per farlo:</p>
+<p>![attribute_signbinary.png]]  ![[result_signbinary.png](images/attribute_signbinary.png]]  ![[result_signbinary.png)</p>
+<p>Possiamo dedurre che, dall'immagine sopra, abbiamo degli attributi per ogni tipo di produzione, ad esempio banalmente per il "BIt" e "List" abbiamo due attributi necessari: posizione e valore.
+Andiamo con ordine vediamo come valutare un AST con gli attributi:
+<img src="images/AST_attribute.jpeg" alt="AST_attribute.jpeg">
+<strong>Spiegazione</strong>
+In input abbiamo la stringa -101, che dovrà essere trasformata in decimale tramite una grammatica con attributi.
+Partiamo a sinistra dove abbiamo il segno -, questo porterà la produzione di Sign con l'attributo neg a true e lo "assegna" a number.
+Ora spostiamoci a destra, il primo List che incontriamo avrà l'attributo position uguale a 0 il secondo list attributo position uguale ad 1 e così via anche per i bit, il primo bit che incontriamo avrà position = 0 etc.
+Ora risaliamo l'albero dalle foglie quindi iniziamo dal primo bit più a sinistra che è uguale ad 1, assegnamo quindi alla sua produzione "bit" il valore 4 dato dal calcolo di 2^bit.pos, riporto ora il valore alla produzione superiore "list", nel mentre guardo anche il bit 0, che ha come valore 0 dato dalla condizione che se bit.val = 0 allora 0.
+Arriviamo ora alla produzione "List" con posizione 1, che valore avrà? Devo semplicemente riportare il valore dei due figli sommato, dunque abbiamo la list in posizione 2 con valore 4 e il bit in posizione 1 con valore 0 sommando troviamo che list in posizione 1 vale 4, questo meccanismo è applicato ricorsivamente a tutte le produzioni dell'AST trovando quindi in automatico che number avrà valore finale -5.</p>
+<h3 id="tipologie-di-attributi" tabindex="-1"><a class="anchor" href="#tipologie-di-attributi" aria-hidden="true"><span class="octicon octicon-link"></span></a> Tipologie di Attributi</h3>
+<ul>
+<li><strong>Attributi sintetizzati</strong>: sono calcolati a partire dagli attributi dei figli e da eventuali costanti o informazioni esterne (dal basso verso l'alto). Le caratteristiche principali sono:
+<ul>
+<li>Gli attributi sintetizzati di un nodo dipendono dai valori dei nodi figli (o terminali associati) e possono includere costanti.</li>
+<li>Se una grammatica utilizza&nbsp;solo attributi sintetizzati, si dice&nbsp;<strong>S-attributed</strong> (compatibile con il&nbsp;parsing LR, bottom-up)</li>
+<li>Facile da implementare durante il parsing, il parsing LR costruisce l'albero sintattico dal basso verso l'alto, calcolare gli attributi sintetizzati durante il parsing è diretto e non richiede trasformazioni particolari.</li>
+</ul>
+</li>
+<li><strong>Attributi ereditati</strong>: sono calcolati usando valori provenienti dal genitore del nodo nell'albero sintattico, informazioni provenienti dai fratelli e tramite costanti o informazione esterne. Le caratteristiche principali sono:
+<ul>
+<li>Gli attributi ereditati sono particolarmente utili per rappresentare il&nbsp;<strong>contesto</strong>&nbsp;del nodo corrente.</li>
+<li>Gli attributi ereditati spesso richiedono che le informazioni siano calcolate&nbsp;prima che il nodo sia visitato (non è facilmente compatibile con il parsing LR).</li>
+<li>Spesso, un'analisi basata su attributi ereditati può essere riscritta per evitare questi attributi, trasformandoli in sintetizzati o utilizzando strutture di supporto.</li>
+<li>Nonostante le difficoltà pratiche, gli attributi ereditati sono ritenuti più "naturali" per esprimere certe relazioni semantiche, poiché modellano esplicitamente il contesto.</li>
+</ul>
+</li>
+</ul>
+<h3 id="metodi-per-calcolare-gli-attributi" tabindex="-1"><a class="anchor" href="#metodi-per-calcolare-gli-attributi" aria-hidden="true"><span class="octicon octicon-link"></span></a> Metodi per calcolare gli attributi</h3>
+<p><strong>Metodi dinamici basati su dipendenze</strong>: questi metodi si basano sulle&nbsp;<strong>dipendenze</strong>&nbsp;tra gli attributi, rappresentate in un grafo, per determinare l'ordine di calcolo degli attributi in tempo reale.
+<strong>Procedura</strong>:</p>
+<ol>
+<li>Costruzione dell'albero sintattico (AST)</li>
+<li>Costruzione del grafo delle dipendenze: ogni attributo è rappresentato come un nodo del grafo, le dipendenze vengono rappresentate come archi diretti</li>
+<li>Ordinamento topologico: si effettua un ordinamento topologico del grafo che garantisce che gli attributi siano calcolati nell'ordine corretto.</li>
+<li>Calcolo degli attributi: vengono valutati in base all'ordine derivato dall'ordinamento topologico.
+<strong>Vantaggi</strong>: funziona con qualsiasi grammatica attribuita.
+<strong>Svantaggi</strong>: overhead, la costruzione e l'elaborazione del grafo delle dipendenze può essere costoso in termini di tempo e memoria.</li>
+</ol>
+<p><strong>Metodi basati du regole (Treewalk)</strong>: l'ordine di calcolo degli attributi è determinato&nbsp;<strong>in anticipo</strong>, durante la generazione del compilatore, analizzando le regole semantiche associate alla grammatica.
+<strong>Procedure</strong>:</p>
+<ol>
+<li>Analisi delle regole: durante la fase di generazione del compilatore, le regole di attribuzione sono analizzate per identificare le dipendenze tra gli attributi.</li>
+<li>Si determina un&nbsp;<strong>ordine fisso</strong>&nbsp;per il calcolo degli attributi, basato su una strategia che garantisce che tutti gli attributi necessari per un calcolo siano disponibili al momento giusto.</li>
+<li>Durante l'elaborazione dell'albero sintattico, i nodi vengono visitati in un ordine specifico (determinato in precedenza) e gli attributi vengono calcolati di conseguenza.
+<strong>Vantaggi</strong>: L'ordine statico elimina il bisogno di costruire grafi di dipendenze a runtime, una volta determinato l'ordine, il processo è diretto.
+<strong>Svantaggi</strong>: Non tutte le grammatiche attribuite possono essere risolte facilmente con un ordine statico. Alcune richiedono trasformazioni o modifiche.</li>
+</ol>
+<p><strong>Metodi oblivious (Passes, Dataflow)</strong>
+Questi metodi ignorano sia le regole semantiche che l'albero sintattico, e invece scelgono un ordine&nbsp;predeterminato&nbsp;(in fase di progettazione del compilatore) per valutare gli attributi.
+<strong>Procedure</strong>:</p>
+<ol>
+<li>Gli sviluppatori decidono un ordine fisso di calcolo degli attributi, questo è basato su ipotesi pratiche e non richiede l'analisi delle regole semantiche.</li>
+<li>Gli attributi sono calcolati in&nbsp;<strong>più passaggi</strong>&nbsp;sull'albero sintattico, questo approccio può essere simile a un'analisi&nbsp;dataflow: si propagano le informazioni attraverso i nodi fino a quando tutti gli attributi non sono calcolati.
+<strong>Vantaggi</strong>: Non richiede analisi sofisticate di dipendenze o costruzione di grafi, può gestire attributi complessi con un numero sufficiente di passaggi.
+<strong>Svantaggi</strong>: L'approccio può richiedere più passaggi rispetto ai metodi dinamici o basati su regole, con un aumento dei tempi di esecuzione.</li>
+</ol>
+<blockquote>
+<p>Il grafo delle dipendenze dev'essere aciclico.</p>
+</blockquote>
+
+		</main>
+	</body>
+</html>

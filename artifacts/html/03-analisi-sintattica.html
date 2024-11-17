@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+		<title>03-analisi-sintattica</title>
+		<style>
+			/* PDF Specific */
+
+@media print {
+  body {
+    min-width: initial;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+/* General */
+
+.octicon {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: text-bottom;
+}
+
+.anchor {
+  float: left;
+  line-height: 1;
+  margin-left: -20px;
+  padding-right: 4px;
+}
+
+.anchor:focus {
+  outline: none;
+}
+
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+  color: #1b1f23;
+  vertical-align: middle;
+  visibility: hidden;
+}
+
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+  text-decoration: none;
+}
+
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+  visibility: visible;
+}
+
+h1:hover .anchor .octicon-link:before,
+h2:hover .anchor .octicon-link:before,
+h3:hover .anchor .octicon-link:before,
+h4:hover .anchor .octicon-link:before,
+h5:hover .anchor .octicon-link:before,
+h6:hover .anchor .octicon-link:before {
+  width: 16px;
+  height: 16px;
+  content: ' ';
+  display: inline-block;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' width='16' height='16' aria-hidden='true'%3E%3Cpath fill-rule='evenodd' d='M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-print-color-adjust: exact;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #24292e;
+  word-wrap: break-word;
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 1rem auto;
+}
+
+details {
+  display: block;
+}
+
+summary {
+  display: list-item;
+}
+
+a {
+  background-color: initial;
+}
+
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+strong {
+  font-weight: inherit;
+  font-weight: bolder;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+img {
+  border-style: none;
+}
+
+code,
+kbd,
+pre {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+hr {
+  box-sizing: initial;
+  height: 0;
+  overflow: visible;
+}
+
+input {
+  font: inherit;
+  margin: 0;
+}
+
+input {
+  overflow: visible;
+}
+
+[type='checkbox'] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+strong {
+  font-weight: 600;
+}
+
+hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe2e5;
+}
+
+hr:after,
+hr:before {
+  display: table;
+  content: '';
+}
+
+hr:after {
+  clear: both;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  padding: 0;
+}
+
+details summary {
+  cursor: pointer;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h1,
+h2 {
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+h3,
+h4 {
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h5,
+h6 {
+  font-weight: 600;
+}
+
+h6 {
+  font-size: 12px;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+blockquote {
+  margin: 0;
+}
+
+ol,
+ul {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+ol ol,
+ul ol {
+  list-style-type: lower-roman;
+}
+
+ol ol ol,
+ol ul ol,
+ul ol ol,
+ul ul ol {
+  list-style-type: lower-alpha;
+}
+
+dd {
+  margin-left: 0;
+}
+
+code,
+pre {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+}
+
+pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+:checked + .radio-label {
+  position: relative;
+  z-index: 1;
+  border-color: #0366d6;
+}
+
+.border {
+  border: 1px solid #e1e4e8 !important;
+}
+
+.border-0 {
+  border: 0 !important;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #e1e4e8 !important;
+}
+
+.rounded-1 {
+  border-radius: 3px !important;
+}
+
+.bg-white {
+  background-color: #fff !important;
+}
+
+.bg-gray-light {
+  background-color: #fafbfc !important;
+}
+
+.text-gray-light {
+  color: #6a737d !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.my-2 {
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+.pl-0 {
+  padding-left: 0 !important;
+}
+
+.py-0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.pl-1 {
+  padding-left: 4px !important;
+}
+
+.pl-2 {
+  padding-left: 8px !important;
+}
+
+.py-2 {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.pl-3,
+.px-3 {
+  padding-left: 16px !important;
+}
+
+.px-3 {
+  padding-right: 16px !important;
+}
+
+.pl-4 {
+  padding-left: 24px !important;
+}
+
+.pl-5 {
+  padding-left: 32px !important;
+}
+
+.pl-6 {
+  padding-left: 40px !important;
+}
+
+.f6 {
+  font-size: 12px !important;
+}
+
+.lh-condensed {
+  line-height: 1.25 !important;
+}
+
+.text-bold {
+  font-weight: 600 !important;
+}
+
+.pl-c {
+  color: #6a737d;
+}
+
+.pl-c1,
+.pl-s .pl-v {
+  color: #005cc5;
+}
+
+.pl-e,
+.pl-en {
+  color: #6f42c1;
+}
+
+.pl-s .pl-s1,
+.pl-smi {
+  color: #24292e;
+}
+
+.pl-ent {
+  color: #22863a;
+}
+
+.pl-k {
+  color: #d73a49;
+}
+
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+  color: #032f62;
+}
+
+.pl-smw,
+.pl-v {
+  color: #e36209;
+}
+
+.pl-bu {
+  color: #b31d28;
+}
+
+.pl-ii {
+  color: #fafbfc;
+  background-color: #b31d28;
+}
+
+.pl-c2 {
+  color: #fafbfc;
+  background-color: #d73a49;
+}
+
+.pl-c2:before {
+  content: '^M';
+}
+
+.pl-sr .pl-cce {
+  font-weight: 700;
+  color: #22863a;
+}
+
+.pl-ml {
+  color: #735c0f;
+}
+
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+  font-weight: 700;
+  color: #005cc5;
+}
+
+.pl-mi {
+  font-style: italic;
+  color: #24292e;
+}
+
+.pl-mb {
+  font-weight: 700;
+  color: #24292e;
+}
+
+.pl-md {
+  color: #b31d28;
+  background-color: #ffeef0;
+}
+
+.pl-mi1 {
+  color: #22863a;
+  background-color: #f0fff4;
+}
+
+.pl-mc {
+  color: #e36209;
+  background-color: #ffebda;
+}
+
+.pl-mi2 {
+  color: #f6f8fa;
+  background-color: #005cc5;
+}
+
+.pl-mdr {
+  font-weight: 700;
+  color: #6f42c1;
+}
+
+.pl-ba {
+  color: #586069;
+}
+
+.pl-sg {
+  color: #959da5;
+}
+
+.pl-corl {
+  text-decoration: underline;
+  color: #032f62;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.my-2 {
+  margin-bottom: 8px !important;
+}
+
+.my-2 {
+  margin-top: 8px !important;
+}
+
+.pl-0 {
+  padding-left: 0 !important;
+}
+
+.py-0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.pl-1 {
+  padding-left: 4px !important;
+}
+
+.pl-2 {
+  padding-left: 8px !important;
+}
+
+.py-2 {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.pl-3 {
+  padding-left: 16px !important;
+}
+
+.pl-4 {
+  padding-left: 24px !important;
+}
+
+.pl-5 {
+  padding-left: 32px !important;
+}
+
+.pl-6 {
+  padding-left: 40px !important;
+}
+
+.pl-7 {
+  padding-left: 48px !important;
+}
+
+.pl-8 {
+  padding-left: 64px !important;
+}
+
+.pl-9 {
+  padding-left: 80px !important;
+}
+
+.pl-10 {
+  padding-left: 96px !important;
+}
+
+.pl-11 {
+  padding-left: 112px !important;
+}
+
+.pl-12 {
+  padding-left: 128px !important;
+}
+
+hr {
+  border-bottom-color: #eee;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+body:after,
+body:before {
+  display: table;
+  content: '';
+}
+
+body:after {
+  clear: both;
+}
+
+body > :first-child {
+  margin-top: 0 !important;
+}
+
+body > :last-child {
+  margin-bottom: 0 !important;
+}
+
+a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+blockquote,
+details,
+dl,
+ol,
+p,
+pre,
+table,
+ul {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e1e4e8;
+  border: 0;
+}
+
+blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: 0.25em solid #dfe2e5;
+}
+
+blockquote > :first-child {
+  margin-top: 0;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h1,
+h2 {
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #eaecef;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.25em;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+h5 {
+  font-size: 0.875em;
+}
+
+h6 {
+  font-size: 0.85em;
+  color: #6a737d;
+}
+
+ol,
+ul {
+  padding-left: 2em;
+}
+
+ol ol,
+ol ul,
+ul ol,
+ul ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+li {
+  word-wrap: break-all;
+}
+
+li > p {
+  margin-top: 16px;
+}
+
+li + li {
+  margin-top: 0.25em;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 600;
+}
+
+dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+table th {
+  font-weight: 600;
+}
+
+table td,
+table th {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+img {
+  max-width: 80%;
+  box-sizing: initial;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+}
+
+code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27, 31, 35, 0.05);
+  border-radius: 3px;
+}
+
+pre {
+  word-wrap: normal;
+}
+
+pre > code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  -webkit-print-color-adjust: exact;
+  background: #f8f8f8;
+}
+
+.hljs pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.hljs pre,
+pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  -webkit-print-color-adjust: exact;
+
+  border-radius: 3px;
+}
+
+pre code {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: initial;
+  border: 0;
+}
+
+.commit-tease-sha {
+  display: inline-block;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 90%;
+  color: #444d56;
+}
+
+.full-commit .btn-outline:not(:disabled):hover {
+  color: #005cc5;
+  border-color: #005cc5;
+}
+
+.blob-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.blob-wrapper-embedded {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.blob-num {
+  width: 1%;
+  min-width: 50px;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+  line-height: 20px;
+  color: rgba(27, 31, 35, 0.3);
+  text-align: right;
+  white-space: nowrap;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.blob-num:hover {
+  color: rgba(27, 31, 35, 0.6);
+}
+
+.blob-num:before {
+  content: attr(data-line-number);
+}
+
+.blob-code {
+  position: relative;
+  padding-right: 10px;
+  padding-left: 10px;
+  line-height: 20px;
+  vertical-align: top;
+}
+
+.blob-code-inner {
+  overflow: visible;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+  color: #24292e;
+  word-wrap: normal;
+  white-space: pre;
+}
+
+.pl-token.active,
+.pl-token:hover {
+  cursor: pointer;
+  background: #ffea7f;
+}
+
+.tab-size[data-tab-size='1'] {
+  -moz-tab-size: 1;
+  tab-size: 1;
+}
+
+.tab-size[data-tab-size='2'] {
+  -moz-tab-size: 2;
+  tab-size: 2;
+}
+
+.tab-size[data-tab-size='3'] {
+  -moz-tab-size: 3;
+  tab-size: 3;
+}
+
+.tab-size[data-tab-size='4'] {
+  -moz-tab-size: 4;
+  tab-size: 4;
+}
+
+.tab-size[data-tab-size='5'] {
+  -moz-tab-size: 5;
+  tab-size: 5;
+}
+
+.tab-size[data-tab-size='6'] {
+  -moz-tab-size: 6;
+  tab-size: 6;
+}
+
+.tab-size[data-tab-size='7'] {
+  -moz-tab-size: 7;
+  tab-size: 7;
+}
+
+.tab-size[data-tab-size='8'] {
+  -moz-tab-size: 8;
+  tab-size: 8;
+}
+
+.tab-size[data-tab-size='9'] {
+  -moz-tab-size: 9;
+  tab-size: 9;
+}
+
+.tab-size[data-tab-size='10'] {
+  -moz-tab-size: 10;
+  tab-size: 10;
+}
+
+.tab-size[data-tab-size='11'] {
+  -moz-tab-size: 11;
+  tab-size: 11;
+}
+
+.tab-size[data-tab-size='12'] {
+  -moz-tab-size: 12;
+  tab-size: 12;
+}
+
+.task-list-item {
+  list-style-type: none;
+}
+
+.task-list-item + .task-list-item {
+  margin-top: 3px;
+}
+
+.task-list-item input {
+  margin: 0 0.2em 0.25em -1.6em;
+  vertical-align: middle;
+}
+/*
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+*/
+  
+  .hljs-comment,
+  .hljs-quote {
+    color: #998;
+    font-style: italic;
+  }
+  
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-subst {
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .hljs-number,
+  .hljs-literal,
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-tag .hljs-attr {
+    color: #008080;
+  }
+  
+  .hljs-string,
+  .hljs-doctag {
+    color: #d14;
+  }
+  
+  .hljs-title,
+  .hljs-section,
+  .hljs-selector-id {
+    color: #900;
+    font-weight: bold;
+  }
+  
+  .hljs-subst {
+    font-weight: normal;
+  }
+  
+  .hljs-type,
+  .hljs-class .hljs-title {
+    color: #458;
+    font-weight: bold;
+  }
+  
+  .hljs-tag,
+  .hljs-name,
+  .hljs-attribute {
+    color: #000080;
+    font-weight: normal;
+  }
+  
+  .hljs-regexp,
+  .hljs-link {
+    color: #009926;
+  }
+  
+  .hljs-symbol,
+  .hljs-bullet {
+    color: #990073;
+  }
+  
+  .hljs-built_in,
+  .hljs-builtin-name {
+    color: #0086b3;
+  }
+  
+  .hljs-meta {
+    color: #999;
+    font-weight: bold;
+  }
+  
+  .hljs-deletion {
+    background: #fdd;
+  }
+  
+  .hljs-addition {
+    background: #dfd;
+  }
+  
+  .hljs-emphasis {
+    font-style: italic;
+  }
+  
+  .hljs-strong {
+    font-weight: bold;
+  }
+		</style>
+<script> MathJax = { tex: { inlineMath: [["$", "$"]] } }; </script>
+<script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+	</head>
+	<body>
+		<nav id="table-of-contents">
+			<ul><li><a href="#parser"> Parser</a><ul><li><a href="#context-free-grammar-e-derivazioni"> Context-Free Grammar e Derivazioni</a></li><li><a href="#top-down-parsing---ll1"> Top-Down Parsing - LL(1)</a><ul><li><a href="#ricorsione-a-sinistra"> Ricorsione a sinistra</a></li><li><a href="#backtracking"> Backtracking</a><ul><li><a href="#parsing-predittivo"> Parsing Predittivo</a></li><li><a href="#trasformazione-di-una-grammatica-non-ll1-in-una-ll1"> Trasformazione di una grammatica non LL(1) in una LL(1)</a></li></ul></li></ul></li><li><a href="#bottom-up-parsing---lr1"> Bottom-Up Parsing - LR(1)</a><ul><li><a href="#shift-reduce"> Shift-Reduce</a></li><li><a href="#lr1-vs-ll1"> LR(1) vs LL(1)</a></li></ul></li><li><a href="#bison"> Bison</a><ul><li><a href="#sezione-delle-definizioni"> Sezione delle definizioni</a><ul><li><a href="#literal-block"> Literal Block</a></li><li><a href="#union-declaration"> Union declaration</a></li><li><a href="#start-declaration"> Start declaration</a></li><li><a href="#token-declaration"> Token declaration</a></li><li><a href="#type-declaration"> Type declaration</a></li></ul></li><li><a href="#sezione-delle-regole"> Sezione delle regole</a></li><li><a href="#sezione-codice-utente"> Sezione codice utente</a></li></ul></li></ul></li></ul>
+		</nav>
+		<main>
+			<h1 id="parser" tabindex="-1"><a class="anchor" href="#parser" aria-hidden="true"><span class="octicon octicon-link"></span></a> Parser</h1>
+<p>I compiti principali del parser, sono:</p>
+<ul>
+<li><strong>Controlla la sequenza di parole e le loro parti del discorso per verficarne la correttezza grammaticale</strong> - riceve dallo scanner una sequenza di token con informazioni sulla loro categoria grammaticale e controlla che siano organizzate in una struttura grammaticalmente valida secondo le regole del linguaggio di programmazione.</li>
+<li><strong>Determinare se l'input è sintatticamente corretto</strong> - verifica che il codice sorgente rispetti la sintassi prevista dal linguaggio</li>
+<li><strong>Guidare il controllo a livelli più profondi rispetto alla sintassi</strong> - non si limita alla sola sintassi, ma può anche preparare il terreno per ulteriori controlli semantici, come verifiche di tipo o coerenza logica.</li>
+<li><strong>Costruire una rappresentazione intermedia del codice (IR)</strong> - crea una struttura dati che rappresenta in modo strutturato il codice sorgente, spesso sotto forma di un albero sintattico astratto</li>
+</ul>
+<p>Quando analizziamo un programma in un linguaggio, cerchiamo di trovare una <strong>derivazione</strong>, cioè una sequenza di passi che permetta di costruire quella frase partendo dalle regole del linguaggio.
+Per poter analizzare la struttura di un programma, abbiamo bisogno di una&nbsp;<strong>grammatica formale G</strong>&nbsp;che descriva le regole sintattiche del linguaggio, questo modello matematico definisce quali combinazioni di simboli sono valide. Di solito, per descrivere le grammatiche dei linguaggi di programmazione si usano quelle di tipo&nbsp;<strong>Context-Free</strong>&nbsp;(CFG - grammatiche libere dal contesto), poiché sono sufficientemente potenti per rappresentare la maggior parte delle strutture linguistiche.
+Una volta definita la grammatica&nbsp;G, abbiamo un linguaggio formale&nbsp;L(G)&nbsp;che include tutte le frasi che possono essere generate da&nbsp;G, dobbiamo quindi avere un <strong>algoritmo</strong> che ci permetta di verificare se una determinata sequenza di token appartiene a&nbsp;L(G).</p>
+<h2 id="context-free-grammar-e-derivazioni" tabindex="-1"><a class="anchor" href="#context-free-grammar-e-derivazioni" aria-hidden="true"><span class="octicon octicon-link"></span></a> Context-Free Grammar e Derivazioni</h2>
+<p>Una grammatica è una quadrupla G = (S, N, T, P) dove:</p>
+<ul>
+<li>S è lo start simbolo (simbolo iniziale da cui parte ogni derivazione - es. <em>Expr</em>)</li>
+<li>N è l'insieme dei simboli non terminali (variabili che rappresentano strutture più complesse che verranno riscritte/espanse secondo le regole)</li>
+<li>T è l'insieme dei simboli terminali (simboli finali concreti che compaiono nella stringa di output)</li>
+<li>P è l'insieme delle produzioni o delle regole riscritte (insieme delle regole che descrivono l'espansione/sostituzione dei simboli non terminali)</li>
+</ul>
+<p><strong>Perché non posso usare i linguaggi regolari e i DFA anche in questo caso?</strong> I <strong>linguaggi regolari</strong> sono quelli che possono essere descritti da espressioni regolari e possono essere riconosciuti da automi a stati finiti deterministici (DFA), codesti sono adatti a descrivere linguaggi con una struttura molto semplice, come sequenze ripetitive o pattern statici.
+I linguaggi di programmazione richiedono spesso strutture più complesse, come l'annidamento di parentesi, le strutture condizionali e i blocchi di codice, questi schemi richiedono una capacità di tenere traccia di contesti diversi, come aprire e chiudere parentesi o iniziare e terminare blocchi di codice, i linguaggi regolari non hanno questa capacità.
+La soluzione è dunque utilizzare <strong>grammatiche libere da contesto</strong>, che vengono gestite da automi più potenti, quelli a pila.</p>
+<p>Una grammatica si definisce libera da contesto perché, ogni produzione ha la forma del tipo $A \rightarrow \alpha$ dove: A è un simbolo <strong>non terminale</strong> e $\alpha$ è una stringa di simboli terminali e\o non terminali, questa forma significa che ogni produzione può riscrivere il non terminale&nbsp;A&nbsp;indipendentemente dal&nbsp;<strong>contesto</strong>&nbsp;in cui&nbsp;A&nbsp;appare, può sempre essere sostituito da&nbsp;$\alpha$&nbsp;in qualunque punto del derivato.
+In una&nbsp;<strong>grammatica sensibile al contesto</strong>&nbsp;(context-sensitive grammar), le regole di produzione possono invece dipendere dal contesto in cui il non terminale appare.
+Una regola di produzione sensibile al contesto ha una forma più generale: $\alpha A \beta \rightarrow \alpha \gamma \beta$, dove A è un simbolo non terminale, $\alpha$ e $\beta$ sono sequenze, anche vuote, di simboli terminali che rappresentano il <strong>contesto</strong> e $\gamma$ è una sequenza di terminale e\o non che sostituisce A in quel contesto specifico.
+In questo caso,&nbsp;A&nbsp;può essere riscritto in&nbsp;$\gamma$&nbsp;solo se appare circondato dai simboli&nbsp;$\alpha$&nbsp;e&nbsp;$\beta$, questo rende la grammatica&nbsp;<strong>dipendente dal contesto</strong>.</p>
+<p>Vediamo un esempio:
+<img src="images/grammatica-derivazione.jpeg" alt="grammatica-derivazione.jpeg"></p>
+<p>Analizzando la grammatica abbiamo che:</p>
+<ul>
+<li>Expr può essere espansa con:
+<ul>
+<li>Expr Op Expr</li>
+<li>number</li>
+<li>id</li>
+</ul>
+</li>
+<li>Op può essere espanso con:
+<ul>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+<li>*</li>
+<li>/
+Analizzando la derivazione, espandendo ad ogni step i simboli non terminali evidenziati in viola con i possibili simboli concessi, arriviamo ad avere la stringa $x - 2 * y$.
+Notiamo a questo punto che la derivazione si può provare in due differenti modi:</li>
+</ul>
+</li>
+<li><strong>Leftmost derivation</strong> sostituendo il simbolo non terminale che si trova più a sinistra ad ogni step (esempio precedente).</li>
+<li><strong>Rightmost derivation</strong> sostituendo il simbolo non terminale che si trova più a destra ad ogni step.</li>
+</ul>
+<p><img src="images/derivazione-sx-dx.jpeg" alt="derivazione-sx-dx.jpeg"></p>
+<p>Il risultato è lo stesso, ma producono differenti alberi di parsing:
+<img src="images/parse-tree.jpeg" alt="parse-tree.jpeg"></p>
+<p>L'ambiguità che ci suggerisce l'albero è: $x-(2*y)$ o $(x-2)*y$?
+La grammatica ha un problema, non abbiamo nessuna informazione sulla precedenza degli operatori o sull'ordine di valutazione, bisogna riscriverla correttamente.
+<img src="images/grammatica-riscritta.jpeg" alt="grammatica-riscritta.jpeg"></p>
+<p>Vediamo che gli alberi di parsing sono identici e la soluzione finale è $x - (2*y)$.
+Un ultimo problema di questa grammatica è che se abbiamo più di una possibilità di derivazione sia nel caso a sinistra che nel caso a destra per un singolo step, la grammatica è ambigua.
+Ad esempio nello step 1 della prima [[grammatica-derivazione.jpeg|derivazione]], quello può essere espanso anche come <code>Expr Op Expr</code>, finendo in un loop infinito di espansione, NON lo vogliamo (soluzione nel prossimo [[#Top-Down Parsing - LL(1)|paragrafo]]).</p>
+<h2 id="top-down-parsing---ll1" tabindex="-1"><a class="anchor" href="#top-down-parsing---ll1" aria-hidden="true"><span class="octicon octicon-link"></span></a> Top-Down Parsing - LL(1)</h2>
+<p>Il Top-down parser è una delle tecniche che viene usata per fare parsing, il suo funzionamento consiste nell'analisi dal nodo radice dell'albero sintattico e procede verso le foglie, cercando di far corrispondere la sequenza di input alle regole della grammatica.</p>
+<blockquote>
+<p>LL(1):</p>
+<ul>
+<li><strong>L</strong>eft-to-right: il parser legge l'input da sinistra a destra</li>
+<li><strong>L</strong>eftmost derivation: costruisce l'albero sintattico espandendo sempre il simbolo non terminale più a sinistra</li>
+<li><strong>(1)</strong>: lookahead, cioè il parser guarda solo un simbolo (in questo caso) in anticipo per decidere quale regola applicare.</li>
+</ul>
+</blockquote>
+<p>Quando si fa una scelta sbagliata nel fare match con la grammatica, il parser deve "backtrackare", cioè annullare la scelta della regola di produzione, e provare con un’altra regola per lo stesso simbolo.
+Il&nbsp;<strong>backtracking</strong>&nbsp;implica tornare al punto in cui il parser ha fatto una scelta, scegliere una produzione diversa e riprendere l’analisi da lì, questo processo è inefficiente e può portare a tempi di parsing esponenziali nel caso peggiore.
+Alcune grammatiche sono&nbsp;<strong>senza backtracking</strong>, il che significa che il parser può decidere quale regola di produzione usare basandosi solo sul simbolo corrente di input e (al massimo) su un simbolo di lookahead, eliminando quindi la necessità di backtracking.
+Le&nbsp;grammatiche LL(1)&nbsp;ne sono un esempio, perché strutturate in modo che ogni simbolo non terminale abbia una sola produzione possibile per ciascun token di lookahead. Questo le rende compatibili con i&nbsp;<strong>parser predittivi</strong>, che usano il lookahead per "predire" quale produzione applicare senza bisogno di fare tentativi e backtracking, per assicurarsi che non ci sia, di solito viene eliminata la&nbsp;<strong>ricorsione a sinistra</strong>&nbsp;nella grammatica e si rimuovono&nbsp;ambiguità.</p>
+<p>Come accennato precedentemente la grammatica vista prima ha due probelmatiche:</p>
+<ul>
+<li>è ricorsiva a sinistra;</li>
+<li>troppe possibilità di fare match con diversi non-terminali per un unico non-terminale, dovendo dunque fare backtracking più volte;</li>
+</ul>
+<h3 id="ricorsione-a-sinistra" tabindex="-1"><a class="anchor" href="#ricorsione-a-sinistra" aria-hidden="true"><span class="octicon octicon-link"></span></a> Ricorsione a sinistra</h3>
+<p>Una grammatica è considerata <strong>ricorsiva a sinistra</strong> se $\exists , A \leftarrow \text{Non-Terminale}$ tale che $\exists$ una derivazione $A \Rightarrow^+ , A\alpha$, per qualche stringa $\alpha \in (\text{Non-Terminale} , \cup , \text{Terminale}^+)$
+Dunque per eliminarla, dobbiamo trasformare la ricorsione a sinistra come una ricorsione a destra riscrivendo la grammatica.
+Ad esempio, consideriamo il pezzo di grammatica:</p>
+<pre><code class="language-grammar">Fee -&gt; Fee α
+	|   β
+
+//ricorsiva a sinistra
+</code></pre>
+<p>Possiamo riscriverla nel seguente modo:</p>
+<pre><code class="language-grammar">Fee -&gt; β Fie
+Fie -&gt; α Fie
+	|  ε
+
+//ricorsiva a destra
+</code></pre>
+<p>Vediamo che è la stessa identica grammatica trasformata in una ricorsione destra e con l'aggiunta del riferimento ad una stringa vuota $\varepsilon$.
+Aggiorniamo ora la nostra vecchia grammatica con ricorsione a sinistra:</p>
+<pre><code class="language-grammar">Expr  -&gt; Term Expr'
+Expr' -&gt; + Term Expr'
+	  |  - Term Expr'
+	  |  ε
+Term  -&gt; Factor Term'
+Term' -&gt; * Factor Term'
+	  |  / Factor Term'
+	  | ε
+</code></pre>
+<p>Questa parte riscritta usa solamente la ricorsione a destra, quindi possiamo integrarla nella grammatica finale come segue:</p>
+<pre><code class="language-grammar">Goal   -&gt; Expr
+Expr   -&gt; Term Expr'
+Expr'  -&gt; + Term Expr'
+	   | - Term Expr'
+	   |  ε
+Term   -&gt; Factor Term'
+Term'  -&gt; * Factor Term'
+	   |  / Factor Term'
+	   | ε
+Factor -&gt; (Expr)
+	   | number
+	   | id
+</code></pre>
+<h3 id="backtracking" tabindex="-1"><a class="anchor" href="#backtracking" aria-hidden="true"><span class="octicon octicon-link"></span></a> Backtracking</h3>
+<p>Se sceglie la produzione sbagliata, un parser top-down potrebbe tornare indietro
+Un'alternativa è guardare avanti nell'input e usare il contesto per scegliere correttamente, questa metodologia del parser si chiama parsing predittivo.</p>
+<h4 id="parsing-predittivo" tabindex="-1"><a class="anchor" href="#parsing-predittivo" aria-hidden="true"><span class="octicon octicon-link"></span></a> Parsing Predittivo</h4>
+<p>L'idea di fondo è che avendo $A \rightarrow \alpha , | , \beta$ il parser dovrebbe essere in grado di scegliere tra $\alpha$ o $\beta$.
+Per fare questa scelta, il parser utilizza l’insieme&nbsp;<strong>FIRST</strong>&nbsp;di ogni espansione, cioè per una stringa&nbsp;$\alpha$&nbsp;(che può essere composta da simboli terminali e non-terminali), l'insieme&nbsp;FIRST($\alpha$)&nbsp;è definito come l'insieme di tutti i token (simboli terminali) che possono comparire come&nbsp;<strong>primo simbolo</strong>&nbsp;in qualche stringa derivata da&nbsp;$\alpha$.
+$$x \in \text{FIRST}(\alpha) ; se ; \alpha \Rightarrow^+ x\gamma$$
+dove:</p>
+<ul>
+<li>x è un simbolo terminale</li>
+<li>$\gamma$ è una seuqenza qualsiasi di simboli (terminali e non)</li>
+<li>$\Rightarrow^+$ indica una derivazione in zero o più passaggi</li>
+</ul>
+<p><em>Esempio</em>
+Supponiamo di avere le seguenti produzione per un non-terminale A:
+$$A \rightarrow aX ; | ; bX$$
+dove:</p>
+<ul>
+<li>a&nbsp;e&nbsp;b&nbsp;sono simboli terminali.</li>
+<li>X&nbsp;e&nbsp;Y&nbsp;sono sequenze di simboli (terminali o non-terminali).
+Per costruire l'insieme FIRST per ciascuna produzione:</li>
+</ul>
+<ol>
+<li>FIRST(aX), dato che la stringa aX inizia con a, abbiamo:
+$$FIRST(aX) = {a}$$</li>
+<li>FIRST(bXY), dato che la stringa bY inizia con b, abbiamo:
+$$FIRST(bY) = {b}$$
+Ora, l'insieme&nbsp;<strong>FIRST(A)</strong>, che rappresenta i simboli terminali che possono iniziare una stringa derivata da&nbsp;A, è dato dall'unione degli insiemi FIRST delle sue espansioni:
+$$FIRST(A) = FIRST(aX) ; \cup ; FIRST(bY) = {a, b}$$
+Attenzione, questo funziona solo se gli insiemi $FIRST(\alpha)$ e $FIRST(\beta)$ sono disgiuntivi:
+$$FIRST(\alpha) ; \cap ; FIRST(\beta) = \emptyset$$
+Le&nbsp;<strong>ε-produzioni</strong>&nbsp;(produzioni che permettono a un non-terminale di derivare la stringa vuota) complicano la definizione di una grammatica&nbsp;LL(1).
+$$\text{FIRST}^+(A \rightarrow \alpha) = \begin{cases} \text{FIRST}(\alpha) ; \cup ; \text{FOLLOW}(A), &amp; \text{se} ; \varepsilon \in \text{FIRST}(\alpha) \ \text{FIRST}(\alpha), &amp; \text{altrimenti}\end{cases}$$</li>
+</ol>
+<blockquote>
+<p>FOLLOW(A) è l'insieme dei simboli terminali che possono immediatamente seguire il simbolo non terminale A in una forma sentenziale.</p>
+</blockquote>
+<h4 id="trasformazione-di-una-grammatica-non-ll1-in-una-ll1" tabindex="-1"><a class="anchor" href="#trasformazione-di-una-grammatica-non-ll1-in-una-ll1" aria-hidden="true"><span class="octicon octicon-link"></span></a> Trasformazione di una grammatica non LL(1) in una LL(1)</h4>
+<p>Generalmente questa trasformazione non la si può fare, ma in alcuni casi si.
+Esiste una tecnica chiamata factoring della grammatica che riorganizza le produzioni per renderle più predittive.
+Consideriamo una grammatica G con le produzioni:
+$$A \rightarrow \alpha\beta_1 \quad \text{e} \quad A \rightarrow \alpha\beta_2$$
+In questo caso, entrambe le produzioni di&nbsp;A&nbsp;iniziano con lo stesso prefisso&nbsp;$\alpha$, questo significa che quando il parser vede un simbolo iniziale corrispondente a&nbsp;$\alpha$, non può sapere quale delle due produzioni usare (se quella con&nbsp;$\beta_1$​&nbsp;o quella con&nbsp;$\beta_2$​), poiché entrambe condividono&nbsp;$\alpha$.
+Questa ambiguità si traduce in una violazione della proprietà LL(1), poiché il parser non può decidere in modo univoco basandosi su un solo simbolo di lookahead, di conseguenza non stiamo rispettando la regola:
+$$\text{FIRST}^+(A \rightarrow\alpha\beta_1) ; \cap ; \text{FIRST}^+(A \rightarrow\alpha\beta_2) \neq \emptyset$$
+Per risolvere questo problema, possiamo&nbsp;<strong>estrarre il prefisso comune</strong>&nbsp;$\alpha$&nbsp;e creare una nuova produzione, rendendo la grammatica più adatta al parsing predittivo, questa tecnica si chiama&nbsp;<strong>factoring</strong>.
+Riscriviamo G:</p>
+<ul>
+<li>Creiamo un nuovo non terminale A' per gestire le varianti che seguono il prefisso comunque</li>
+<li>Riscriviamo le produzioni di A in modo che utilizzino A' dopo $\alpha$.
+$$A \rightarrow \alpha A'$$
+$$A' \rightarrow \beta_1 \quad \text{e} \quad A' \rightarrow \beta_2$$</li>
+</ul>
+<h2 id="bottom-up-parsing---lr1" tabindex="-1"><a class="anchor" href="#bottom-up-parsing---lr1" aria-hidden="true"><span class="octicon octicon-link"></span></a> Bottom-Up Parsing - LR(1)</h2>
+<p>Rappresentano un approccio opposto rispetto ai parser&nbsp;top-down, mentre questi costruiscono l'albero di derivazione dall'alto verso il basso, i parser <strong>bottom-up</strong> partono dalle&nbsp;<strong>foglie</strong>&nbsp;(i simboli terminali) e cercano di risalire all'albero fino al&nbsp;<strong>nodo radice</strong>.</p>
+<ol>
+<li>Il parser inizia con la stringa di input, questi vengono "consumati" uno per uno, cercando di formare sequenze che possano corrispondere alle produzioni della grammatica.</li>
+<li>Man mano che l'input viene consumato, il parser aggiorna uno&nbsp;<strong>stato interno</strong>&nbsp;che rappresenta tutte le possibili produzioni o configurazioni della grammatica che potrebbero essere state applicate finora.</li>
+<li>Quando il parser riconosce una sequenza di simboli che corrisponde al lato destro di una produzione, applica una&nbsp;<strong>riduzione</strong>. Questo significa che sostituisce quella sequenza con il non-terminale corrispondente, riducendo la parte dell'albero che ha appena "costruito".</li>
+<li>Quando il parser inizia, è in uno stato che è valido per il primo simbolo dell'input, e da lì costruisce gradualmente l'albero.</li>
+</ol>
+<blockquote>
+<p>Il parser bottom-up costruisce una derivazione di tipo rightmost.</p>
+</blockquote>
+<p>Una&nbsp;<strong>riduzione</strong>&nbsp;in un parser bottom-up è il processo in cui una sequenza di simboli viene sostituita con il simbolo non-terminale sul lato sinistro della stessa produzione. Ad esempio, se abbiamo la produzione: $A \rightarrow \beta$ e il parser riconosce che una parte dell’input corrente corrisponde a&nbsp;$\beta$, sostituirà quella parte con&nbsp;A.</p>
+<p><img src="images/bottom-up-example.jpeg" alt="bottom-up-example.jpeg"></p>
+<blockquote>
+<p>Nell'esempio sopra abbiamo sviluppato ridotto la stringa "abbcde" con la grammatica a fianco, i caratteri evidenziati in viola sono quelli che sono stati ridotti nel passo successivo.
+E' un rightmost reverse in quanto se partiamo nella derivazione dal goal e saliamo al passo 0 vediamo che i caratteri derivati sono quelli più a destra.</p>
+</blockquote>
+<p>Nella gestione delle espressioni aritmetiche, si preferiscono le grammatiche ricorsive a sinistra, perché la valutazione segue solitamente una direzione&nbsp;<strong>da sinistra a destra</strong>, per facilitare questa valutazione in modo coerente, utilizziamo grammatiche ricorsive a sinistra, che riflettono meglio questa&nbsp;<strong>associatività a sinistra</strong>&nbsp;comune nelle operazioni come somma e sottrazione (per i bottom-up la ricorsione a sinistra non è un problema).</p>
+<h3 id="shift-reduce" tabindex="-1"><a class="anchor" href="#shift-reduce" aria-hidden="true"><span class="octicon octicon-link"></span></a> Shift-Reduce</h3>
+<p>Per implementare un parser bottom-up si utilizza il paradigma di <strong>shift-reduce</strong>, basandosi su una macchia a stati con uno stack. Questo modello ci sono quattro azioni principali:</p>
+<ol>
+<li><strong>Shift</strong>: si sposta il prossimo simbolo dell’input sullo stack (Push).</li>
+<li><strong>Reduce</strong>: si riconosce un&nbsp;<strong>handle</strong>&nbsp;(una sequenza che corrisponde al lato destro di una produzione) in cima allo stack e si riduce sostituendolo con il simbolo non-terminale relativo alla produzione (Pop + Push).</li>
+<li><strong>Accept</strong>: Il parser ha analizzato tutto l’input e la stringa è accettata con successo.</li>
+<li><strong>Error</strong>: Si riscontra un errore e il parser attiva una routine di gestione o recupero.</li>
+</ol>
+<p>Il parser deve determinare dinamicamente quando applicare&nbsp;Shift&nbsp;e quando applicare&nbsp;Reduce: il parser continua a&nbsp;shiftare&nbsp;simboli dallo stack fino a formare un&nbsp;handle, quando un handle è in cima allo stack, è possibile applicare la&nbsp;Reduce.
+Il parser riconosce un handle utilizzando una&nbsp;<strong>tabella di parsing</strong>&nbsp;che specifica, per ogni stato e simbolo, se deve eseguire un'operazione di&nbsp;Shift&nbsp;o di&nbsp;Reduce, questa si basa sull'analisi della grammatica, determinando in quali condizioni è possibile applicare una certa produzione.</p>
+<p>Vediamo l'esempio che abbiamo usato anche per il top-down, l'espressione $x-2*y$:</p>
+<p><img src="images/bottom-up-expression.jpeg" alt="bottom-up-expression.jpeg"></p>
+<p>Ma come fare a riconoscere esattamente quando abbiamo un handle in cima allo stack? Invece di provare tutte le possibili derivazioni, possiamo fare riferimento a un insieme di informazioni pre-calcolate:</p>
+<ul>
+<li><strong>Contesto a Sinistra</strong>: gli stati del parser contengono informazioni sul contesto a sinistra, cioè cosa è stato visto fino a quel punto nell’input, questo è memorizzato nella&nbsp;<strong>forma sentenziale parziale</strong>&nbsp;presente nello stack del parser.</li>
+<li><strong>Stati del Parser</strong>: il parser mantiene informazioni aggiuntive attraverso uno stato, che rappresenta il contesto corrente del parsing e aiuta a determinare quando siamo pronti a effettuare una riduzione, questi stati vengono calcolati in anticipo attraverso un’<strong>analisi di raggiungibilità</strong>&nbsp;sulla grammatica, per capire quali sequenze di simboli possono portare a certi stati in un automa.</li>
+<li><strong>Lookahead di un Simbolo</strong>: il parser guarda anche un simbolo in avanti (lookahead), cioè il simbolo successivo nell’input, che aiuta a determinare se il simbolo attuale può effettivamente essere l’inizio di un handle.
+Per implementare questo riconoscimento senza ambiguità, il parser utilizza un&nbsp;automa a stati finiti (DFA)&nbsp;che è stato progettato per&nbsp;riconoscere gli handle.</li>
+</ul>
+<h3 id="lr1-vs-ll1" tabindex="-1"><a class="anchor" href="#lr1-vs-ll1" aria-hidden="true"><span class="octicon octicon-link"></span></a> LR(1) vs LL(1)</h3>
+<p>Il&nbsp;<strong>contesto a sinistra</strong>&nbsp;permette al parser LR(1) (Left-to-right; Rightmost derivation reverse; lookahead) di distinguere situazioni che un parser LL(1) non sarebbe in grado di distinguere solo con il lookahead. Per esempio, in una grammatica ambigua o con ricorsione sinistra, il parser LR(1) può comunque prendere la decisione corretta basandosi sul contesto a sinistra, mentre il parser LL(1) non potrebbe</p>
+<h2 id="bison" tabindex="-1"><a class="anchor" href="#bison" aria-hidden="true"><span class="octicon octicon-link"></span></a> Bison</h2>
+<p>Bison&nbsp;è uno strumento utilizzato per generare&nbsp;analizzatori sintattici&nbsp;(o parser) basati su grammatiche specificate dall'utente, è comunemente impiegato in combinazione con&nbsp;Flex, che si occupa dell'analisi lessicale.</p>
+<ul>
+<li>Bison riceve in input una descrizione grammaticale scritta in un linguaggio simile a una grammatica di contesto, che specifica la sintassi del linguaggio da analizzare.</li>
+<li>Dal file di definizione della grammatica, Bison genera automaticamente un parser scritto in C o C++ che segue il modello&nbsp;<strong>LR(1)</strong>.</li>
+<li>Il parser prodotto è in grado di riconoscere strutture sintattiche definite dalla grammatica e di eseguire azioni associate, come costruire alberi sintattici, calcolare espressioni, o interpretare comandi.</li>
+</ul>
+<p>La struttura del file sorgente di Bison ha 3 sezioni differenti:</p>
+<ol>
+<li>Sezione delle definizioni</li>
+<li>Sezione delle regole</li>
+<li>Sezione del codice utente</li>
+</ol>
+<h3 id="sezione-delle-definizioni" tabindex="-1"><a class="anchor" href="#sezione-delle-definizioni" aria-hidden="true"><span class="octicon octicon-link"></span></a> Sezione delle definizioni</h3>
+<p>Cosa può contenere questa fase?</p>
+<ul>
+<li>Literal Block</li>
+<li>Union declaration</li>
+<li>Start declaration</li>
+<li>Token declaration</li>
+<li>Type declaration</li>
+</ul>
+<h4 id="literal-block" tabindex="-1"><a class="anchor" href="#literal-block" aria-hidden="true"><span class="octicon octicon-link"></span></a> Literal Block</h4>
+<p>Un&nbsp;literal block&nbsp;è una sezione di codice C racchiusa tra&nbsp;<code>%{</code>&nbsp;e&nbsp;<code>%}</code>, che appare all’inizio del file di input Bison, questo viene copiato letteralmente nella parte iniziale del file C generato da Bison, senza alcuna modifica.
+Tipicamente, un literal block contiene:</p>
+<ul>
+<li>Inclusioni di file header&nbsp;(ad esempio,&nbsp;<code>#include &lt;stdio.h&gt;</code>) necessari per il codice generato,</li>
+<li>Dichiarazioni di variabili&nbsp;che saranno usate nelle regole grammaticali,</li>
+<li>Dichiarazioni di funzioni&nbsp;che saranno invocate all'interno delle regole,</li>
+<li>Definizioni di funzioni inline&nbsp;per calcoli o operazioni ausiliarie.</li>
+</ul>
+<h4 id="union-declaration" tabindex="-1"><a class="anchor" href="#union-declaration" aria-hidden="true"><span class="octicon octicon-link"></span></a> Union declaration</h4>
+<p>La dichiarazione&nbsp;<code>%union</code>&nbsp;permette di definire un insieme di attributi associabili ai simboli della grammatica (sia terminali che non-terminali), si utilizza per specificare quali tipi di dati possono essere contenuti nei simboli, consentendo al parser di gestire più tipi di valori (es. interi, stringhe, strutture) durante l’analisi sintattica.</p>
+<pre><code class="language-bison">%union {
+    tipo_1 nome_1;
+    ...
+    tipo_n nome_n;
+};
+</code></pre>
+<p>quindi, il blocco&nbsp;<code>%union</code>&nbsp;definisce un tipo&nbsp;union&nbsp;in C, in cui ogni campo (es.&nbsp;<code>tipo1 nome1</code>) rappresenta un tipo di dato specifico che un simbolo può assumere, per i simboli della grammatica che richiedono un attributo (es. valori di numeri o stringhe), è possibile specificare quale membro della union utilizzare.
+Dopo averla definita, si possono associare i campi della union ai simboli tramite direttive&nbsp;<code>%type</code>&nbsp;(per non-terminali) e&nbsp;<code>%token</code>&nbsp;(per terminali), consentendo al parser di accedere al dato corretto per ciascun simbolo durante la derivazione.</p>
+<h4 id="start-declaration" tabindex="-1"><a class="anchor" href="#start-declaration" aria-hidden="true"><span class="octicon octicon-link"></span></a> Start declaration</h4>
+<p>La dichiarazione&nbsp;<code>%start</code>&nbsp;permette di specificare esplicitamente il simbolo di inizio (<strong>start symbol</strong>) della grammatica.</p>
+<pre><code class="language-bison">%start non-terminale
+</code></pre>
+<p>Il simbolo indicato da&nbsp;<code>%start</code>&nbsp;sarà il&nbsp;punto di partenza&nbsp;per l'analisi sintattica: il parser cercherà di derivare l'intero input a partire da questo simbolo non-terminal.
+Se non si specifica un simbolo di start con&nbsp;<code>%start</code>, Bison utilizza automaticamente il non-terminale che si trova sul lato sinistro della&nbsp;prima produzione&nbsp;definita nella sezione delle regole.</p>
+<h4 id="token-declaration" tabindex="-1"><a class="anchor" href="#token-declaration" aria-hidden="true"><span class="octicon octicon-link"></span></a> Token declaration</h4>
+<p>La dichiarazione&nbsp;<strong><code>%token</code></strong>&nbsp;in Bison serve a definire un simbolo come terminale e, opzionalmente, associarlo a un attributo specificato nella&nbsp;union, inoltre, se fornito, viene specificato anche il&nbsp;lessema.</p>
+<pre><code class="language-bison">%token [&lt;nome&gt;] terminale
+
+oppure
+
+%token [&lt;nome&gt;] terminale "TOKEN"
+</code></pre>
+<p>Scopo:</p>
+<ul>
+<li><strong>Dichiarare un terminale</strong>: un simbolo che appare nel linguaggio di input (di solito definito dal lexer).</li>
+<li><strong>Attributo</strong>: se viene fornito un nome, questo indica il campo nella&nbsp;union&nbsp;che memorizza l'attributo associato al terminale, il lexer assegnerà il valore dell'attributo a&nbsp;<code>yylval.nome</code>.</li>
+<li><strong>Lessema</strong>: se è fornito un valore come stringa (es.&nbsp;<code>"TOKEN"</code>), viene definito il lessema, cioè la sequenza di caratteri che rappresenta il simbolo nel codice sorgente.</li>
+</ul>
+<pre><code class="language-parser">%union {
+	double dval;
+	/* ... */
+};
+
+%token &lt;dval&gt; NUMBER
+</code></pre>
+<blockquote>
+<p>Viene dichiarato una&nbsp;union, che può contenere vari tipi di dati, in questo caso, c'è solo un campo,&nbsp;<code>dval</code>, che è di tipo&nbsp;<code>double</code>.
+La direttiva&nbsp;<code>%token</code>&nbsp;dichiara che&nbsp;<strong><code>NUMBER</code></strong>&nbsp;è un&nbsp;terminale, ciò significa che il valore associato al terminale&nbsp;<code>NUMBER</code>&nbsp;sarà di tipo&nbsp;<code>double</code>, e verrà memorizzato in&nbsp;<code>yylval.dval</code>.</p>
+</blockquote>
+<p>Le dichiarazioni&nbsp;<code>%left</code>,&nbsp;<code>%right</code>, e&nbsp;<code>%nonassoc</code>&nbsp;servono a specificare l'associatività e la precedenza di un terminale, queste aiutano a risolvere ambiguità quando ci sono operatori con la stessa precedenza.</p>
+<pre><code class="language-bison">%left [&lt;nome&gt;] terminale
+%right [&lt;nome&gt;] terminale
+%nonassoc [&lt;nome&gt;] terminale
+</code></pre>
+<h4 id="type-declaration" tabindex="-1"><a class="anchor" href="#type-declaration" aria-hidden="true"><span class="octicon octicon-link"></span></a> Type declaration</h4>
+<p>La dichiarazione&nbsp;<code>%type</code>&nbsp;serve per specificare il tipo di dato associato a un&nbsp;simbolo non-terminale&nbsp;della grammatica, utilizzando uno dei membri definiti nella union.</p>
+<pre><code class="language-bison">%type &lt;nome&gt; non-terminale
+</code></pre>
+<h3 id="sezione-delle-regole" tabindex="-1"><a class="anchor" href="#sezione-delle-regole" aria-hidden="true"><span class="octicon octicon-link"></span></a> Sezione delle regole</h3>
+<p>La&nbsp;sezione delle regole&nbsp;in un file Bison contiene le regole di produzione della grammatica e definisce la funzione&nbsp;<code>yyparse()</code>, che è il cuore dell'analizzatore sintattico, questa ha il compito di analizzare la sequenza di token generata dall’analizzatore lessicale <code>yylex()</code>, riconoscere le strutture sintattiche del linguaggio e applicare azioni associate alle produzioni grammaticali.
+Funzione di <code>yyparse()</code>:</p>
+<ul>
+<li><code>yyparse()</code>&nbsp;chiama ripetutamente la funzione&nbsp;<code>yylex()</code>, che fornisce i token uno alla volta dall'input.</li>
+<li><code>yyparse()</code>&nbsp;esegue un'analisi&nbsp;bottom-up, costruendo gradualmente la struttura sintattica completa, partendo dai singoli token fino ad arrivare al simbolo di inizio della grammatica.</li>
+<li>Spesso, il valore associato al simbolo&nbsp;lhs&nbsp;(lato sinistro della produzione) viene calcolato usando i valori dei simboli nel&nbsp;rhs&nbsp;(lato destro della produzione), ad esempio sommando due numeri o concatenando stringhe.</li>
+</ul>
+<pre><code class="language-bison">nonterm: rhs_1 codice_1
+	   | rhs_2 codice_2
+	   | ...
+	   | rhs_n codice_n
+	   ;
+</code></pre>
+<blockquote>
+<p>formato di una regola.</p>
+</blockquote>
+<p>Esempio:</p>
+<pre><code class="language-bison">expr:
+	term
+  | expr `+` term { $$ = $1 + $3; }
+  | expr `-` term { $$ = $1 - $3; }
+  ;
+</code></pre>
+<blockquote>
+<p>Regola di default: se non viene scritto codice esplicito, Bison assume che il valore di $$ sia uguale al primo simbolo a destra (in questo caso $$ = &amp;1).</p>
+</blockquote>
+<p>Grammatiche accettate da Bison:
+Normalmente, le grammatiche devono essere non ambigue anche se le può accettare specificando precedenza e associatività degli operatori:</p>
+<ul>
+<li>associatività: <code>%left</code>, <code>%right</code>, <code>%noassoc</code></li>
+<li>precedenza: data dall’ordine (inverso) delle associatività</li>
+<li>Esempio:
+%left ’+’ ’-’
+%left ’*’ ’/’
+%right POW</li>
+<li>precedenza regole: quella del simbolo terminale più a destra</li>
+</ul>
+<h3 id="sezione-codice-utente" tabindex="-1"><a class="anchor" href="#sezione-codice-utente" aria-hidden="true"><span class="octicon octicon-link"></span></a> Sezione codice utente</h3>
+<p>Inizia dopo il secondo marker <code>%%</code> può contenere codice utente arbitrario, inserito <em>verbatim</em> dopo la definizione di <code>yyparse</code>, tipicamente:</p>
+<ul>
+<li>definizione delle funzioni ausiliarie precedentemente dichiarate (nella sezione delle definizioni)</li>
+<li>la funzione main (non usuale)
+Best practice non mettere le definizioni delle funzioni, usare piuttosto un’altra unità di traduzione.</li>
+</ul>
+<pre><code class="language-bison">	/*...*/
+%%
+	/*...*/
+%%
+
+int main() {
+	return yyparse();
+}
+</code></pre>
+
+		</main>
+	</body>
+</html>

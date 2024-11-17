@@ -1105,112 +1105,284 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 	</head>
 	<body>
 		<nav id="table-of-contents">
-			<ul><li><a href="#richiami-di-nozioni-base-dei-linguaggi-formali"> Richiami di nozioni base dei linguaggi formali</a><ul><li><a href="#sintassi-delle-espressioni-regolari"> Sintassi delle espressioni regolari</a></li><li><a href="#semantica-delle-espressioni-regolari"> Semantica delle espressioni regolari</a></li></ul></li><li><a href="#classificazione-dei-token-dei-linguaggi-di-programmazione"> Classificazione dei token dei linguaggi di programmazione</a><ul><li><a href="#risoluzione-ambiguit%C3%A0"> Risoluzione ambiguità</a></li></ul></li></ul>
+			<ul><li><a href="#re---nfa---dfa"> RE - NFA - DFA</a><ul><li><a href="#nfa"> NFA</a></li><li><a href="#nfa-vs-dfa"> NFA vs DFA</a></li><li><a href="#dfa"> DFA</a></li></ul></li><li><a href="#token"> Token</a></li><li><a href="#flex"> Flex</a><ul><li><a href="#1---sezione-delle-definizioni"> 1 - Sezione delle definizioni</a><ul><li><a href="#literal-block"> Literal block</a></li><li><a href="#pattern-con-nome"> Pattern con nome</a></li><li><a href="#opzioni-per-flex"> Opzioni per flex</a></li><li><a href="#start-states"> Start States</a></li></ul></li><li><a href="#2---sezione-delle-regole"> 2 - Sezione delle regole</a><ul><li><a href="#regole-lessicali"> Regole lessicali</a></li></ul></li><li><a href="#3--sezione-del-codice-utente"> 3- Sezione del codice utente</a></li></ul></li></ul>
 		</nav>
 		<main>
-			<hr>
-<h1 id="richiami-di-nozioni-base-dei-linguaggi-formali" tabindex="-1"><a class="anchor" href="#richiami-di-nozioni-base-dei-linguaggi-formali" aria-hidden="true"><span class="octicon octicon-link"></span></a> Richiami di nozioni base dei linguaggi formali</h1>
-<p><img src="images/02-01.png" alt="02-01.png"></p>
-<h2 id="sintassi-delle-espressioni-regolari" tabindex="-1"><a class="anchor" href="#sintassi-delle-espressioni-regolari" aria-hidden="true"><span class="octicon octicon-link"></span></a> Sintassi delle espressioni regolari</h2>
-<p><img src="images/02-02.png" alt="02-02.png">
-<img src="images/02-04.png" alt="02-04.png"></p>
-<h2 id="semantica-delle-espressioni-regolari" tabindex="-1"><a class="anchor" href="#semantica-delle-espressioni-regolari" aria-hidden="true"><span class="octicon octicon-link"></span></a> Semantica delle espressioni regolari</h2>
-<p><img src="images/02-03.png" alt="02-03.png"></p>
+			<h1 id="re---nfa---dfa" tabindex="-1"><a class="anchor" href="#re---nfa---dfa" aria-hidden="true"><span class="octicon octicon-link"></span></a> RE - NFA - DFA</h1>
+<p>Nel seguente paragrafo costruiremo un automa a stati finiti deterministico (DFA) per riconoscere un'espressione regolare (RE).
+Come prima cosa, partendo da un'espressione regolare, costruiremo un automa a stati finiti non deterministico (NFA). Successivamente dal NFA passeremo all'automa a stati finiti deterministico (DFA) per poi minimizzarlo (renderlo più semplice).</p>
+<h2 id="nfa" tabindex="-1"><a class="anchor" href="#nfa" aria-hidden="true"><span class="octicon octicon-link"></span></a> NFA</h2>
+<p>Costruiamo un NFA per la seguente RE: $(\text{a} | \text{b})^* \text{abb}$</p>
+<p><img src="images/NFA.jpeg" alt="NFA.jpeg"></p>
+<p>Partendo dallo stato iniziale $S_0$ e seguendo le frecce possiamo ricostruire la RE precedente, che ci diceva: "possiamo avere una sequenza di zero o più (*) a o b, l'importante è che la stringa si concluda con la sequenza abb".
+Dunque se noi dovessimo avere una stringa del tipo "baabababb" in questo caso il nostro automa sarebbe in grado di riconoscerla e accettarla, analizziamola:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Carattere letto</th>
+<th style="text-align:center">Stato corrente</th>
+<th style="text-align:center">Stato successivo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>leggo nulla</code></td>
+<td style="text-align:center">$S_0$</td>
+<td style="text-align:center">$S_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+<td style="text-align:center">$S_1$</td>
+<td style="text-align:center">$S_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">$S_1$</td>
+<td style="text-align:center">$S_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">$S_1$</td>
+<td style="text-align:center">$S_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+<td style="text-align:center">$S_1$</td>
+<td style="text-align:center">$S_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">$S_1$</td>
+<td style="text-align:center">$S_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+<td style="text-align:center">$S_1$</td>
+<td style="text-align:center">$S_1$</td>
+</tr>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">$S_1$</td>
+<td style="text-align:center">$S_2$</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+<td style="text-align:center">$S_2$</td>
+<td style="text-align:center">$S_3$</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+<td style="text-align:center">$S_3$</td>
+<td style="text-align:center">$S_4$</td>
+</tr>
+<tr>
+<td style="text-align:center">Finiamo dunque in uno stato finale accettante $S_4$ quindi l'espressione è corretta e accettata dall'automa.</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
 <blockquote>
-<p>Manca l'insieme vuoto.</p>
+<p>le $\varepsilon$ transizioni permettono all'automa di passare da uno stato a un altro&nbsp;<strong>senza leggere alcun simbolo dell'input</strong>. In altre parole, l'automa può "saltare" da uno stato a un altro senza consumare nessun carattere della stringa in input.</p>
 </blockquote>
-<p><img src="images/02-05.png" alt="02-05.png"></p>
-<hr>
-<h1 id="classificazione-dei-token-dei-linguaggi-di-programmazione" tabindex="-1"><a class="anchor" href="#classificazione-dei-token-dei-linguaggi-di-programmazione" aria-hidden="true"><span class="octicon octicon-link"></span></a> Classificazione dei token dei linguaggi di programmazione</h1>
+<p>Vediamo più nella teoria come si costruisce un NFA, tramite la costruzione di <strong>Thompson</strong>.
+Generalizziamo i casi base:</p>
+<p><img src="images/thompson-NFA.jpeg" alt="thompson-NFA.jpeg"></p>
+<h2 id="nfa-vs-dfa" tabindex="-1"><a class="anchor" href="#nfa-vs-dfa" aria-hidden="true"><span class="octicon octicon-link"></span></a> NFA vs DFA</h2>
+<p>Un automa a stati finiti deterministico è un caso speciale di automa a stati finiti non deterministico, questo perché un DFA non contiene le $\varepsilon$ transizioni, di conseguenza questo porta anche al fatto che un DFA sia deterministico e quindi significa che per ogni stato e simbolo dell'alfabeto esiste una sola transizione verso un altro stato specifico (non ci sono ulteriori opzioni), cosa che nel NFA non accade in quanto non è deterministico, quindi possiamo avere più di una transizione o anche nessuna.</p>
+<p>Vediamo nell'esempio precedente che quando mi trovo nello stato $S_1$ e leggo il carattere a, posso avere diverse transizioni in stato differenti, infatti posso continuare a rimanere nello stato $S_1$ oppure passare allo stato $S_2$.</p>
+<h2 id="dfa" tabindex="-1"><a class="anchor" href="#dfa" aria-hidden="true"><span class="octicon octicon-link"></span></a> DFA</h2>
+<p><img src="images/NFA-to-DFA.jpeg" alt="NFA-to-DFA.jpeg"></p>
+<p>Vediamo come siamo passati da un NFA a un DFA:</p>
+<ol>
+<li>il nostro stato $S_0$ del DFA corrisponde allo stato $q_0$ dell'NFA, a questo punto, per ogni lettera presente nel nell'NFA guardo quali stati attraverso partendo da $q_0$ (contando anche le $\varepsilon$), nel nostro caso con la lettera a attraverso gli stati ${q_1, q_2, q_3, q_4, q_6, q_9}$, mentre per le lettere b e c non faccio spostamenti in quanto partendo da $q_0$ devo per forza avere una a per passare agli stati successivi.</li>
+<li>Il nuovo stato $S_1$ dunque corrisponderà all'insieme di stati trovati prima, ora da un qualsiasi stato dichiarato con la lettera a non mi sposto in un nessun nuovo stato, mentre con b posso raggiungere nuovi stati ${q_5, q_8, q_3, q_4, q_6, q_9}$, mentre con il carattere c raggiungo gli stati ${q_7, q_8, q_3, q_4, q_6, q_9}$.</li>
+<li>Questi stati trovati precedentemente diventano nuovi stati del DFA $S_2$ e $S_3$, a questo punto da $S_2$ con il carattere b incontro nuovamente ancora tutti gli stati di $S_2$, stessa cosa per c che incontro nuovamente tutti gli stati di $S_3$.</li>
+<li>Infine nello stato $S_3$, si ripete ancora la stessa cosa precedente.
+Da qui costruiamo il DFA.</li>
+</ol>
+<p>Ora vediamo come <strong>minimizzare</strong> il DFA:
+<img src="images/minimizzazione-DFA.jpeg" alt="minimizzazione-DFA.jpeg"></p>
+<p>Un DFA - Automa a Stati Finiti Deterministico è una quintupla M = $\braket{\Sigma, , \text{Q}, , \delta, , q_0, , \text{F}}$, dove:</p>
 <ul>
-<li>Parole chiave (keyword)
+<li>$\Sigma$: alfabeto finito ($\Sigma$* = insieme di tutte le stringhe finite sull'alfabeto $\Sigma$)</li>
+<li>Q: insieme finito degli stati dell'automa</li>
+<li>$\delta$: $\text{Q} \times \Sigma \rightarrow \text{Q}$: funzione di transizione</li>
+<li>$q_0 \in \text{Q}$ lo stato iniziale</li>
+<li>F $\subseteq$ Q: sottoinsieme degli stati finali (accettanti)
+Il linguaggio riconosciuto da un DFA è l'insieme delle stringhe che sono <strong>accettate</strong> dall'automa, partendo dallo stato iniziale $q_0$, sono quelle per le quali la transizione estesa termina in una configurazione finale accettante.</li>
+</ul>
+<p>Linguaggi formali:</p>
 <ul>
-<li><code>if, then, else, while, ...</code></li>
-<li>Si usa l’alternanza: <code>if | then | else | while ...</code></li>
-<li>Unica categoria sintattica: KEYWORD</li>
-<li>Case insensitive (e.g., SQL)
+<li>$\Sigma$: alfabeto finito</li>
+<li>$\Sigma$*: insieme di tutte le stringhe finite sull'alfabeto $\Sigma$</li>
+<li>$\epsilon \in \Sigma$*: indica la stringa vuota</li>
+<li>L $\subseteq \Sigma$*: linguaggio
 <ul>
-<li><code>select, SELECT, SeLeCt, SELect, ...</code></li>
-<li>Noioso e troppo verboso: si usano impostazioni ad hoc</li>
+<li>$\emptyset = {}$ è un linguaggio</li>
+<li>${\epsilon}$ è un linguaggio</li>
+<li>$\Sigma$ è un linguaggio</li>
+<li>$\Sigma$* è un linguaggio</li>
+</ul>
+</li>
+</ul>
+<h1 id="token" tabindex="-1"><a class="anchor" href="#token" aria-hidden="true"><span class="octicon octicon-link"></span></a> Token</h1>
+<p>Come vengono classificati i token:</p>
+<ul>
+<li>parole chiavi</li>
+<li>identificatori</li>
+<li>costanti letterali (interi, floating point, stringa, ...)</li>
+<li>operatori (matematici, logici, ...)</li>
+<li>"punteggiatura" (parentesi, virgola, punto e virgola, ...)</li>
+<li>commenti (singola linea, multi linea)</li>
+</ul>
+<p>Esempi:</p>
+<ul>
+<li><strong>Keyword</strong>: if, then, else, while, ... (attenzione al case sensitive).</li>
+<li><strong>Identificatori</strong>:
+<ul>
+<li>[a-zA-Z_][0-9a-zA-Z_]$\star$</li>
+<li>[a-zA-Z_]([0-9] | [a-zA-Z_])$\star$</li>
+<li>oppure
+<ul>
+<li>DIGIT = [0-9]</li>
+<li>LETTER = [a-zA-Z] | [_]</li>
+<li>LETTER (LETTER | DIGIT)$\star$</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>Identificatori
+<li><strong>Costanti</strong>:
 <ul>
-<li><code>[a-zA-Z_][0-9a-zA-Z_]*</code></li>
-<li><code>[a-zA-Z_]([0-9] | [a-zA-Z_])*</code></li>
-<li><code>DIGIT = [0-9] </code></li>
-<li><code>LETTER = [a-zA-Z_]</code></li>
-<li><code>{LETTER}({DIGIT}|{LETTER})*</code></li>
+<li>intere: DIGIT+ (accetta 000000 non accetta -1)</li>
+<li>floating poit: [+-]?[0-9]+.[0-9]</li>
+<li>carattere: '[^']' (^' = qualsiasi carattere che non sia l'apostrofo)</li>
 </ul>
 </li>
-<li>Costanti letterali (intere, floating point, stringa, ecc.)
+<li><strong>Operatori e punteggiatura</strong>, ogni lessema ha la sua categoria lessicale:
+<img src="images/operatori-punteggiatura.png" alt="operatori-punteggiatura.png"></li>
+<li><strong>Commenti</strong>:
 <ul>
-<li>Costanti intere
+<li>//[^\n]* \n (C++)</li>
+<li>--[^\n]* \n (SQL)</li>
+<li>commento multilinea:
 <ul>
-<li><code>{DIGIT}+</code></li>
-<li>Nota: accetta <code>000000</code>, non accetta <code>-1</code></li>
-</ul>
-</li>
-<li>Costanti floating point
-<ul>
-<li><code>[+-]?[0-9]+.[0-9]*</code></li>
-<li>occorre distinguere iterazione positiva dal carattere <code>+</code> ?</li>
-</ul>
-</li>
-<li>Costanti carattere
-<ul>
-<li><code>’[^’]’</code></li>
-<li>come specifichiamo la costante carattere <code>’</code> ?</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Operatori (matematici, logici, ecc.)</li>
-<li>Punteggiatura (parentesi, virgola, punto e virgola, ecc.)
-<ul>
-<li><img src="images/02-06.png" alt="02-06.png"></li>
-</ul>
-</li>
-<li>Commenti (singola linea, multi linea)
-<ul>
-<li>Commento (singola linea) del C++
-<ul>
-<li><code>//[^\n]*\n</code></li>
-</ul>
-</li>
-<li>Commento (singola linea) di SQL
-<ul>
-<li><code>--[^\n]*\n</code></li>
-</ul>
-</li>
-<li>Commento multilinea (C / C++ / Java / SQL / ... )
-<ul>
-<li><code>/\*([^*]|\*+[^/*])*\*+/</code></li>
+<li>/\*([^*] | \* + [^/*])*\*+/</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<hr>
-<h2 id="risoluzione-ambiguit%C3%A0" tabindex="-1"><a class="anchor" href="#risoluzione-ambiguit%C3%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a> Risoluzione ambiguità</h2>
-<p>Più RE possono accettare (parti de-) lo stesso input.
-Viene data la preferenza al lessema più lungo</p>
+<h1 id="flex" tabindex="-1"><a class="anchor" href="#flex" aria-hidden="true"><span class="octicon octicon-link"></span></a> Flex</h1>
+<p>Lo strumento flex è un generatore di analizzatori lessicali, che è quindi un compilatore.
+Viene diviso in 3 sezioni generali:</p>
+<h2 id="1---sezione-delle-definizioni" tabindex="-1"><a class="anchor" href="#1---sezione-delle-definizioni" aria-hidden="true"><span class="octicon octicon-link"></span></a> 1 - Sezione delle definizioni</h2>
+<p>Come prima sezione in un flexer abbiamo quella parte delle definizioni che può contenere:</p>
 <ul>
-<li><code>forwhile</code> è un unico IDENT (non sono le due KEYWORD for e while)</li>
-<li><code>&gt;&gt;</code> è un unico SHIFT RIGHT (non due GREATER THAN)</li>
+<li>Literal Block</li>
+<li>Definizioni di pattern con nome</li>
+<li>Opzioni per flex</li>
+<li>Stat states</li>
 </ul>
-<p>A parità di lunghezza si stabilisce un ordine di priorità tra le RE.</p>
-<p>A volte queste regole possono creare situazioni noiose:
-Per lo standard C++03 e precedenti:</p>
+<h3 id="literal-block" tabindex="-1"><a class="anchor" href="#literal-block" aria-hidden="true"><span class="octicon octicon-link"></span></a> Literal block</h3>
+<p>Il literal block è un blocco di codice C racchiuso da <code>%{ ... %}</code> a inizio riga, questo viene copiato verbatim (letteralmente così come lo scriviamo) nella parte iniziale del sorgente generato da flex, solitamente contiene:</p>
 <ul>
-<li>corretto: <code>std::vector&lt;std::list&lt;int&gt; &gt;</code></li>
-<li>errore (sintattico): <code>std::vector&lt;std::list&lt;int&gt;&gt;</code>
-Per lo standard C++11 e successivi:</li>
-<li>corretto: <code>std::vector&lt;std::list&lt;int&gt; &gt;</code></li>
-<li>corretto: <code>std::vector&lt;std::list&lt;int&gt;&gt;</code></li>
+<li>definizioni di costanti per categorie lessicali</li>
+<li>dichiarazioni di variabili (usate nelle regole)</li>
+<li>dichiarazioni di funzioni (invocate nelle regole)</li>
+<li>definizioni di funzioni inline</li>
 </ul>
+<pre><code class="language-lex">enum P_LANGUAGE {
+	KEY_W = 1,
+	IDENT,
+	BOOL,
+	INTEGER,
+	FLOAT,
+	CHAR,
+	STRING,
+	COMMENT,
+};
+</code></pre>
+<p>Nell'esempio soprastante ho definito delle costanti che rappresentano i tipi di di token che posso riconoscere e restituire, queste vengono utilizzate successivamente nella sezione delle regole per classificare i pattern.</p>
+<h3 id="pattern-con-nome" tabindex="-1"><a class="anchor" href="#pattern-con-nome" aria-hidden="true"><span class="octicon octicon-link"></span></a> Pattern con nome</h3>
+<p>Successivamente al litteral block vengono definiti i pattern con nome, cioè i pattern riutilizzabili che vengono associati a nomi specifici che verranno poi utilizzati nelle regole del lexer.
+la sintassi di questa sezione è del tipo: NOME_PATTERN espressione_regolare.</p>
+<pre><code class="language-lex">DIGIT [0-9] 
+LETTER [a-zA-Z] 
+IDENTIFIER {LETTER}({LETTER}|{DIGIT})* 
+NUMBER {DIGIT}+ 
+WHITESPACE [ \t\n]+
+</code></pre>
+<p>Nell'esempio vediamo che il pattern DIGIT rappresenta una cifra da 0 a 9, il pattern LETTER rappresenta una lettera maiuscola o minuscola, il pattern IDENTIFIER rappresenta un identificatore, formato da una lettera iniziale seguita da lettere o cifre, il pattern NUMBER rappresenta una sequenza di una o più cifre consecutive, infine, il patter WHITESPACE rappresenta una sequenza di spazi bianchi (spazio, tabulazione, o nuova riga).</p>
+<p>Come specifico i pattern in flex?</p>
+<ul>
+<li>Uso le <strong>virgolette</strong> per simboli non alfanumerici e le *<em>parentesi</em>
+<ul>
+<li>("<font color="green">/<em></em></font><em>")([^*] | ("<font color="green"></font></em>") +[^*/]) * (("<font color="green">*</font>") + "<font color="green">/</font>") questa espressione viene utilizzata per riconoscere i commenti multi-linea in C.</li>
+</ul>
+</li>
+<li>Usare nomi di pattern per evitare ripetizioni:
+<ul>
+<li>STARS ("*")+ <code>nella sezione delle definizioni</code></li>
+<li>("/*&lt;")([^*] | {STARS} +[^*/]) * ({STARS} "/")</li>
+</ul>
+</li>
+</ul>
+<h3 id="opzioni-per-flex" tabindex="-1"><a class="anchor" href="#opzioni-per-flex" aria-hidden="true"><span class="octicon octicon-link"></span></a> Opzioni per flex</h3>
+<p>Sono due quelle da usare sempre:</p>
+<ul>
+<li><code>%option noyywrap</code>: evita la generazione della funzione <code>yywrap()</code> e della sua chiamata fine input</li>
+<li><code>%option nodefault</code>: evita la generazione della regola <em>catch-all (. ECHO</em>😉 che causa la stampa dei token non riconosciuti.
+Due sono quelle da usare quando utile:</li>
+<li><code>%option yylienno</code>: definisce la variabile intera yylineno che mantiene il numero di riga della posizione corrente (la fine del lessema, usarla causa una perdita di efficienza)</li>
+<li><code>%option case-insensitive</code>: rende case-insensitive i pattern, non modifica il file di input (i lessemi riconosciuti rimangono case-sensitive)</li>
+</ul>
+<h3 id="start-states" tabindex="-1"><a class="anchor" href="#start-states" aria-hidden="true"><span class="octicon octicon-link"></span></a> Start States</h3>
+<p>Servono a limitare l'applicabilità di alcune regole, le regole che abbiamo vediamo successivamente si applicano quando il lexer è nello stato/condition INITIAL, possiamo definire altri stati/condition nella sezione delle definizioni, con la sintassi: <code>%x NOME_STATO</code>.
+<code>%x</code> indica che si tratta di uno stato esclusivo, cioè che il lexer quando entra in quello stato deve uscire dagli altri stati, <code>%s</code> definirebbe uno stato shared, consentendo al lexer di essere contemporaneamente in più stati (complicato).</p>
+<h2 id="2---sezione-delle-regole" tabindex="-1"><a class="anchor" href="#2---sezione-delle-regole" aria-hidden="true"><span class="octicon octicon-link"></span></a> 2 - Sezione delle regole</h2>
+<p>Questa sezione inizia dopo il marker <code>%%</code>, serve a fornire la definizione della funzione <strong>int yylex()</strong>, questa deve leggere un lessema dall'input e restituire al chiamante il token corrispondente.
+La sezione quindi contiene le regole lessicali per riconoscere i token.</p>
+<h3 id="regole-lessicali" tabindex="-1"><a class="anchor" href="#regole-lessicali" aria-hidden="true"><span class="octicon octicon-link"></span></a> Regole lessicali</h3>
+<p>Il formato di ogni regola è: <em>pattern codice</em>.
+Il pattern è un’<strong>espressione regolare</strong> che identifica una specifica sequenza di caratteri (lessema) che il lexer deve riconoscere, questo rappresenta la struttura dei caratteri che corrispondono a un token specifico.
+Il codice è un blocco di codice associato al pattern, che viene eseguito quando il pattern viene riconosciuto nell’input, questo specifica cosa fare quando si incontra il lessema: in genere, restituire il token corrispondente o gestire il lessema in modo particolare.</p>
+<pre><code class="language-lex">bool           { return BOOL; }
+if             { return KEY_W; }
+{NUMBER}       { return INTEGER; }
+{LETTER}       { return IDENTIFIER; } 
+{WHITESPACE}   { }
+</code></pre>
+<p>Nell'esempio soprastante vediamo:</p>
+<ul>
+<li>il pattern <code>bool</code> che riconosce un booleano e il codice <code>{ return BOOL; }</code> restituisce il token&nbsp;<code>BOOL</code>&nbsp;quando viene riconosciuto il pattern (costante definita nel litteral block).</li>
+<li>il pattern <code>if</code> che riconosce un if e il codice <code>{ return KEY_W; }</code> restituisce il token&nbsp;<code>KEY_W</code>&nbsp;quando viene riconosciuto il pattern (costante definita nel litteral block).</li>
+<li>Pattern <code>NUMBER</code> riconosce un numero intero, il codice <code>{ return INTEGER; }</code> restituisce il token <code>INTEGER</code>.</li>
+<li>Pattern <code>LETTER</code> riconosce una stringa, il codice <code>{ return IDENTIFIER; }</code> restituisce il token <code>IDENTIFIER</code>.</li>
+<li>Infine, il pattern <code>WHITESPACE</code> riconosce uno o più spazi, tabulazioni o nuove righe, il codice associato <code>{ }</code> indica di ignorare quel tipo di lessema senza restituire alcun token.</li>
+</ul>
+<p>Se volessi conoscere il lessema che è stato identificato dal lexer, esso viene contenuto nelle variabili globali <strong>yytext</strong> (puntatore al primo carattere) e la sua lunghezza tramite la variabile <strong>yyleng</strong>.</p>
+<blockquote>
+<p>Il pattern deve essere specificato ad inizio riga, il codice deve iniziare nella stessa riga del pattern, è possibile andare a capo nel codice se lo si racchiude in un blocco: {codice}.
+E' possibile andare a capo con pattern disgiuntivi usando | al posto del codice, <strong>l'ordine delle regole ne stabilisce la priorità</strong>.</p>
+</blockquote>
+<p>Come specificare i pattern in Flex:
+<img src="images/pattern-flex.png" alt="pattern-flex.png"></p>
+<h2 id="3--sezione-del-codice-utente" tabindex="-1"><a class="anchor" href="#3--sezione-del-codice-utente" aria-hidden="true"><span class="octicon octicon-link"></span></a> 3- Sezione del codice utente</h2>
+<p>La sezione del codice utente inizia dopo il secondo marker <code>%%</code>,  può contenere codice utente arbitrario, inserito verbatim dopo la definizione yylex.
+Tipicamente vengono definite delle funzioni ausiliarie precedentemente dichiarate nella sezione delle definizioni e la funzione <strong>main</strong>.</p>
+<pre><code class="language-lex">int main() {
+	int token;
+	while(1) {
+		token = yylex();
+		if (token == 0)
+			break;
+		if (token == ERROR)
+			exit(1);
+	}
+	return 0;
+}
+</code></pre>
 
 		</main>
 	</body>
