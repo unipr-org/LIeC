@@ -1,5 +1,6 @@
 ```table-of-contents
 ```
+
 # RE - NFA - DFA
 Nel seguente paragrafo costruiremo un automa a stati finiti deterministico (DFA) per riconoscere un'espressione regolare (RE).
 Come prima cosa, partendo da un'espressione regolare, costruiremo un automa a stati finiti non deterministico (NFA). Successivamente dal NFA passeremo all'automa a stati finiti deterministico (DFA) per poi minimizzarlo (renderlo più semplice).
@@ -205,7 +206,3 @@ int main() {
 	return 0;
 }
 ```
-
-
-
-
