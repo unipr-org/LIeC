@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+		<title>05-rappresentazione-intermedia</title>
+		<style>
+			/* PDF Specific */
+
+@media print {
+  body {
+    min-width: initial;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+/* General */
+
+.octicon {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: text-bottom;
+}
+
+.anchor {
+  float: left;
+  line-height: 1;
+  margin-left: -20px;
+  padding-right: 4px;
+}
+
+.anchor:focus {
+  outline: none;
+}
+
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+  color: #1b1f23;
+  vertical-align: middle;
+  visibility: hidden;
+}
+
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+  text-decoration: none;
+}
+
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+  visibility: visible;
+}
+
+h1:hover .anchor .octicon-link:before,
+h2:hover .anchor .octicon-link:before,
+h3:hover .anchor .octicon-link:before,
+h4:hover .anchor .octicon-link:before,
+h5:hover .anchor .octicon-link:before,
+h6:hover .anchor .octicon-link:before {
+  width: 16px;
+  height: 16px;
+  content: ' ';
+  display: inline-block;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' width='16' height='16' aria-hidden='true'%3E%3Cpath fill-rule='evenodd' d='M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-print-color-adjust: exact;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #24292e;
+  word-wrap: break-word;
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 1rem auto;
+}
+
+details {
+  display: block;
+}
+
+summary {
+  display: list-item;
+}
+
+a {
+  background-color: initial;
+}
+
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+strong {
+  font-weight: inherit;
+  font-weight: bolder;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+img {
+  border-style: none;
+}
+
+code,
+kbd,
+pre {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+hr {
+  box-sizing: initial;
+  height: 0;
+  overflow: visible;
+}
+
+input {
+  font: inherit;
+  margin: 0;
+}
+
+input {
+  overflow: visible;
+}
+
+[type='checkbox'] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+strong {
+  font-weight: 600;
+}
+
+hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe2e5;
+}
+
+hr:after,
+hr:before {
+  display: table;
+  content: '';
+}
+
+hr:after {
+  clear: both;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  padding: 0;
+}
+
+details summary {
+  cursor: pointer;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h1,
+h2 {
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+h3,
+h4 {
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h5,
+h6 {
+  font-weight: 600;
+}
+
+h6 {
+  font-size: 12px;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+blockquote {
+  margin: 0;
+}
+
+ol,
+ul {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+ol ol,
+ul ol {
+  list-style-type: lower-roman;
+}
+
+ol ol ol,
+ol ul ol,
+ul ol ol,
+ul ul ol {
+  list-style-type: lower-alpha;
+}
+
+dd {
+  margin-left: 0;
+}
+
+code,
+pre {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+}
+
+pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+:checked + .radio-label {
+  position: relative;
+  z-index: 1;
+  border-color: #0366d6;
+}
+
+.border {
+  border: 1px solid #e1e4e8 !important;
+}
+
+.border-0 {
+  border: 0 !important;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #e1e4e8 !important;
+}
+
+.rounded-1 {
+  border-radius: 3px !important;
+}
+
+.bg-white {
+  background-color: #fff !important;
+}
+
+.bg-gray-light {
+  background-color: #fafbfc !important;
+}
+
+.text-gray-light {
+  color: #6a737d !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.my-2 {
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+.pl-0 {
+  padding-left: 0 !important;
+}
+
+.py-0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.pl-1 {
+  padding-left: 4px !important;
+}
+
+.pl-2 {
+  padding-left: 8px !important;
+}
+
+.py-2 {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.pl-3,
+.px-3 {
+  padding-left: 16px !important;
+}
+
+.px-3 {
+  padding-right: 16px !important;
+}
+
+.pl-4 {
+  padding-left: 24px !important;
+}
+
+.pl-5 {
+  padding-left: 32px !important;
+}
+
+.pl-6 {
+  padding-left: 40px !important;
+}
+
+.f6 {
+  font-size: 12px !important;
+}
+
+.lh-condensed {
+  line-height: 1.25 !important;
+}
+
+.text-bold {
+  font-weight: 600 !important;
+}
+
+.pl-c {
+  color: #6a737d;
+}
+
+.pl-c1,
+.pl-s .pl-v {
+  color: #005cc5;
+}
+
+.pl-e,
+.pl-en {
+  color: #6f42c1;
+}
+
+.pl-s .pl-s1,
+.pl-smi {
+  color: #24292e;
+}
+
+.pl-ent {
+  color: #22863a;
+}
+
+.pl-k {
+  color: #d73a49;
+}
+
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+  color: #032f62;
+}
+
+.pl-smw,
+.pl-v {
+  color: #e36209;
+}
+
+.pl-bu {
+  color: #b31d28;
+}
+
+.pl-ii {
+  color: #fafbfc;
+  background-color: #b31d28;
+}
+
+.pl-c2 {
+  color: #fafbfc;
+  background-color: #d73a49;
+}
+
+.pl-c2:before {
+  content: '^M';
+}
+
+.pl-sr .pl-cce {
+  font-weight: 700;
+  color: #22863a;
+}
+
+.pl-ml {
+  color: #735c0f;
+}
+
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+  font-weight: 700;
+  color: #005cc5;
+}
+
+.pl-mi {
+  font-style: italic;
+  color: #24292e;
+}
+
+.pl-mb {
+  font-weight: 700;
+  color: #24292e;
+}
+
+.pl-md {
+  color: #b31d28;
+  background-color: #ffeef0;
+}
+
+.pl-mi1 {
+  color: #22863a;
+  background-color: #f0fff4;
+}
+
+.pl-mc {
+  color: #e36209;
+  background-color: #ffebda;
+}
+
+.pl-mi2 {
+  color: #f6f8fa;
+  background-color: #005cc5;
+}
+
+.pl-mdr {
+  font-weight: 700;
+  color: #6f42c1;
+}
+
+.pl-ba {
+  color: #586069;
+}
+
+.pl-sg {
+  color: #959da5;
+}
+
+.pl-corl {
+  text-decoration: underline;
+  color: #032f62;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.my-2 {
+  margin-bottom: 8px !important;
+}
+
+.my-2 {
+  margin-top: 8px !important;
+}
+
+.pl-0 {
+  padding-left: 0 !important;
+}
+
+.py-0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.pl-1 {
+  padding-left: 4px !important;
+}
+
+.pl-2 {
+  padding-left: 8px !important;
+}
+
+.py-2 {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.pl-3 {
+  padding-left: 16px !important;
+}
+
+.pl-4 {
+  padding-left: 24px !important;
+}
+
+.pl-5 {
+  padding-left: 32px !important;
+}
+
+.pl-6 {
+  padding-left: 40px !important;
+}
+
+.pl-7 {
+  padding-left: 48px !important;
+}
+
+.pl-8 {
+  padding-left: 64px !important;
+}
+
+.pl-9 {
+  padding-left: 80px !important;
+}
+
+.pl-10 {
+  padding-left: 96px !important;
+}
+
+.pl-11 {
+  padding-left: 112px !important;
+}
+
+.pl-12 {
+  padding-left: 128px !important;
+}
+
+hr {
+  border-bottom-color: #eee;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+body:after,
+body:before {
+  display: table;
+  content: '';
+}
+
+body:after {
+  clear: both;
+}
+
+body > :first-child {
+  margin-top: 0 !important;
+}
+
+body > :last-child {
+  margin-bottom: 0 !important;
+}
+
+a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+blockquote,
+details,
+dl,
+ol,
+p,
+pre,
+table,
+ul {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e1e4e8;
+  border: 0;
+}
+
+blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: 0.25em solid #dfe2e5;
+}
+
+blockquote > :first-child {
+  margin-top: 0;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h1,
+h2 {
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #eaecef;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.25em;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+h5 {
+  font-size: 0.875em;
+}
+
+h6 {
+  font-size: 0.85em;
+  color: #6a737d;
+}
+
+ol,
+ul {
+  padding-left: 2em;
+}
+
+ol ol,
+ol ul,
+ul ol,
+ul ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+li {
+  word-wrap: break-all;
+}
+
+li > p {
+  margin-top: 16px;
+}
+
+li + li {
+  margin-top: 0.25em;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 600;
+}
+
+dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+table th {
+  font-weight: 600;
+}
+
+table td,
+table th {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+img {
+  max-width: 80%;
+  box-sizing: initial;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+}
+
+code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27, 31, 35, 0.05);
+  border-radius: 3px;
+}
+
+pre {
+  word-wrap: normal;
+}
+
+pre > code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  -webkit-print-color-adjust: exact;
+  background: #f8f8f8;
+}
+
+.hljs pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.hljs pre,
+pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  -webkit-print-color-adjust: exact;
+
+  border-radius: 3px;
+}
+
+pre code {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: initial;
+  border: 0;
+}
+
+.commit-tease-sha {
+  display: inline-block;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 90%;
+  color: #444d56;
+}
+
+.full-commit .btn-outline:not(:disabled):hover {
+  color: #005cc5;
+  border-color: #005cc5;
+}
+
+.blob-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.blob-wrapper-embedded {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.blob-num {
+  width: 1%;
+  min-width: 50px;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+  line-height: 20px;
+  color: rgba(27, 31, 35, 0.3);
+  text-align: right;
+  white-space: nowrap;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.blob-num:hover {
+  color: rgba(27, 31, 35, 0.6);
+}
+
+.blob-num:before {
+  content: attr(data-line-number);
+}
+
+.blob-code {
+  position: relative;
+  padding-right: 10px;
+  padding-left: 10px;
+  line-height: 20px;
+  vertical-align: top;
+}
+
+.blob-code-inner {
+  overflow: visible;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+  color: #24292e;
+  word-wrap: normal;
+  white-space: pre;
+}
+
+.pl-token.active,
+.pl-token:hover {
+  cursor: pointer;
+  background: #ffea7f;
+}
+
+.tab-size[data-tab-size='1'] {
+  -moz-tab-size: 1;
+  tab-size: 1;
+}
+
+.tab-size[data-tab-size='2'] {
+  -moz-tab-size: 2;
+  tab-size: 2;
+}
+
+.tab-size[data-tab-size='3'] {
+  -moz-tab-size: 3;
+  tab-size: 3;
+}
+
+.tab-size[data-tab-size='4'] {
+  -moz-tab-size: 4;
+  tab-size: 4;
+}
+
+.tab-size[data-tab-size='5'] {
+  -moz-tab-size: 5;
+  tab-size: 5;
+}
+
+.tab-size[data-tab-size='6'] {
+  -moz-tab-size: 6;
+  tab-size: 6;
+}
+
+.tab-size[data-tab-size='7'] {
+  -moz-tab-size: 7;
+  tab-size: 7;
+}
+
+.tab-size[data-tab-size='8'] {
+  -moz-tab-size: 8;
+  tab-size: 8;
+}
+
+.tab-size[data-tab-size='9'] {
+  -moz-tab-size: 9;
+  tab-size: 9;
+}
+
+.tab-size[data-tab-size='10'] {
+  -moz-tab-size: 10;
+  tab-size: 10;
+}
+
+.tab-size[data-tab-size='11'] {
+  -moz-tab-size: 11;
+  tab-size: 11;
+}
+
+.tab-size[data-tab-size='12'] {
+  -moz-tab-size: 12;
+  tab-size: 12;
+}
+
+.task-list-item {
+  list-style-type: none;
+}
+
+.task-list-item + .task-list-item {
+  margin-top: 3px;
+}
+
+.task-list-item input {
+  margin: 0 0.2em 0.25em -1.6em;
+  vertical-align: middle;
+}
+/*
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+*/
+  
+  .hljs-comment,
+  .hljs-quote {
+    color: #998;
+    font-style: italic;
+  }
+  
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-subst {
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .hljs-number,
+  .hljs-literal,
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-tag .hljs-attr {
+    color: #008080;
+  }
+  
+  .hljs-string,
+  .hljs-doctag {
+    color: #d14;
+  }
+  
+  .hljs-title,
+  .hljs-section,
+  .hljs-selector-id {
+    color: #900;
+    font-weight: bold;
+  }
+  
+  .hljs-subst {
+    font-weight: normal;
+  }
+  
+  .hljs-type,
+  .hljs-class .hljs-title {
+    color: #458;
+    font-weight: bold;
+  }
+  
+  .hljs-tag,
+  .hljs-name,
+  .hljs-attribute {
+    color: #000080;
+    font-weight: normal;
+  }
+  
+  .hljs-regexp,
+  .hljs-link {
+    color: #009926;
+  }
+  
+  .hljs-symbol,
+  .hljs-bullet {
+    color: #990073;
+  }
+  
+  .hljs-built_in,
+  .hljs-builtin-name {
+    color: #0086b3;
+  }
+  
+  .hljs-meta {
+    color: #999;
+    font-weight: bold;
+  }
+  
+  .hljs-deletion {
+    background: #fdd;
+  }
+  
+  .hljs-addition {
+    background: #dfd;
+  }
+  
+  .hljs-emphasis {
+    font-style: italic;
+  }
+  
+  .hljs-strong {
+    font-weight: bold;
+  }
+		</style>
+<script> MathJax = { tex: { inlineMath: [["$", "$"]] } }; </script>
+<script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+	</head>
+	<body>
+		<nav id="table-of-contents">
+			<ul><li><a href="#rappresentazione-intermedia"> Rappresentazione Intermedia</a><ul><li><a href="#tipi-di-ir"> Tipi di IR</a></li><li><a href="#livello-di-astrazione"> Livello di astrazione</a></li><li><a href="#usare-rappresentazioni-multiple"> Usare rappresentazioni multiple</a><ul><li><a href="#modelli-di-memoria"> Modelli di Memoria</a></li></ul></li><li><a href="#tabelle-dei-simboli"> Tabelle dei simboli</a><ul><li><a href="#tabelle-dei-simboli-senza-hash"> Tabelle dei Simboli Senza Hash</a></li></ul></li><li><a href="#la-procedura-di-astrazione"> La procedura di astrazione</a><ul><li><a href="#compilazione-separata"> Compilazione separata</a></li><li><a href="#la-procedura-come-astrazione-di-controllo"> La procedura come astrazione di controllo</a></li><li><a href="#la-procedura-come-spazio-dei-nomi"> La procedura come spazio dei nomi</a></li><li><a href="#la-procedura-come-interfaccia-esterna"> La procedura come interfaccia esterna</a></li></ul></li><li><a href="#stabilire-lindirizzabilit%C3%A0"> Stabilire l'indirizzabilità</a><ul><li><a href="#creazione-di-indirizzi-di-base"> Creazione di indirizzi di base</a><ul><li><a href="#accesso-alle-variabili-non-locali"> Accesso alle variabili non locali</a></li><li><a href="#collegamenti-di-accesso-vs-display"> Collegamenti di accesso VS Display</a></li></ul></li></ul></li><li><a href="#creazione-e-distruzione-di-record-di-attivazione"> Creazione e distruzione di record di attivazione</a><ul><li><a href="#creazione-degli-ar"> Creazione degli AR</a></li><li><a href="#distruzione-degli-ar"> Distruzione degli AR</a></li><li><a href="#registri-di-salvataggio"> Registri di salvataggio</a></li><li><a href="#procedura-di-chiamata"> Procedura di chiamata</a></li><li><a href="#allocazione-degli-ar"> Allocazione degli AR</a></li><li><a href="#senza-ricorsione"> Senza ricorsione</a></li></ul></li><li><a href="#comunicazione-tra-le-procedure"> Comunicazione tra le procedure</a><ul><li><a href="#meccanismi-di-passaggio-dei-parametri"> Meccanismi di passaggio dei parametri</a></li></ul></li><li><a href="#record-di-attivazione---ar"> Record di Attivazione - AR</a></li></ul></li></ul>
+		</nav>
+		<main>
+			<h1 id="rappresentazione-intermedia" tabindex="-1"><a class="anchor" href="#rappresentazione-intermedia" aria-hidden="true"><span class="octicon octicon-link"></span></a> Rappresentazione Intermedia</h1>
+<p>La parte di front-end produce una rappresentazione intermedia, il middle-end trasforma la rappresentazione intermedia prodotta dal front-end in una rappresentazione intermedia equivalente, attraverso diverse passate ognuna delle quali applica tecniche di ottimizzazione, che funziona in modo più efficiente e, infine, il back-end trasforma la rappresentazione intermedia in codice nativo eseguibile dal processore.</p>
+<p><img src="images/IR.png" alt="IR.png"></p>
+<p>Le decisioni nella progettazione IR influenzano la velocità e l'efficienza del compilatore, vediamo alcuni importanti proprietà dell'IR:</p>
+<ul>
+<li>Facilità di generazione: l'IR deve essere semplice da produrre a partire dal codice sorgente durante il front end.</li>
+<li>Facilità di manipolazione: deve essere facile analizzare e trasformare l'IR durante il middle end.</li>
+<li>Dimensione delle procedure: l'IR non dovrebbe essere troppo grande, perché procedure molto ampie possono richiedere molta memoria e rallentare le analisi.</li>
+<li>Libertà di espressione: l'IR deve essere abbastanza flessibile da rappresentare tutti i costrutti del linguaggio sorgente senza perdita di informazioni.</li>
+<li>Livello di astrazione: l'IR deve essere abbastanza astratto da essere indipendente dall'architettura hardware, ma non così astratto da rendere difficile la generazione di codice macchina nella fase di back end.</li>
+</ul>
+<h2 id="tipi-di-ir" tabindex="-1"><a class="anchor" href="#tipi-di-ir" aria-hidden="true"><span class="octicon octicon-link"></span></a> Tipi di IR</h2>
+<p>Le rappresentazioni intermedie si dividono in tre principali categorie:</p>
+<ol>
+<li><strong>Strutturali</strong>: questo tipo di IR è rappresentato in modo grafico, come grafi o alberi, che catturano la struttura logica e sintattica del programma, queste tendono a occupare molta memoria, specialmente per programmi complessi. Esempi: AST(Abstract Syntax Tree), DAG (Directed Acyclic Graph)</li>
+<li><strong>Lineari</strong>: questo tipo di IR rappresenta il programma come una sequenza di istruzioni, simile a un linguaggio assembly o pseudo-codice per una macchina astratta, queste sono rappresentate con strutture dati più leggere, rendendo più facile lavorare con grandi programmi. Poiché le istruzioni sono disposte in sequenza, è più semplice riorganizzarle per ottimizzazioni come l'ordinamento dei cicli o la rimozione del codice morto. Esempio: TAC (Three-Address Code), Bytecode.</li>
+<li><strong>Ibridi</strong>: combina caratteristiche delle IR strutturali e lineari per ottenere i vantaggi di entrambe, di solito, unisce una rappresentazione grafica (per il controllo del flusso) con istruzioni lineari per le operazioni locali, è meno grande delle IR strutturali e più potente delle IR lineari per analisi complesse. Esempi: SSA (Static Single Assignment), Control-Flow Graph con TAC.</li>
+</ol>
+<h2 id="livello-di-astrazione" tabindex="-1"><a class="anchor" href="#livello-di-astrazione" aria-hidden="true"><span class="octicon octicon-link"></span></a> Livello di astrazione</h2>
+<p>Il&nbsp;<strong>livello di astrazione</strong>&nbsp;di una IR riguarda il grado di dettaglio che la rappresentazione intermedia fornisce sul programma, abbiamo due casi differenti rappresentazioni per un accesso a un array:</p>
+<ol>
+<li>ad alto livello (strutturale) -&gt; AST</li>
+<li>a basso livello (lineare) -&gt; Linear Code</li>
+</ol>
+<p><img src="images/alto-basso-livello.png" alt="alto-basso-livello.png"></p>
+<blockquote>
+<p>Non sempre le IR strutturali vengono utilizzati per l'alto livello e le IR lineari per il basso livello.</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>Abstract Syntax Tree - AST</strong>: è una rappresentazione ad albero della struttura sintattica di un programma, ma con un livello di astrazione maggiore rispetto al&nbsp;parse tree, in particolare, l'AST elimina nodi non essenziali e rappresenta solo le informazioni necessarie per comprendere la semantica del programma.
+Sebbene l'AST sia naturalmente una struttura gerarchica, può essere linearizzato in forme come&nbsp;<strong>notazione pre-fissa</strong> (- * 2 y x)&nbsp;o&nbsp;<strong>post-fissa</strong> (x 2 y * -)&nbsp;per semplificare alcune operazioni.
+<img src="images/AST.png" alt="AST.png"></p>
+</li>
+<li>
+<p><strong>Direct Acyclic Graph - DAG</strong>: è una rappresentazione grafica utilizzata per catturare le dipendenze tra operazioni o espressioni in un programma, è simile a un albero, ma con la differenza che consente la condivisione esplicita dei nodi quando ci sono&nbsp;ridondanze.
+<img src="images/DAG.png" alt="DAG.png"></p>
+</li>
+<li>
+<p><strong>Stack Machine Code</strong>: è una rappresentazione del codice che utilizza una&nbsp;macchina a pila&nbsp;per eseguire operazioni aritmetiche e logiche, in essa, tutti i calcoli avvengono manipolando una struttura dati a&nbsp;stack, dove gli operandi sono spinti (push) o estratti (pop) dalla pila. Questo approccio è semplice e compatto, ed è utilizzato da linguaggi e ambienti come Java (con il bytecode della JVM). Ad esempio <code>x - 2 * y</code> la pila diventa:</p>
+<ul>
+<li>push x:&nbsp;<code>[x]</code></li>
+<li>push 2:&nbsp;<code>[x, 2]</code></li>
+<li>push y:&nbsp;<code>[x, 2, y]</code></li>
+<li>multipl:&nbsp;<code>[x, (2 * y)]</code></li>
+<li>subtract:&nbsp;<code>[(x - (2 * y))]</code>&nbsp;(risultato finale)</li>
+</ul>
+</li>
+<li>
+<p><strong>Three Addres Code - TAC</strong>: è una rappresentazione intermedia del programma che utilizza istruzioni con al massimo&nbsp;tre operandi, è un formato comune nei compilatori perché bilancia semplicità e vicinanza al codice macchina reale. Ogni istruzione del TAC ha questa forma generale: <code>x &lt;- y op z</code>, ad esempio <code>z &lt;- x - 2 * y</code> diventa <code>t &lt;- 2 * y; z &lt;- x - t</code>.
+Diverse varianti di TAC:</p>
+<ul>
+<li><strong>Tripla</strong>: ogni istruzione è rappresentata come una tupla con tre campi:&nbsp;<code>(operatore, operando1, operando2)</code>.</li>
+<li><strong>Quadrupla</strong>: simile alla tripla, ma ogni istruzione esplicita anche il risultato.</li>
+<li><strong>Record lineare</strong>: usa una sequenza di istruzioni simile a un linguaggio assembly, con nomi temporanei espliciti.</li>
+</ul>
+</li>
+<li>
+<p><strong>Control-Flow Graph</strong>: è una rappresentazione grafica utilizzata nei compilatori per modellare il flusso di controllo all'interno di un programma, in particolare in un singolo&nbsp;procedimento&nbsp;(funzione o metodo), questa rappresentazione è cruciale per analizzare e ottimizzare il codice, poiché mostra come le diverse istruzioni o blocchi di codice sono collegati tra loro, indicando come il controllo (ovvero l'esecuzione) si sposta da un'istruzione all'altra.
+Struttura:</p>
+<ul>
+<li>Nodi (Basic Blocks): ogni nodo del grafo rappresenta un&nbsp;basic block, che è una sequenza di istruzioni che viene eseguita una volta iniziata, senza interruzioni. Un blocco base&nbsp;<strong>non</strong>&nbsp;può contenere istruzioni con salti (come&nbsp;<code>if</code>,&nbsp;<code>goto</code>,&nbsp;<code>return</code>) o biforcazioni (come&nbsp;<code>if-else</code>), perché questi determinano cambiamenti nel flusso di controllo.</li>
+<li>Archi: gli&nbsp;archi&nbsp;nel grafo rappresentano il flusso di controllo tra i blocchi, indicano come l'esecuzione passa da un blocco all'altro.</li>
+<li>Se, per esempio, il codice contiene un'istruzione&nbsp;<code>if</code>&nbsp;che determina un salto, allora le istruzioni precedenti e quelle successive alla condizione&nbsp;<code>if</code>&nbsp;saranno in blocchi base separati, perché l'esecuzione può "saltare" da un punto all'altro, cambiando il flusso di controllo.</li>
+</ul>
+<p><img src="images/Control-flow-graph.png" alt="Control-flow-graph.png"></p>
+</li>
+<li>
+<p><strong>Static Single Assignment - SSA</strong>: è una rappresentazione intermedia utilizzata nei compilatori che semplifica l'analisi e l'ottimizzazione del codice, l'idea principale di SSA è che ogni&nbsp;variabile&nbsp;o&nbsp;nome&nbsp;venga&nbsp;definito esattamente una volta&nbsp;nel programma, evitando ri-assegnazioni multiple.
+Per ottenere la SSA, quando una variabile è assegnata più di una volta (ad esempio, in un ciclo o in una condizione&nbsp;<code>if-else</code>), si crea una nuova&nbsp;versione&nbsp;della variabile ogni volta che viene riassegnata, in questo modo, ogni "versione" della variabile ha una definizione unica.</p>
+</li>
+</ul>
+<pre><code class="language-C"><span class="hljs-keyword">if</span>&nbsp;(condizione) { 
+	x =&nbsp;<span class="hljs-number">1</span>; 
+}&nbsp;<span class="hljs-keyword">else</span>&nbsp;{
+	x =&nbsp;<span class="hljs-number">2</span>; 
+}
+y = x +&nbsp;<span class="hljs-number">3</span>;
+
+<span class="hljs-comment">//In SSA il codice diventa</span>
+
+<span class="hljs-keyword">if</span> (condizione) {
+	x1 = <span class="hljs-number">1</span>;
+} <span class="hljs-keyword">else</span> {
+	x2 = <span class="hljs-number">2</span>;
+}
+x3 = phi(x1, x2);  <span class="hljs-comment">// phi funzione per scegliere tra x1 e x2</span>
+y = x3 + <span class="hljs-number">3</span>;
+</code></pre>
+<h2 id="usare-rappresentazioni-multiple" tabindex="-1"><a class="anchor" href="#usare-rappresentazioni-multiple" aria-hidden="true"><span class="octicon octicon-link"></span></a> Usare rappresentazioni multiple</h2>
+<p>L'idea di utilizzare&nbsp;<strong>più rappresentazioni intermedie (IR)</strong>&nbsp;in un compilatore consiste nel passare gradualmente da rappresentazioni di alto livello, più astratte, a rappresentazioni di basso livello, più vicine al codice macchina. Ogni rappresentazione intermedia è progettata per essere ottimale per un determinato tipo di analisi o ottimizzazione, migliorando così l'efficienza e la qualità del codice generato.
+Il compilatore <strong>Open64</strong> utilizza una rappresentazione intermedia chiamata&nbsp;<strong>WHIRL</strong>, che comprende&nbsp;<strong>5 diversi livelli di IR</strong>, ciascuno con un diverso grado di astrazione e dettagli.</p>
+<h3 id="modelli-di-memoria" tabindex="-1"><a class="anchor" href="#modelli-di-memoria" aria-hidden="true"><span class="octicon octicon-link"></span></a> Modelli di Memoria</h3>
+<p>I&nbsp;<strong>modelli di memoria</strong>&nbsp;definiscono come il compilatore gestisce i dati durante l'esecuzione del programma, ovvero se questi dati vengono memorizzati principalmente in&nbsp;<strong>registri</strong>&nbsp;(veloci ma limitati) o in&nbsp;<strong>memoria principale</strong>&nbsp;(lenta ma abbondante). Esistono due principali modelli di memoria, ciascuno con vantaggi e svantaggi:</p>
+<ol>
+<li>Register-to-register model: il compilatore assume che tutti i valori che possono essere legalmente archiviati in un registro vengano effettivamente messi nei&nbsp;registri. Durante le prime fasi di compilazione, il compilatore non considera il numero limitato di registri della macchina reale, spetta al back-end del compilatore gestire il mapping effettivo ai registri fisici della macchina. Quando il numero di registri richiesti eccede quello disponibile, il back-end deve inserire istruzioni di&nbsp;<strong>load</strong>&nbsp;e&nbsp;<strong>store</strong>&nbsp;per scaricare temporaneamente i valori in memoria.</li>
+<li>Memory-to-memory model: il compilatore assume che tutti i valori siano archiviati nella&nbsp;memoria principale, salvo quelli che vengono promossi temporaneamente ai registri subito prima di essere utilizzati. I dati vengono caricati nei registri solo quando strettamente necessari per un'operazione e poi scritti nuovamente in memoria. Il back-end del compilatore può eliminare i caricamenti e le scritture ridondanti per ottimizzare il codice.</li>
+<li>Uso nei Compilatori RISC: I compilatori per architetture&nbsp;RISC (Reduced Instruction Set Computer)&nbsp;di solito adottano il&nbsp;<strong>register-to-register model</strong>.</li>
+</ol>
+<hr>
+<p>Rappresentare il codice è solo una parte di una rappresentazione intermedia (IR), ci sono altri componenti necessari:</p>
+<ul>
+<li><strong>Tabella dei simboli</strong></li>
+<li><strong>Tabella delle costanti</strong>
+<ul>
+<li>Rappresentazione, tipo</li>
+<li>Classe di memorizzazione, offset</li>
+</ul>
+</li>
+<li><strong>Mappa della memoria</strong>
+<ul>
+<li>Layout complessivo della memoria</li>
+<li>Informazioni sulle sovrapposizioni</li>
+<li>Assegnazioni di registri virtuali</li>
+</ul>
+</li>
+</ul>
+<h2 id="tabelle-dei-simboli" tabindex="-1"><a class="anchor" href="#tabelle-dei-simboli" aria-hidden="true"><span class="octicon octicon-link"></span></a> Tabelle dei simboli</h2>
+<p>Le&nbsp;<strong>tabelle dei simboli</strong>&nbsp;sono strutture dati fondamentali in un compilatore, servono per memorizzare e gestire informazioni sui simboli del programma (es. variabili, funzioni, tipi), sono utilizzate per risolvere riferimenti e applicare regole di visibilità e scoping.
+Un metodo classico per costruire una tabella dei simboli è utilizzare l'hashing, in questo approccio:</p>
+<ol>
+<li>Indice basato su una funzione hash:
+<ul>
+<li>La funzione hash calcola una posizione per ogni simbolo basandosi sul suo nome, questo riduce i tempi di ricerca rispetto a metodi lineari (es. lista o array).</li>
+</ul>
+</li>
+<li>Gestione delle collisioni:
+<ul>
+<li>Se due simboli finiscono nello stesso indice (collisione), si usa una tecnica di gestione come il&nbsp;chaining&nbsp;(liste concatenate).</li>
+</ul>
+</li>
+</ol>
+<h3 id="tabelle-dei-simboli-senza-hash" tabindex="-1"><a class="anchor" href="#tabelle-dei-simboli-senza-hash" aria-hidden="true"><span class="octicon octicon-link"></span></a> Tabelle dei Simboli Senza Hash</h3>
+<p>Le&nbsp;<strong>tabelle dei simboli senza hash</strong>&nbsp;sono un'alternativa, questo approccio nasce per evitare i problemi legati alle&nbsp;collisioni nella funzione hash, che possono degradare le prestazioni fino a una ricerca lineare nel caso peggiore.
+"Perfect Hash": alcuni autori propongono di utilizzare funzioni di hashing&nbsp;perfette, ovvero funzioni che non generano collisioni, tuttavia, creare una funzione di hash perfetta per tutti i possibili simboli (soprattutto in compilatori generali) è complesso e poco pratico.</p>
+<blockquote>
+<p>Un approccio alternativo è quello di utilizzare concetti derivati dalla&nbsp;<strong>teoria degli automi</strong>&nbsp;per costruire tabelle dei simboli che evitano completamente le collisioni e garantiscano&nbsp;prestazioni prevedibili e uniformi, indipendentemente dalla quantità e dalla distribuzione dei simboli.</p>
+</blockquote>
+<p>Una proposta alternativa per eliminare l'uso delle funzioni hash nelle tabelle dei simboli è il metodo di&nbsp;<strong>multiset discrimination</strong>&nbsp;sviluppato da Paige &amp; Cai. Questo si basa sull'<strong>ordinamento offline</strong>&nbsp;dello spazio dei nomi e sull'assegnazione di indici univoci, sfruttando tecniche derivate dagli automi deterministici a stati finiti (DFA).
+Come funziona il metodo Paige &amp; Cai:</p>
+<ol>
+<li>Ordinamento Offline dello Spazio dei Nomi:
+<ul>
+<li>Prima di elaborare il codice sorgente, lo spazio dei nomi (ossia i possibili identificatori, parole chiave, ecc.) viene&nbsp;ordinato in modo deterministico.</li>
+<li>Ad ogni nome, nello spazio dei nomi, viene assegnato un&nbsp;indice univoco&nbsp;basato su questo ordinamento.</li>
+</ul>
+</li>
+<li>Sostituzione dei Nomi con Indici:
+<ul>
+<li>Durante l'elaborazione dell'input, i nomi nel codice sorgente vengono sostituiti dai loro&nbsp;indici predefiniti, questo elimina la necessità di calcolare una funzione hash dinamica per ogni nome, semplificando l'accesso e la gestione.</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>Multiset Discrimination:
+<ul>
+<li>Dopo la sostituzione con gli indici, i simboli possono essere trattati come un&nbsp;insieme ordinato&nbsp;di interi (il multiset), questo rende le operazioni di confronto e ricerca molto più rapide, poiché si lavora su numeri interi anziché stringhe.</li>
+</ul>
+</li>
+</ul>
+<p>Un ulteriore miglioramento al metodo consiste nell'utilizzo di tecniche basate sui&nbsp;<strong>DFA</strong>&nbsp;per implementare una sostituzione lineare dei simboli senza ricorrere all'hashing.
+<strong>Costruzione del DFA</strong>:</p>
+<ol>
+<li>I nomi (parole chiave o identificatori) vengono rappresentati come un'espressione regolare composta del tipo:</li>
+</ol>
+<pre><code class="language-RE">r1 <span class="hljs-pattern-match">| r2 | r3 | <span class="hljs-operator">...</span> | rk
+
+<span class="hljs-operator">/</span><span class="hljs-operator">/</span> <span class="hljs-constructor">Dove</span> ogni&nbsp;`ri`&nbsp;è un nome nello spazio dei nomi.
+</span></code></pre>
+<ol start="2">
+<li>Questa espressione regolare viene convertita in un&nbsp;DFA aciclico, poiché le liste di parole chiave o nomi non hanno cicli.</li>
+</ol>
+<p>La costruzione incrementale di un automa deterministico a stati finiti aciclico è una tecnica che consente di aggiungere nuove parole all'automa in modo dinamico, senza doverlo ricostruire completamente, questo approccio è particolarmente utile per gestire piccoli insiemi di chiavi (ad esempio, identificatori o parole chiave all'interno di una procedura).</p>
+<p>Durante l'aggiunta di una parola, il DFA richiede un accesso in memoria per ogni carattere nella parola, fino a raggiungere lo stato di errore.
+Se il DFA diventa molto grande, i costi di accesso alla memoria per ogni carattere possono aumentare significativamente, tuttavia, per piccoli insiemi di chiavi (come i nomi in una procedura), questo problema non è rilevante.</p>
+<p>Ottimizzazioni per ridurre costi e dimensioni:</p>
+<ul>
+<li>Stato esplicito sull'ultimo nodo:
+<ul>
+<li>L'ultimo stato di ogni percorso del DFA può essere reso esplicito solo quando il percorso viene allungato.</li>
+<li>Vantaggi:
+<ul>
+<li>Riduzione sostanziale dei costi in memoria, poiché non si crea immediatamente lo stato finale.</li>
+<li>La struttura è più compatta fino a quando non è necessario aggiungere nuove parole.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Granularità vs. Dimensione degli stati:
+<ul>
+<li>È possibile regolare il livello di dettaglio con cui rappresentare ogni stato per trovare un equilibrio tra il costo di rappresentazione e l'efficienza.</li>
+<li>Ad esempio, rappresentazioni più granulari degli stati possono aumentare le prestazioni, ma a costo di una maggiore memoria.</li>
+</ul>
+</li>
+<li>Gestione separata della capitalizzazione:
+<ul>
+<li>La capitalizzazione delle lettere (es.&nbsp;<code>Foo</code>&nbsp;vs&nbsp;<code>foo</code>) può essere codificata separatamente usando stringhe di bit legate agli stati finali.</li>
+<li>Vantaggi:
+<ul>
+<li>Evita di duplicare interi percorsi nel DFA per distinguere parole con lettere maiuscole e minuscole.</li>
+<li>Permette un riconoscimento più efficiente.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="la-procedura-di-astrazione" tabindex="-1"><a class="anchor" href="#la-procedura-di-astrazione" aria-hidden="true"><span class="octicon octicon-link"></span></a> La procedura di astrazione</h2>
+<p>Il compilatore deve fornire, per ogni costrutto del linguaggio di programmazione, un implementazione (o almeno una strategia).
+Questi costrutti cadono in due principali categorie:</p>
+<ul>
+<li>Dichiarazioni individuali</li>
+<li>Procedure</li>
+</ul>
+<p>Il compilatore deve implementare ogni costrutto del linguaggio, concentrandosi soprattutto sulle <strong>procedure</strong>, poiché forniscono il contesto necessario per gestire le dichiarazioni.</p>
+<blockquote>
+<p>Le&nbsp;procedure&nbsp;sono un meccanismo fondamentale nei linguaggi di programmazione che permette di raggruppare un insieme di istruzioni in un&nbsp;blocco riutilizzabile&nbsp;e con un&nbsp;nome specifico = (funzioni).</p>
+</blockquote>
+<p>Le procedure sono fondamentali per:</p>
+<ul>
+<li>Nascondere le informazioni (information hiding)</li>
+<li>Creare spazi dei nomi separati</li>
+<li>Definire interfacce uniformi</li>
+</ul>
+<p>Poiché l'hardware non supporta direttamente queste astrazioni, il compilatore deve implementarle in modo efficiente, deve:</p>
+<ol>
+<li>Decidere dove collocare i valori e come calcolarli.</li>
+<li>Gestire il comportamento tra tempo di compilazione e tempo di esecuzione.</li>
+<li>Integrare il codice con altri programmi e sistemi operativi.</li>
+</ol>
+<p>Problemi chiave includono:</p>
+<ul>
+<li>Allocazione dello spazio di memoria e associazione dei nomi agli indirizzi.</li>
+<li>Creazione di codice per accedere a valori noti e non noti a tempo di compilazione.</li>
+<li>Garantire efficienza e compatibilità.</li>
+</ul>
+<p>In sintesi, il compilatore deve produrre codice che combini correttamente tutte le procedure per formare un programma funzionante ed efficiente.</p>
+<h3 id="compilazione-separata" tabindex="-1"><a class="anchor" href="#compilazione-separata" aria-hidden="true"><span class="octicon octicon-link"></span></a> Compilazione separata</h3>
+<p>Le&nbsp;procedure&nbsp;permettono di sfruttare la&nbsp;<strong>compilazione separata</strong>, un meccanismo fondamentale per costruire programmi complessi e collaborativi.
+<strong>Vantaggi della compilazione separata</strong>:</p>
+<ol>
+<li>Programmi non banali: permette di gestire progetti grandi e modulari;</li>
+<li>Tempi di compilazione ridotti: ogni file o modulo può essere compilato separatamente, evitando di ricompilare l'intero programma a ogni modifica;</li>
+<li>Collaborazione tra programmatori: ogni sviluppatore può lavorare su parti diverse del codice in modo indipendente;</li>
+<li>Procedure indipendenti: ogni procedura può essere compilata singolarmente e integrata successivamente;</li>
+</ol>
+<p><strong>La convenzione di collegamento delle procedure</strong> è un insieme di regole che definisce come le procedure (o funzioni) interagiscono con l'ambiente di runtime di un programma durante una chiamata:</p>
+<ul>
+<li>Garantisce che ogni procedura erediti un&nbsp;ambiente di runtime valido - quando una procedura viene chiamata, deve poter accedere a tutte le informazioni necessarie per funzionare correttamente, come i parametri di input, le variabili locali e lo stato generale del programma. La convenzione di collegamento si assicura che l'ambiente chiamante prepari tutto il necessario (parametri, spazio sullo stack, ecc.) prima di trasferire il controllo alla procedura chiamata;</li>
+<li>Assicura che al termine della procedura, l'ambiente chiamante venga ripristinato&nbsp;correttamente - dopo che la procedura termina la sua esecuzione, il controllo deve tornare al punto in cui è stata chiamata, con l'ambiente originale intatto;</li>
+<li>Il compilatore genera il codice per gestire questi aspetti in base alle&nbsp;convenzioni del sistema;</li>
+</ul>
+<p><strong>Supporto limitato dell'hardware</strong>:
+L'hardware fornisce solo strumenti di base, come&nbsp;bit, byte, numeri interi&nbsp;e&nbsp;trasferimento di controllo&nbsp;(chiamata e ritorno). Tuttavia,&nbsp;non supporta direttamente:</p>
+<ul>
+<li>Meccanismi di&nbsp;chiamata e ritorno completi&nbsp;(ad esempio il salvataggio del contesto);</li>
+<li>Interfacce&nbsp;tra procedure;</li>
+<li>Spazi dei nomi&nbsp;e&nbsp;ambiti nidificati;</li>
+</ul>
+<p><strong>Chi fornisce queste funzionalità?</strong>
+Queste astrazioni sono implementate tramite:</p>
+<ul>
+<li><strong>Compilatore</strong>: genera il codice che gestisce la chiamata e il ritorno, spazi dei nomi e contesti;</li>
+<li><strong>Sistema di esecuzione</strong>: gestisce l’ambiente di runtime;</li>
+<li><strong>Linker e caricatore</strong>: collegano procedure compilate separatamente e le rendono eseguibili;</li>
+<li><strong>Sistema operativo</strong>: supporta il caricamento del programma e la gestione della memoria;</li>
+</ul>
+<h3 id="la-procedura-come-astrazione-di-controllo" tabindex="-1"><a class="anchor" href="#la-procedura-come-astrazione-di-controllo" aria-hidden="true"><span class="octicon octicon-link"></span></a> La procedura come astrazione di controllo</h3>
+<p>Le&nbsp;procedure, come concetto astratto, ci permettono di definire un&nbsp;flusso di controllo&nbsp;ben preciso all'interno di un programma:</p>
+<ol>
+<li>Quando una procedura viene&nbsp;chiamata, l'esecuzione si sposta dal punto della chiamata (il&nbsp;sito di invocazione) all'inizio della procedura.</li>
+<li>Durante l'esecuzione, la procedura può lavorare con parametri passati dall'esterno e con variabili locali definite al suo interno.</li>
+<li>Una volta terminata, la procedura&nbsp;restituisce il controllo&nbsp;al punto immediatamente successivo alla chiamata.
+Questa semplicità apparente nasconde però delle sfide: per far funzionare tutto questo, il&nbsp;compilatore&nbsp;deve generare del codice che si occupi di gestire alcuni aspetti fondamentali in modo automatico.
+<strong>Cosa deve fare il compilatore?</strong></li>
+<li><strong>Salvare e ripristinare l'indirizzo di ritorno</strong><br>
+Quando la procedura viene chiamata, il compilatore deve salvare da qualche parte l'indirizzo del punto successivo alla chiamata, così da sapere dove tornare quando la procedura termina. Senza questo passaggio, il programma non saprebbe come riprendere l’esecuzione.</li>
+<li><strong>Gestire i parametri</strong><br>
+I valori o riferimenti passati alla procedura (chiamati&nbsp;parametri effettivi) devono essere&nbsp;mappati&nbsp;ai parametri utilizzati all'interno della procedura (chiamati&nbsp;parametri formali). Questa corrispondenza garantisce che la procedura lavori con i dati giusti.</li>
+<li><strong>Creare spazio per le variabili locali</strong><br>
+Ogni procedura può avere delle variabili locali, cioè variabili che esistono solo mentre la procedura è in esecuzione. Il compilatore deve riservare uno spazio in memoria per queste variabili, che deve essere creato all’avvio della procedura e liberato quando questa termina.</li>
+</ol>
+<p>Il vero problema si presenta quando la procedura è&nbsp;<strong>ricorsiva</strong>, cioè quando può&nbsp;chiamare sé stessa&nbsp;prima di aver completato l'esecuzione precedente, in casi come questo, ogni chiamata deve mantenere&nbsp;il proprio stato indipendente.</p>
+<p><strong>La soluzione: la pila di attivazione</strong>
+Per risolvere il problema, il sistema utilizza una&nbsp;pila di attivazione:</p>
+<ol>
+<li>Quando una procedura viene chiamata, si aggiunge (push) in cima alla pila un&nbsp;blocco di memoria&nbsp;che contiene:
+<ul>
+<li>L’indirizzo di ritorno.</li>
+<li>I parametri della procedura.</li>
+<li>Lo spazio per le variabili locali.</li>
+</ul>
+</li>
+<li>Quando la procedura termina, il blocco in cima alla pila viene rimosso (pop) e il controllo ritorna all’indirizzo salvato.
+Questa strategia garantisce che ogni chiamata, inclusa la ricorsione, abbia il&nbsp;proprio spazio separato&nbsp;per lavorare, evitando conflitti tra chiamate diverse.</li>
+</ol>
+<p><img src="images/code.png" alt="code.png"></p>
+<h3 id="la-procedura-come-spazio-dei-nomi" tabindex="-1"><a class="anchor" href="#la-procedura-come-spazio-dei-nomi" aria-hidden="true"><span class="octicon octicon-link"></span></a> La procedura come spazio dei nomi</h3>
+<p>Quando parliamo di una procedura come "spazio dei nomi", intendiamo che ogni procedura ha una&nbsp;<strong>propria area isolata per dichiarare e gestire nomi</strong>&nbsp;(variabili, costanti, funzioni). Questo concetto è regolato dalle regole dell'<strong>ambito lessicale</strong>, che definiscono come e dove i nomi (variabili o funzioni) possono essere utilizzati nel codice.</p>
+<ul>
+<li>Una procedura definisce un'area in cui i nomi dichiarati sono validi e accessibili. Fuori da quella procedura, i nomi locali non sono visibili né utilizzabili (scope).</li>
+<li>Se un nome è dichiarato localmente in una procedura, "oscura" qualsiasi altro nome con lo stesso identificatore dichiarato al di fuori della procedura.</li>
+<li>Una variabile dichiarata localmente a una procedura non è accessibile al di fuori di essa.</li>
+</ul>
+<p>L'ambito (scope) lessicale è una convenzione che stabilisce le regole per determinare quale "versione" di una variabile è utilizzabile in una parte del codice, basandosi sulla posizione della variabile&nbsp;<strong>nel codice sorgente</strong>. È definito al momento della compilazione, non a runtime.</p>
+<p>Il compilatore gestisce lo spazio dei nomi e l'ambito lessicale tramite&nbsp;<strong>tabelle dei simboli</strong>, strutture dati che memorizzano informazioni sui nomi dichiarati e sul loro contesto.
+Interfaccia delle tabelle dei simboli:</p>
+<ul>
+<li><code>insert(name, level)</code>: aggiunge un nuovo record per il nome dichiarato, indicando il livello (scope) in cui è valido.
+<ul>
+<li>Es: dichiarare&nbsp;<code>int x</code>&nbsp;a livello locale aggiunge&nbsp;<code>x</code>&nbsp;alla tabella per lo scope attuale.</li>
+</ul>
+</li>
+<li><code>lookup(name, level)</code>: cerca il nome nel livello specificato o negli scope superiori (se permesso), restituendo un puntatore o indice alla dichiarazione corrispondente.
+<ul>
+<li>Es: cercare&nbsp;<code>x</code>&nbsp;in una procedura verifica se è dichiarata localmente o globalmente.</li>
+</ul>
+</li>
+<li><code>delete(level)</code>: rimuove tutti i nomi associati a un livello quando si esce da quello scope.
+<ul>
+<li>Es: quando una funzione termina, elimina tutte le variabili locali dalla tabella.
+Sono stati proposti molti schemi di implementazione.</li>
+</ul>
+</li>
+</ul>
+<h3 id="la-procedura-come-interfaccia-esterna" tabindex="-1"><a class="anchor" href="#la-procedura-come-interfaccia-esterna" aria-hidden="true"><span class="octicon octicon-link"></span></a> La procedura come interfaccia esterna</h3>
+<p>Le procedure fungono da punto di interfaccia per l’interazione tra programmi, sistema operativo e utenti.
+<strong>Esecuzione di un programma: da dove inizia?</strong></p>
+<ul>
+<li>Ogni programma ha un punto di inizio, come&nbsp;<code>main()</code>&nbsp;in C o il corpo principale in Python, il programmatore specifica questo punto, e il sistema operativo lo usa per avviare l'esecuzione.</li>
+</ul>
+<p>Le variabili sono allocate in modo diverso a seconda della loro durata e visibilità.</p>
+<ul>
+<li>Variabili automatiche e locali:
+<ul>
+<li>Memorizzate nel&nbsp;record di attivazione&nbsp;della procedura (stack frame) o in registri della CPU.</li>
+<li>Durata limitata: esistono solo durante l’esecuzione della procedura.</li>
+</ul>
+</li>
+<li>Variabili statiche:
+<ul>
+<li>Durata: persistono per tutta l’esecuzione del programma.</li>
+<li>Ambito della procedura: associate al nome della procedura in cui sono dichiarate.</li>
+<li>Ambito del file: associate al file in cui sono dichiarate (es:&nbsp;<code>static int x;</code>&nbsp;in C).</li>
+<li>Esistono in aree di memoria pre-allocate.</li>
+</ul>
+</li>
+<li>Variabili globali:
+<ul>
+<li>Visibili a tutto il programma, memorizzate in aree dedicate della memoria globale.</li>
+<li>Durata: l'intera esecuzione del programma.</li>
+</ul>
+</li>
+</ul>
+<p>La memoria di un programma è divisa in sezioni, ognuna con un ruolo specifico:</p>
+<ul>
+<li>Codice: contiene le istruzioni del programma, con dimensioni note a tempo di compilazione.</li>
+<li>Dati statici e globali: aree pre-allocate per variabili globali e statiche, note anch'esse a tempo di compilazione.</li>
+<li>Stack: utilizzato per memorizzare i record di attivazione (stack frame) delle procedure.</li>
+<li>Heap: utilizzato per allocazioni dinamiche (es:&nbsp;<code>malloc</code>&nbsp;in C).</li>
+</ul>
+<p>Quando una procedura viene chiamata, il compilatore alloca un&nbsp;<strong>record di attivazione (AR)</strong>, che contiene:</p>
+<ul>
+<li>Variabili locali: allocate nello stack.</li>
+<li>Parametri formali: passati alla procedura.</li>
+<li>Indirizzo di ritorno: per tornare al chiamante.</li>
+<li>Valori di controllo: come lo stato dei registri.
+<strong>Ricorsione</strong>:</li>
+<li>Per ogni invocazione ricorsiva, viene creato un nuovo record di attivazione.</li>
+<li>Questo permette a ciascuna invocazione di mantenere il proprio insieme di variabili locali.</li>
+</ul>
+<p><strong>Traduzione dei nomi locali</strong>
+Il compilatore rappresenta ogni variabile come una&nbsp;coppia di coordinate statiche:</p>
+<ul>
+<li><code>&lt;level, offset&gt;</code>:
+<ul>
+<li><code>level</code>: livello di annidamento lessicale della procedura.</li>
+<li><code>offset</code>: posizione unica della variabile all'interno del livello.
+<strong>Esempio</strong>: consideriamo il seguente codice</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-C"><span class="hljs-keyword">int</span> x; <span class="hljs-comment">// Variabile globale</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span> y; <span class="hljs-comment">// Livello 1, offset 0</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">g</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">int</span> z; <span class="hljs-comment">// Livello 2, offset 0</span>
+    }
+}
+</code></pre>
+<ul>
+<li><code>x</code>&nbsp;(globale): non ha&nbsp;<code>level</code>, vive nell'area globale.</li>
+<li><code>y</code>&nbsp;(in&nbsp;<code>f</code>):&nbsp;<code>level = 1</code>,&nbsp;<code>offset = 0</code>.</li>
+<li><code>z</code>&nbsp;(in&nbsp;<code>g</code>):&nbsp;<code>level = 2</code>,&nbsp;<code>offset = 0</code>.</li>
+</ul>
+<p><strong>Generazione del codice</strong></p>
+<ul>
+<li>In fase di compilazione:
+<ul>
+<li>Il compilatore assegna un&nbsp;<code>level</code>&nbsp;e un&nbsp;<code>offset</code>&nbsp;a ogni variabile e memorizza queste informazioni nella&nbsp;<strong>tabella dei simboli</strong>, questi dati vengono utilizzati per calcolare gli indirizzi di memoria e generare istruzioni che accedono alle variabili in fase di esecuzione.</li>
+</ul>
+</li>
+<li>In fase di esecuzione:
+<ul>
+<li>Il codice generato usa le coordinate statiche per accedere alla posizione corretta della variabile nello stack o nella memoria globale.</li>
+</ul>
+</li>
+</ul>
+<h2 id="stabilire-lindirizzabilit%C3%A0" tabindex="-1"><a class="anchor" href="#stabilire-lindirizzabilit%C3%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a> Stabilire l'indirizzabilità</h2>
+<h3 id="creazione-di-indirizzi-di-base" tabindex="-1"><a class="anchor" href="#creazione-di-indirizzi-di-base" aria-hidden="true"><span class="octicon octicon-link"></span></a> Creazione di indirizzi di base</h3>
+<p>Il compilatore deve sapere come trovare l'indirizzo in memoria delle variabili a seconda del loro tipo (locali, statiche, non locali):</p>
+<ul>
+<li>Variabili Locali:
+<ul>
+<li>Vengono tradotte in&nbsp;<strong>coordinate statiche</strong>:&nbsp;<code>&lt;level, offset&gt;</code>.</li>
+<li>Il record di attivazione (AR) contiene un puntatore, chiamato&nbsp;<strong>ARP</strong>&nbsp;(Activation Record Pointer), che identifica il record della procedura corrente.</li>
+<li>L’indirizzo della variabile è ottenuto calcolando: $\text{Indirizzo Variabile} = \text{ARP} + \text{offset}$</li>
+</ul>
+</li>
+<li>Variabili Statiche: per queste variabili, il compilatore crea&nbsp;etichette simboliche (es. &amp;_fee per una variabile chiamata fee), l'indirizzo è risolto una volta in fase di compilazione ed è fisso.</li>
+<li>Variabili non Locali: quando una variabile appartiene a un ambito esterno rispetto alla procedura corrente, il compilatore:
+<ul>
+<li>traduce il nome in coordinate statiche.</li>
+<li>trova l'ARP appropriato per il livello di annidamento richiesto.</li>
+<li>calcola l'indirizzo come: $\text{ARP}_{target} + \text{offset}$.</li>
+</ul>
+</li>
+</ul>
+<h4 id="accesso-alle-variabili-non-locali" tabindex="-1"><a class="anchor" href="#accesso-alle-variabili-non-locali" aria-hidden="true"><span class="octicon octicon-link"></span></a> Accesso alle variabili non locali</h4>
+<ol>
+<li><strong>Collegamenti di accesso - access link</strong>
+<ul>
+<li>Ogni&nbsp;AR&nbsp;contiene un puntatore all’AR dell’antenato lessicale immediato.
+<ul>
+<li>L’antenato lessicale è la procedura che "contiene" la procedura corrente, questo non è necessariamente il chiamante diretto.
+<strong>Come funziona:</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>Se una variabile non locale è al livello&nbsp;<code>j</code>&nbsp;e la procedura corrente è al livello&nbsp;<code>k</code>, il compilatore segue i collegamenti di accesso per risalire nella catena degli AR.</li>
+<li>Il costo dell'accesso dipende dalla&nbsp;distanza lessicale&nbsp;(quanto è lontano il livello&nbsp;<code>j</code>&nbsp;da&nbsp;<code>k</code>).
+Esempio:</li>
+</ul>
+<pre><code class="language-C"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">outer</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span> x; <span class="hljs-comment">// livello 1</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">inner</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">nested</span><span class="hljs-params">()</span> </span>{
+            <span class="hljs-comment">// Accesso a x (livello 1) da nested (livello 3)</span>
+        }
+    }
+}
+</code></pre>
+<ul>
+<li><code>nested()</code>&nbsp;si trova al livello 3 e deve risalire due livelli di collegamenti di accesso per raggiungere&nbsp;<code>x</code>&nbsp;(al livello 1).
+<strong>Pro:</strong>&nbsp;funziona sempre, anche se gli AR sopravvivono alla procedura.&nbsp;
+<strong>Contro:</strong>&nbsp;il costo cresce con la distanza lessicale.</li>
+</ul>
+<ol start="2">
+<li><strong>Display</strong>
+<ul>
+<li>Usa un&nbsp;array globale&nbsp;chiamato&nbsp;display, che memorizza puntatori agli AR per ogni livello lessicale.</li>
+<li>L’indirizzo di una variabile non locale è trovato direttamente accedendo al display: $\text{Indirizzo Variabile} = \text{Display[j]} + \text{offset}$.</li>
+<li>Il costo dell'accesso è costante, indipendentemente dalla distanza lessicale.
+Esempio:</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-C"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">outer</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span> x; <span class="hljs-comment">// livello 1</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">inner</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">nested</span><span class="hljs-params">()</span> </span>{
+            <span class="hljs-comment">// Accesso a x (livello 1) da nested (livello 3)</span>
+        }
+    }
+}
+</code></pre>
+<ul>
+<li><code>nested()</code>&nbsp;accede a&nbsp;<code>x</code>&nbsp;al livello 1.
+<ul>
+<li><code>Display[1]</code>&nbsp;contiene l’ARP per&nbsp;<code>outer</code>.</li>
+<li>L’indirizzo di&nbsp;<code>x</code>&nbsp;è calcolato con&nbsp;<code>Display[1] + offset</code>.
+<strong>Pro:</strong>&nbsp;accesso rapido e costante.&nbsp;
+<strong>Contro:</strong>&nbsp;richiede aggiornamenti al display durante ogni chiamata e ritorno, e utilizza un registro aggiuntivo.</li>
+</ul>
+</li>
+</ul>
+<h4 id="collegamenti-di-accesso-vs-display" tabindex="-1"><a class="anchor" href="#collegamenti-di-accesso-vs-display" aria-hidden="true"><span class="octicon octicon-link"></span></a> Collegamenti di accesso VS Display</h4>
+<p><strong>Collegamenti di accesso</strong></p>
+<ul>
+<li>Sovraccarico:&nbsp;ogni chiamata aggiunge un puntatore al record di attivazione.</li>
+<li>Costo di accesso:&nbsp;proporzionale alla distanza lessicale.</li>
+<li>Persistenza:&nbsp;funziona anche se gli AR vivono oltre la fine della procedura.</li>
+</ul>
+<p><strong>Display</strong></p>
+<ul>
+<li>Sovraccarico:&nbsp;ogni chiamata aggiorna l’array globale.</li>
+<li>Costo di accesso:&nbsp;sempre costante.</li>
+<li>Efficienza:&nbsp;richiede un registro per il display, che può essere critico per la velocità complessiva.</li>
+</ul>
+<p><strong>Perché funzionano?</strong>
+Entrambi gli approcci funzionano perché:</p>
+<ol>
+<li>L’annidamento lessicale&nbsp;garantisce che una procedura acceda solo alle variabili visibili in base all'ambito.</li>
+<li>Il compilatore inserisce automaticamente il codice necessario per:
+<ul>
+<li>Gestire i collegamenti di accesso o il display in ogni chiamata e ritorno.</li>
+<li>Tradurre i nomi delle variabili in coordinate statiche.</li>
+</ul>
+</li>
+</ol>
+<h2 id="creazione-e-distruzione-di-record-di-attivazione" tabindex="-1"><a class="anchor" href="#creazione-e-distruzione-di-record-di-attivazione" aria-hidden="true"><span class="octicon octicon-link"></span></a> Creazione e distruzione di record di attivazione</h2>
+<p>I record di attivazione (AR) sono strutture dati allocate in memoria durante l'esecuzione di una procedura, che memorizzano tutte le informazioni necessarie per eseguire la procedura stessa e per tornare correttamente al chiamante.</p>
+<h3 id="creazione-degli-ar" tabindex="-1"><a class="anchor" href="#creazione-degli-ar" aria-hidden="true"><span class="octicon octicon-link"></span></a> Creazione degli AR</h3>
+<p>Quando viene chiamata una procedura:</p>
+<ol>
+<li><strong>Chiamante</strong>:
+<ul>
+<li>Alloca spazio per l’AR del chiamato.</li>
+<li>Salva i parametri, l'indirizzo di ritorno e l'ARP (Activation Record Pointer).</li>
+<li>(Se necessario) gestisce i&nbsp;collegamenti di accesso.</li>
+</ul>
+</li>
+<li><strong>Chiamato</strong>:
+<ul>
+<li>Completa la configurazione dell’AR (ad esempio, allocando lo spazio per le variabili locali).</li>
+</ul>
+</li>
+</ol>
+<h3 id="distruzione-degli-ar" tabindex="-1"><a class="anchor" href="#distruzione-degli-ar" aria-hidden="true"><span class="octicon octicon-link"></span></a> Distruzione degli AR</h3>
+<p>Quando la procedura termina:</p>
+<ol>
+<li><strong>Chiamato</strong>:
+<ul>
+<li>Ripristina lo stato del chiamante (come i registri salvati).</li>
+<li>Salva il valore di ritorno nell'AR del chiamante, se necessario.</li>
+</ul>
+</li>
+<li><strong>Chiamante</strong>:
+<ul>
+<li>Libera lo spazio dell'AR del chiamato.</li>
+<li>Ripristina l’ambiente originale per continuare l’esecuzione.</li>
+</ul>
+</li>
+</ol>
+<h3 id="registri-di-salvataggio" tabindex="-1"><a class="anchor" href="#registri-di-salvataggio" aria-hidden="true"><span class="octicon octicon-link"></span></a> Registri di salvataggio</h3>
+<p>Chi salva i registri?</p>
+<ul>
+<li>Chiamante&nbsp;salva i registri che saranno utilizzati dopo la chiamata (registri LIVE).</li>
+<li>Chiamato&nbsp;salva i registri che utilizzerà durante l’esecuzione.
+I registri sono divisi in:</li>
+</ul>
+<ol>
+<li>Registri del chiamante</li>
+<li>Registri del chiamato</li>
+</ol>
+<h3 id="procedura-di-chiamata" tabindex="-1"><a class="anchor" href="#procedura-di-chiamata" aria-hidden="true"><span class="octicon octicon-link"></span></a> Procedura di chiamata</h3>
+<p><strong>Sequenza Pre-Chiamata</strong></p>
+<ol>
+<li>Il chiamante prepara lo stack:
+<ul>
+<li>Salva i parametri, l’indirizzo di ritorno e l’ARP.</li>
+</ul>
+</li>
+<li>Passa il controllo al chiamato:
+<ul>
+<li>Esegue il salto all’indirizzo iniziale della procedura chiamata.
+Il prologo completa l'inizializzazione dell’AR:</li>
+</ul>
+</li>
+<li>Salva i registri.</li>
+<li>Configura il display (se usato).</li>
+<li>Alloca spazio per variabili locali.
+<strong>Sequenza Post-Ritorno</strong></li>
+<li>Copia il valore di ritorno (se presente).</li>
+<li>Libera lo stack.</li>
+<li>Ripristina i registri salvati.</li>
+</ol>
+<h3 id="allocazione-degli-ar" tabindex="-1"><a class="anchor" href="#allocazione-degli-ar" aria-hidden="true"><span class="octicon octicon-link"></span></a> Allocazione degli AR</h3>
+<ol>
+<li><strong>AR sullo Stack</strong>
+<ul>
+<li>Vantaggi:
+<ul>
+<li>Facile da gestire con un puntatore allo stack.</li>
+<li>Supporta la ricorsione (ogni chiamata ha il suo AR).</li>
+</ul>
+</li>
+<li>Processo:
+<ol>
+<li>Il chiamante alloca lo spazio sullo stack.</li>
+<li>Il chiamato usa lo spazio per le variabili locali.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><strong>AR sull'Heap</strong></li>
+</ol>
+<ul>
+<li>Vantaggi:
+<ul>
+<li>Utile per procedure che richiedono durata prolungata (es. coroutine).</li>
+</ul>
+</li>
+<li>Svantaggi:
+<ul>
+<li>Maggior costo di allocazione/deallocazione.</li>
+</ul>
+</li>
+<li>Processo:
+<ol>
+<li>Il chiamato alloca l’AR sull’heap.</li>
+<li>Libera l’AR manualmente alla fine.</li>
+</ol>
+</li>
+</ul>
+<h3 id="senza-ricorsione" tabindex="-1"><a class="anchor" href="#senza-ricorsione" aria-hidden="true"><span class="octicon octicon-link"></span></a> Senza ricorsione</h3>
+<p>Gli AR possono essere&nbsp;statici&nbsp;(allocati una volta sola):</p>
+<ul>
+<li>Nessuna nuova allocazione per ogni chiamata.</li>
+<li>Utilizzabile solo se la procedura non è ricorsiva.</li>
+</ul>
+<h2 id="comunicazione-tra-le-procedure" tabindex="-1"><a class="anchor" href="#comunicazione-tra-le-procedure" aria-hidden="true"><span class="octicon octicon-link"></span></a> Comunicazione tra le procedure</h2>
+<p>La comunicazione tra le procedure si riferisce al passaggio di informazioni (parametri) tra una procedura chiamante e una procedura chiamata. Questo avviene attraverso meccanismi che collegano variabili del contesto del chiamante con quelle della procedura chiamata.</p>
+<h3 id="meccanismi-di-passaggio-dei-parametri" tabindex="-1"><a class="anchor" href="#meccanismi-di-passaggio-dei-parametri" aria-hidden="true"><span class="octicon octicon-link"></span></a> Meccanismi di passaggio dei parametri</h3>
+<ol>
+<li><strong>Call-by-reference - Chiamata per riferimento</strong>
+Passa un puntatore (indirizzo in memoria) al parametro effettivo, il chiamato può modificare direttamente il valore originale della variabile del chiamante.
+Nell'activation record (AR)	viene salvato l'indirizzo del parametro, se esso viene usato da più nomi, ogni nome fa riferimento allo stesso indirizzo (es. call foo(x, x, x)).
+Vantaggi: efficiente in termini di spazio quando si passano strutture di grandi dimensioni.
+Svantaggi: il chiamato può modificare i dati originali, causando effetti collaterali inattesi.</li>
+</ol>
+<pre><code class="language-C"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">increment</span><span class="hljs-params">(<span class="hljs-keyword">int</span> &amp;x)</span> </span>{ <span class="hljs-comment">// Passaggio per riferimento</span>
+	x++;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+	<span class="hljs-keyword">int</span> value = <span class="hljs-number">10</span>;
+	increment(value); <span class="hljs-comment">// value è incrementato a 11</span>
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<ol start="2">
+<li><strong>Call-by-value - Chiamata per valore</strong>
+Passa una copia del valore del parametro al chiamato, esso può modificare la copia, ma l'originale nel chiamante rimane inalterato.
+Una posizione di memoria distinta è allocata per il valore copiato, nell'AR vengono riservati slot per i valori copiati.
+Vantaggi: evita effetti collaterali inaspettati sul chiamante
+Svantaggi: inefficiente per strutture grandi perché ogni elemento viene copiato.</li>
+</ol>
+<pre><code class="language-C"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">increment</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{ <span class="hljs-comment">// Passaggio per valore</span>
+    x++;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">int</span> value = <span class="hljs-number">10</span>;
+    increment(value); <span class="hljs-comment">// value rimane 10</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<h2 id="record-di-attivazione---ar" tabindex="-1"><a class="anchor" href="#record-di-attivazione---ar" aria-hidden="true"><span class="octicon octicon-link"></span></a> Record di Attivazione - AR</h2>
+<p><strong>Dove sono allocati gli AR?</strong></p>
+<ol>
+<li>Sullo&nbsp;<strong>Stack</strong>:
+<ul>
+<li>Ogni chiamata spinge un nuovo AR sullo stack.</li>
+<li>Facile da estendere: basta incrementare il puntatore dello stack.</li>
+<li>Responsabilità condivisa:
+<ul>
+<li>Il&nbsp;<strong>chiamante</strong>: spinge parametri, indirizzo di ritorno e altre informazioni.</li>
+<li>Il&nbsp;<strong>chiamato</strong>: alloca spazio per le variabili locali.
+<strong>Vantaggi</strong>:</li>
+</ul>
+</li>
+<li>Efficienza nella gestione della memoria.</li>
+<li>Supporto naturale alla ricorsione.</li>
+</ul>
+</li>
+<li>Sull’<strong>Heap</strong>:
+<ul>
+<li>AR allocato dinamicamente.</li>
+<li>Più flessibile, ma più costoso in termini di gestione.</li>
+<li>Adatto a scenari complessi, come procedure che vivono oltre la loro chiamata.
+<strong>Esempio</strong>:</li>
+<li>I&nbsp;linguaggi funzionali&nbsp;che fanno uso di chiusure o di oggetti a durata estesa potrebbero allocare AR sull’heap.</li>
+</ul>
+</li>
+<li><strong>Statico</strong>:
+<ul>
+<li>Per funzioni non ricorsive, l’AR può essere allocato staticamente.</li>
+<li>Più efficiente perché evita l’overhead di allocazione e deallocazione.</li>
+</ul>
+</li>
+</ol>
+
+		</main>
+	</body>
+</html>
