@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+		<title>06-middle-end</title>
+		<style>
+			/* PDF Specific */
+
+@media print {
+  body {
+    min-width: initial;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+/* General */
+
+.octicon {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: text-bottom;
+}
+
+.anchor {
+  float: left;
+  line-height: 1;
+  margin-left: -20px;
+  padding-right: 4px;
+}
+
+.anchor:focus {
+  outline: none;
+}
+
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+  color: #1b1f23;
+  vertical-align: middle;
+  visibility: hidden;
+}
+
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+  text-decoration: none;
+}
+
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+  visibility: visible;
+}
+
+h1:hover .anchor .octicon-link:before,
+h2:hover .anchor .octicon-link:before,
+h3:hover .anchor .octicon-link:before,
+h4:hover .anchor .octicon-link:before,
+h5:hover .anchor .octicon-link:before,
+h6:hover .anchor .octicon-link:before {
+  width: 16px;
+  height: 16px;
+  content: ' ';
+  display: inline-block;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' width='16' height='16' aria-hidden='true'%3E%3Cpath fill-rule='evenodd' d='M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-print-color-adjust: exact;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #24292e;
+  word-wrap: break-word;
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 1rem auto;
+}
+
+details {
+  display: block;
+}
+
+summary {
+  display: list-item;
+}
+
+a {
+  background-color: initial;
+}
+
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+strong {
+  font-weight: inherit;
+  font-weight: bolder;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+img {
+  border-style: none;
+}
+
+code,
+kbd,
+pre {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+hr {
+  box-sizing: initial;
+  height: 0;
+  overflow: visible;
+}
+
+input {
+  font: inherit;
+  margin: 0;
+}
+
+input {
+  overflow: visible;
+}
+
+[type='checkbox'] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+strong {
+  font-weight: 600;
+}
+
+hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe2e5;
+}
+
+hr:after,
+hr:before {
+  display: table;
+  content: '';
+}
+
+hr:after {
+  clear: both;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  padding: 0;
+}
+
+details summary {
+  cursor: pointer;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h1,
+h2 {
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+h3,
+h4 {
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h5,
+h6 {
+  font-weight: 600;
+}
+
+h6 {
+  font-size: 12px;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+blockquote {
+  margin: 0;
+}
+
+ol,
+ul {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+ol ol,
+ul ol {
+  list-style-type: lower-roman;
+}
+
+ol ol ol,
+ol ul ol,
+ul ol ol,
+ul ul ol {
+  list-style-type: lower-alpha;
+}
+
+dd {
+  margin-left: 0;
+}
+
+code,
+pre {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+}
+
+pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+:checked + .radio-label {
+  position: relative;
+  z-index: 1;
+  border-color: #0366d6;
+}
+
+.border {
+  border: 1px solid #e1e4e8 !important;
+}
+
+.border-0 {
+  border: 0 !important;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #e1e4e8 !important;
+}
+
+.rounded-1 {
+  border-radius: 3px !important;
+}
+
+.bg-white {
+  background-color: #fff !important;
+}
+
+.bg-gray-light {
+  background-color: #fafbfc !important;
+}
+
+.text-gray-light {
+  color: #6a737d !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.my-2 {
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+.pl-0 {
+  padding-left: 0 !important;
+}
+
+.py-0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.pl-1 {
+  padding-left: 4px !important;
+}
+
+.pl-2 {
+  padding-left: 8px !important;
+}
+
+.py-2 {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.pl-3,
+.px-3 {
+  padding-left: 16px !important;
+}
+
+.px-3 {
+  padding-right: 16px !important;
+}
+
+.pl-4 {
+  padding-left: 24px !important;
+}
+
+.pl-5 {
+  padding-left: 32px !important;
+}
+
+.pl-6 {
+  padding-left: 40px !important;
+}
+
+.f6 {
+  font-size: 12px !important;
+}
+
+.lh-condensed {
+  line-height: 1.25 !important;
+}
+
+.text-bold {
+  font-weight: 600 !important;
+}
+
+.pl-c {
+  color: #6a737d;
+}
+
+.pl-c1,
+.pl-s .pl-v {
+  color: #005cc5;
+}
+
+.pl-e,
+.pl-en {
+  color: #6f42c1;
+}
+
+.pl-s .pl-s1,
+.pl-smi {
+  color: #24292e;
+}
+
+.pl-ent {
+  color: #22863a;
+}
+
+.pl-k {
+  color: #d73a49;
+}
+
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+  color: #032f62;
+}
+
+.pl-smw,
+.pl-v {
+  color: #e36209;
+}
+
+.pl-bu {
+  color: #b31d28;
+}
+
+.pl-ii {
+  color: #fafbfc;
+  background-color: #b31d28;
+}
+
+.pl-c2 {
+  color: #fafbfc;
+  background-color: #d73a49;
+}
+
+.pl-c2:before {
+  content: '^M';
+}
+
+.pl-sr .pl-cce {
+  font-weight: 700;
+  color: #22863a;
+}
+
+.pl-ml {
+  color: #735c0f;
+}
+
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+  font-weight: 700;
+  color: #005cc5;
+}
+
+.pl-mi {
+  font-style: italic;
+  color: #24292e;
+}
+
+.pl-mb {
+  font-weight: 700;
+  color: #24292e;
+}
+
+.pl-md {
+  color: #b31d28;
+  background-color: #ffeef0;
+}
+
+.pl-mi1 {
+  color: #22863a;
+  background-color: #f0fff4;
+}
+
+.pl-mc {
+  color: #e36209;
+  background-color: #ffebda;
+}
+
+.pl-mi2 {
+  color: #f6f8fa;
+  background-color: #005cc5;
+}
+
+.pl-mdr {
+  font-weight: 700;
+  color: #6f42c1;
+}
+
+.pl-ba {
+  color: #586069;
+}
+
+.pl-sg {
+  color: #959da5;
+}
+
+.pl-corl {
+  text-decoration: underline;
+  color: #032f62;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.my-2 {
+  margin-bottom: 8px !important;
+}
+
+.my-2 {
+  margin-top: 8px !important;
+}
+
+.pl-0 {
+  padding-left: 0 !important;
+}
+
+.py-0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.pl-1 {
+  padding-left: 4px !important;
+}
+
+.pl-2 {
+  padding-left: 8px !important;
+}
+
+.py-2 {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.pl-3 {
+  padding-left: 16px !important;
+}
+
+.pl-4 {
+  padding-left: 24px !important;
+}
+
+.pl-5 {
+  padding-left: 32px !important;
+}
+
+.pl-6 {
+  padding-left: 40px !important;
+}
+
+.pl-7 {
+  padding-left: 48px !important;
+}
+
+.pl-8 {
+  padding-left: 64px !important;
+}
+
+.pl-9 {
+  padding-left: 80px !important;
+}
+
+.pl-10 {
+  padding-left: 96px !important;
+}
+
+.pl-11 {
+  padding-left: 112px !important;
+}
+
+.pl-12 {
+  padding-left: 128px !important;
+}
+
+hr {
+  border-bottom-color: #eee;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  line-height: 10px;
+  color: #444d56;
+  vertical-align: middle;
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #d1d5da;
+}
+
+body:after,
+body:before {
+  display: table;
+  content: '';
+}
+
+body:after {
+  clear: both;
+}
+
+body > :first-child {
+  margin-top: 0 !important;
+}
+
+body > :last-child {
+  margin-bottom: 0 !important;
+}
+
+a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+blockquote,
+details,
+dl,
+ol,
+p,
+pre,
+table,
+ul {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e1e4e8;
+  border: 0;
+}
+
+blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: 0.25em solid #dfe2e5;
+}
+
+blockquote > :first-child {
+  margin-top: 0;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h1,
+h2 {
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #eaecef;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.25em;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+h5 {
+  font-size: 0.875em;
+}
+
+h6 {
+  font-size: 0.85em;
+  color: #6a737d;
+}
+
+ol,
+ul {
+  padding-left: 2em;
+}
+
+ol ol,
+ol ul,
+ul ol,
+ul ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+li {
+  word-wrap: break-all;
+}
+
+li > p {
+  margin-top: 16px;
+}
+
+li + li {
+  margin-top: 0.25em;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 600;
+}
+
+dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+table th {
+  font-weight: 600;
+}
+
+table td,
+table th {
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
+}
+
+table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+img {
+  max-width: 80%;
+  box-sizing: initial;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+}
+
+code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27, 31, 35, 0.05);
+  border-radius: 3px;
+}
+
+pre {
+  word-wrap: normal;
+}
+
+pre > code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  -webkit-print-color-adjust: exact;
+  background: #f8f8f8;
+}
+
+.hljs pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.hljs pre,
+pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  -webkit-print-color-adjust: exact;
+
+  border-radius: 3px;
+}
+
+pre code {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: initial;
+  border: 0;
+}
+
+.commit-tease-sha {
+  display: inline-block;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 90%;
+  color: #444d56;
+}
+
+.full-commit .btn-outline:not(:disabled):hover {
+  color: #005cc5;
+  border-color: #005cc5;
+}
+
+.blob-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.blob-wrapper-embedded {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.blob-num {
+  width: 1%;
+  min-width: 50px;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+  line-height: 20px;
+  color: rgba(27, 31, 35, 0.3);
+  text-align: right;
+  white-space: nowrap;
+  vertical-align: top;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.blob-num:hover {
+  color: rgba(27, 31, 35, 0.6);
+}
+
+.blob-num:before {
+  content: attr(data-line-number);
+}
+
+.blob-code {
+  position: relative;
+  padding-right: 10px;
+  padding-left: 10px;
+  line-height: 20px;
+  vertical-align: top;
+}
+
+.blob-code-inner {
+  overflow: visible;
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
+  color: #24292e;
+  word-wrap: normal;
+  white-space: pre;
+}
+
+.pl-token.active,
+.pl-token:hover {
+  cursor: pointer;
+  background: #ffea7f;
+}
+
+.tab-size[data-tab-size='1'] {
+  -moz-tab-size: 1;
+  tab-size: 1;
+}
+
+.tab-size[data-tab-size='2'] {
+  -moz-tab-size: 2;
+  tab-size: 2;
+}
+
+.tab-size[data-tab-size='3'] {
+  -moz-tab-size: 3;
+  tab-size: 3;
+}
+
+.tab-size[data-tab-size='4'] {
+  -moz-tab-size: 4;
+  tab-size: 4;
+}
+
+.tab-size[data-tab-size='5'] {
+  -moz-tab-size: 5;
+  tab-size: 5;
+}
+
+.tab-size[data-tab-size='6'] {
+  -moz-tab-size: 6;
+  tab-size: 6;
+}
+
+.tab-size[data-tab-size='7'] {
+  -moz-tab-size: 7;
+  tab-size: 7;
+}
+
+.tab-size[data-tab-size='8'] {
+  -moz-tab-size: 8;
+  tab-size: 8;
+}
+
+.tab-size[data-tab-size='9'] {
+  -moz-tab-size: 9;
+  tab-size: 9;
+}
+
+.tab-size[data-tab-size='10'] {
+  -moz-tab-size: 10;
+  tab-size: 10;
+}
+
+.tab-size[data-tab-size='11'] {
+  -moz-tab-size: 11;
+  tab-size: 11;
+}
+
+.tab-size[data-tab-size='12'] {
+  -moz-tab-size: 12;
+  tab-size: 12;
+}
+
+.task-list-item {
+  list-style-type: none;
+}
+
+.task-list-item + .task-list-item {
+  margin-top: 3px;
+}
+
+.task-list-item input {
+  margin: 0 0.2em 0.25em -1.6em;
+  vertical-align: middle;
+}
+/*
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+*/
+  
+  .hljs-comment,
+  .hljs-quote {
+    color: #998;
+    font-style: italic;
+  }
+  
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-subst {
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .hljs-number,
+  .hljs-literal,
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-tag .hljs-attr {
+    color: #008080;
+  }
+  
+  .hljs-string,
+  .hljs-doctag {
+    color: #d14;
+  }
+  
+  .hljs-title,
+  .hljs-section,
+  .hljs-selector-id {
+    color: #900;
+    font-weight: bold;
+  }
+  
+  .hljs-subst {
+    font-weight: normal;
+  }
+  
+  .hljs-type,
+  .hljs-class .hljs-title {
+    color: #458;
+    font-weight: bold;
+  }
+  
+  .hljs-tag,
+  .hljs-name,
+  .hljs-attribute {
+    color: #000080;
+    font-weight: normal;
+  }
+  
+  .hljs-regexp,
+  .hljs-link {
+    color: #009926;
+  }
+  
+  .hljs-symbol,
+  .hljs-bullet {
+    color: #990073;
+  }
+  
+  .hljs-built_in,
+  .hljs-builtin-name {
+    color: #0086b3;
+  }
+  
+  .hljs-meta {
+    color: #999;
+    font-weight: bold;
+  }
+  
+  .hljs-deletion {
+    background: #fdd;
+  }
+  
+  .hljs-addition {
+    background: #dfd;
+  }
+  
+  .hljs-emphasis {
+    font-style: italic;
+  }
+  
+  .hljs-strong {
+    font-weight: bold;
+  }
+		</style>
+<script> MathJax = { tex: { inlineMath: [["$", "$"]] } }; </script>
+<script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+	</head>
+	<body>
+		<nav id="table-of-contents">
+			<ul><li><a href="#introduzione-allottimizzazione-di-codice"> Introduzione all'ottimizzazione di codice</a></li><li><a href="#lottimizzatore"> L'ottimizzatore</a><ul><li><a href="#le-regole-per-lottimizzazione"> Le regole per l'ottimizzazione</a></li><li><a href="#eliminazione-della-ridondanza-esempio"> Eliminazione della ridondanza: esempio</a></li><li><a href="#value-numbering"> Value Numbering</a><ul><li><a href="#semplici-estensioni-alla-numerazione-dei-valori"> Semplici estensioni alla numerazione dei valori</a></li></ul></li><li><a href="#ottimizzazione-di-scope"> Ottimizzazione di Scope</a><ul><li><a href="#spazio-dei-nomi-ssa"> Spazio dei nomi SSA</a></li></ul></li><li><a href="#loop-unrolling---tecnica-regionale"> Loop Unrolling - Tecnica Regionale</a></li><li><a href="#trovare-variabili-non-inizializzate---tecnica-globale"> Trovare variabili non inizializzate - Tecnica globale</a></li></ul></li></ul>
+		</nav>
+		<main>
+			<h1 id="introduzione-allottimizzazione-di-codice" tabindex="-1"><a class="anchor" href="#introduzione-allottimizzazione-di-codice" aria-hidden="true"><span class="octicon octicon-link"></span></a> Introduzione all'ottimizzazione di codice</h1>
+<p>Tra il front-end e il back-end vi si trova appunto il middle-end, anche chiamato ottimizzatore. Il suo compito è: analizzare IR e riscriverlo o traformarlo, quetso per:</p>
+<ul>
+<li>l'obiettivo primario, cioè ridurre il tempo di esecuzione del codice compilato, migliorando lo spazio, il consumo energetico, ...;</li>
+<li>preservando il "significato" del codice;
+<img src="images/middle-end.png" alt="middle-end.png"></li>
+</ul>
+<h1 id="lottimizzatore" tabindex="-1"><a class="anchor" href="#lottimizzatore" aria-hidden="true"><span class="octicon octicon-link"></span></a> L'ottimizzatore</h1>
+<p>L'ottimizzazione del codice può avvenire in più passi, Le trasformazioni tipiche che ad ogni passo possono essere applicate sono:</p>
+<ul>
+<li>Scoprire che un valore rimane costante in tutto il flusso del programma;</li>
+<li>Spostare un'esecuzione in una parte di codice che viene eseguita meno frequentemente: se un pezzo di codice risulta invariato, che valuta sempre lo stesso valore, lo muovo in una parte del programma che viene eseguita meno frequentemente;</li>
+<li>Specializzare alcuni calcoli in base al contesto: inline delle funzioni;</li>
+<li>Scoprire che qualche calcolo è ridondante e rimuoverlo;</li>
+<li>Rimuovere codice che non viene mai eseguito o che non è raggiungibile;</li>
+<li>Codificare un idioma è una forma particolarmente efficiente;</li>
+</ul>
+<h2 id="le-regole-per-lottimizzazione" tabindex="-1"><a class="anchor" href="#le-regole-per-lottimizzazione" aria-hidden="true"><span class="octicon octicon-link"></span></a> Le regole per l'ottimizzazione</h2>
+<p>Il compilatore può implementare una procedura in molti modi, il compito dell'ottimizzatore è quello di trovare un'implementazione che sia "migliore": velocità, peso, spazio, ...
+Per soddisfare questo:</p>
+<ul>
+<li>L'ottimizzatore analizza il codice per ricavare informazioni sul comportamento in fase di esecuzione;</li>
+<li>Utilizza tale conoscenza nel tentativo di migliorare il codice;</li>
+</ul>
+<h2 id="eliminazione-della-ridondanza-esempio" tabindex="-1"><a class="anchor" href="#eliminazione-della-ridondanza-esempio" aria-hidden="true"><span class="octicon octicon-link"></span></a> Eliminazione della ridondanza: esempio</h2>
+<p>Una espressione del tipo $x+y$ è ridondante se e solo se, lungo ogni percorso dall'ingresso della procedura, è stato valutato, e le sue sotto-espressioni costituenti ($x$ e $y$) non sono state ridefinite.
+Se il compilatore può provare che l'espressione è ridondante, può conservare i risultati delle valutazioni precedenti e può sostituire la valutazione corrente con un riferimento.
+Due sono i problemi:
+• Dimostrare che $x+y$ è ridondante o disponibile;
+• Riscrivere il codice per eliminare la valutazione ridondante;
+Una tecnica per realizzare entrambi è chiamata <strong>numerazione dei valori</strong>.</p>
+<h2 id="value-numbering" tabindex="-1"><a class="anchor" href="#value-numbering" aria-hidden="true"><span class="octicon octicon-link"></span></a> Value Numbering</h2>
+<p>La&nbsp;<strong>numerazione dei valori</strong>&nbsp;è una tecnica per risolvere entrambi i problemi. Consiste nel:</p>
+<ul>
+<li>Assegnare un identificatore univoco V(n) a ogni valore calcolato, rappresentando ciascuna espressione con il suo risultato.</li>
+<li>Quando un'espressione&nbsp;$x+y$&nbsp;viene calcolata, il risultato viene associato a un identificatore, V($x+y$) = V(j), se l'espressione compare nuovamente, il compilatore verifica:
+<ul>
+<li>Se l'identificatore, V(j), è ancora valido (cioè&nbsp;$x$&nbsp;e&nbsp;$y$&nbsp;non sono cambiati).</li>
+<li>In caso positivo, l'identificatore può essere riutilizzato.</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/value-numbering.jpeg" alt="value-numbering.jpeg"></p>
+<h3 id="semplici-estensioni-alla-numerazione-dei-valori" tabindex="-1"><a class="anchor" href="#semplici-estensioni-alla-numerazione-dei-valori" aria-hidden="true"><span class="octicon octicon-link"></span></a> Semplici estensioni alla numerazione dei valori</h3>
+<p>Il <strong>folding delle costanti</strong> consiste nel riconoscere e valutare espressioni composte esclusivamente da valori costanti direttamente in fase di compilazione, evitando calcoli a runtime.</p>
+<ul>
+<li>Aggiungere un bit che registra quando un valore è costante;</li>
+<li>Valutare i valori costanti in fase di compilazione;</li>
+<li>Sostituire con load immediate o operandi immediati: se il risultato è una costante, può essere caricato direttamente in un registro o utilizzato come operando immediato;</li>
+</ul>
+<p>Le&nbsp;<strong>identità algebriche</strong>&nbsp;permettono al compilatore di semplificare ulteriormente le espressioni utilizzando proprietà matematiche.</p>
+<ul>
+<li>Deve controllare (molti) casi speciali: il compilatore deve verificare specifiche configurazioni di espressioni che possono essere semplificate tramite identità algebriche;</li>
+<li>Sostituisce il risultato con l'input VN: il compilatore utilizza la numerazione dei valori per sostituire il risultato di un'operazione con uno dei suoi input se l'operazione è semplificabile;</li>
+<li>Costruisce un albero decisionale sull'operazione: per operazioni più complesse, il compilatore costruisce un albero decisionale che valuta le regole algebriche applicabili;</li>
+</ul>
+<p>Il problema principale del Value Numbering è che non si riescono a propagare le variabili di un Basic Block in un altro Basic Block. Vediamo un esempio:
+<img src="images/BB-VN.png" alt="BB-VN.png"></p>
+<p>Notiamo che nel blocco A c'è un'opportunità di ottimizzazione come nel blocco B, ma vediamo che l'ottimizzazione che dovrebbe essere fatta nel blocco A, potrei applicarla anche nel blocco C e non solo.</p>
+<h2 id="ottimizzazione-di-scope" tabindex="-1"><a class="anchor" href="#ottimizzazione-di-scope" aria-hidden="true"><span class="octicon octicon-link"></span></a> Ottimizzazione di Scope</h2>
+<p>L'<strong>ottimizzazione di scope</strong>&nbsp;si riferisce al livello di granularità su cui un compilatore esegue l'analisi e la trasformazione del codice per migliorare le prestazioni o ridurre l'occupazione di memoria. "Scope" qui identifica la regione del codice considerata durante l'ottimizzazione. A seconda dell'estensione dello scope, cambiano le strategie, le tecniche e le sfide dell'ottimizzazione.</p>
+<p><strong>Ottimizzazione Locale</strong></p>
+<ul>
+<li>Opera interamente all'interno di un singolo basic block</li>
+<li>Le proprietà del blocco portano a forti ottimizzazioni
+<strong>Ottimizzazione Regionale</strong></li>
+<li>Operare su una regione nel CFG che contiene più blocchi collegati
+<strong>Ottimizzazione dell'intera procedura</strong></li>
+<li>Analizza e ottimizza l'intero grafo di controllo del flusso (<strong>CFG</strong>) di una singola procedura o funzione.
+<strong>Ottimizzazione dell'intero programma</strong></li>
+<li>Operare su alcuni o tutti i grafi delle chiamate (procedure multiple)</li>
+<li>Deve fare i conti con chiamata/ritorno e associazione dei parametri</li>
+</ul>
+<h3 id="spazio-dei-nomi-ssa" tabindex="-1"><a class="anchor" href="#spazio-dei-nomi-ssa" aria-hidden="true"><span class="octicon octicon-link"></span></a> Spazio dei nomi SSA</h3>
+<p>In SSA, ogni variabile (o nome) è assegnata una sola volta nel codice, garantendo unicità e rendendo più semplice tracciare l'origine e l'uso delle variabili.
+Due principi fondamentali:</p>
+<ol>
+<li>Ogni nome è definito da un'unica operazione: una variabile viene assegnata una sola volta e non cambia mai valore successivamente.</li>
+<li>Ogni operando fa riferimento a un'unica definizione: quando si usa una variabile, il riferimento punta direttamente alla sua unica definizione, non ci sono ambiguità su quale valore di una variabile venga utilizzato.
+Nel codice reale, percorsi di esecuzione multipli possono convergere in un singolo punto, e le variabili possono avere valori diversi a seconda del percorso eseguito, nel codice SSA, questo crea un problema, poiché dobbiamo rispettare i due principi.</li>
+</ol>
+<p><strong>Soluzione: Funzioni $\phi$</strong>
+Le&nbsp;<strong>funzioni $\phi$</strong>&nbsp;sono un costrutto speciale che risolve il problema dei punti di unione, una funzione $\phi$ seleziona il valore corretto di una variabile in base al percorso eseguito.</p>
+<pre><code class="language-C"><span class="hljs-keyword">if</span> (cond) {
+    x1 = <span class="hljs-number">1</span>;
+} <span class="hljs-keyword">else</span> {
+    x2 = <span class="hljs-number">2</span>;
+}
+x3 = φ(x1, x2); <span class="hljs-comment">// x3 assume il valore di x1 o x2 a seconda del percorso</span>
+</code></pre>
+<ul>
+<li>La funzione $\phi$ viene inserita automaticamente dal compilatore nei punti di unione (ad esempio, dopo un&nbsp;if&nbsp;o un ciclo).</li>
+<li>Ogni ramo del codice contribuisce con una variabile definita nel suo percorso.</li>
+</ul>
+<h2 id="loop-unrolling---tecnica-regionale" tabindex="-1"><a class="anchor" href="#loop-unrolling---tecnica-regionale" aria-hidden="true"><span class="octicon octicon-link"></span></a> Loop Unrolling - Tecnica Regionale</h2>
+<p><strong>Loop Unrolling</strong>&nbsp;(srotolamento del ciclo) è una tecnica di ottimizzazione utilizzata nei compilatori per migliorare l'efficienza dei loop, riducendo il sovraccarico legato ai test condizionali e ai salti, e migliorando le opportunità di ottimizzazione locale.</p>
+<p>Le applicazioni trascorrono molto tempo nell'esecuzione dei loop. Ogni iterazione di un ciclo introduce un&nbsp;<strong>sovraccarico</strong>dovuto a:</p>
+<ol>
+<li><strong>Test condizionali</strong>&nbsp;(per verificare se il ciclo deve continuare).</li>
+<li><strong>Rami</strong>&nbsp;(salti al punto iniziale del ciclo per la prossima iterazione).</li>
+<li><strong>Incrementi o modifiche</strong>&nbsp;(variabili di controllo del ciclo).
+Lo srotolamento riduce questo sovraccarico eliminando alcune iterazioni del ciclo e duplicando il corpo del loop per eseguirlo più volte in una sola iterazione.
+Esempio:</li>
+</ol>
+<pre><code class="language-C"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++) {
+    A[i] = A[i] + <span class="hljs-number">1</span>;
+}
+</code></pre>
+<p>Unrolling:</p>
+<pre><code class="language-C">A[<span class="hljs-number">0</span>] = A[<span class="hljs-number">0</span>] + <span class="hljs-number">1</span>;
+A[<span class="hljs-number">1</span>] = A[<span class="hljs-number">1</span>] + <span class="hljs-number">1</span>;
+A[<span class="hljs-number">2</span>] = A[<span class="hljs-number">2</span>] + <span class="hljs-number">1</span>;
+A[<span class="hljs-number">3</span>] = A[<span class="hljs-number">3</span>] + <span class="hljs-number">1</span>;
+</code></pre>
+<p><strong>Unrolling parziale</strong>
+In molti casi, è inefficiente o impossibile srotolare completamente un ciclo, ad esempio quando il numero di iterazioni è molto grande o sconosciuto. In questi casi, si applica uno&nbsp;<strong>srotolamento parziale</strong>&nbsp;duplicando solo alcune iterazioni.</p>
+<p><strong>Unrolling con limiti sconosciuti</strong>
+Se i limiti del ciclo non sono fissi (ad esempio, se dipendono da un input), è necessario aggiungere un&nbsp;<strong>loop di guardia</strong>&nbsp;per gestire i casi rimanenti.</p>
+<ul>
+<li><strong>Loop di guardia</strong>&nbsp;gestisce le iterazioni rimanenti quando il numero totale di iterazioni non è divisibile per il fattore di srotolamento.</li>
+<li>La maggior parte dei benefici dello srotolamento è preservata.</li>
+<li>Funziona anche per limiti superiori e inferiori arbitrari.</li>
+</ul>
+<p><strong>Ottimizzazioni aggiuntive</strong></p>
+<ul>
+<li><strong>Eliminazione delle copie alla fine del ciclo</strong>: nei loop con&nbsp;<strong>copie finali ridondanti</strong>, lo srotolamento può eliminarle. Questo avviene calcolando il&nbsp;<strong>minimo comune multiplo (LCM)</strong>&nbsp;delle lunghezze del ciclo di copia.</li>
+<li><strong>Blocchi più lunghi per ottimizzazioni locali</strong>: lo srotolamento crea&nbsp;<strong>blocchi di codice più lunghi</strong>, aumentando le opportunità di ottimizzazione locale (ad esempio, eliminazione di espressioni ridondanti).</li>
+</ul>
+<h2 id="trovare-variabili-non-inizializzate---tecnica-globale" tabindex="-1"><a class="anchor" href="#trovare-variabili-non-inizializzate---tecnica-globale" aria-hidden="true"><span class="octicon octicon-link"></span></a> Trovare variabili non inizializzate - Tecnica globale</h2>
+<p>Quando una variabile viene utilizzata prima di essere definita, può portare a errori logici nel programma. Questa situazione può essere individuata attraverso l'<strong>analisi globale del flusso di dati</strong>.</p>
+<p><strong>Flusso di dati e variabili non inizializzate</strong>:
+Una variabile è detta&nbsp;<em>viva</em>&nbsp;in un punto del programma se il suo valore potrebbe essere utilizzato successivamente. Se una variabile è viva nel&nbsp;<strong>blocco di ingresso</strong>&nbsp;di una procedura senza essere inizializzata, rappresenta un&nbsp;<strong>potenziale errore logico</strong>.
+L'obiettivo del compilatore è individuare e segnalare queste variabili.</p>
+<p><strong>Concetti chiave</strong></p>
+<ol>
+<li>Costruzione del CFG (Control Flow Graph)</li>
+<li>Calcolo dei set UEVAR e VARKILL:
+<ul>
+<li><strong>UEVAR</strong> (Used-Variable): insieme delle variabili usate nel blocco prima di essere ridefinite.
+<ul>
+<li>esempio: in&nbsp;<code>x = a + b</code>,&nbsp;<code>a</code>&nbsp;e&nbsp;<code>b</code>&nbsp;sono UEVAR se non sono ridefiniti precedentemente nel blocco.</li>
+</ul>
+</li>
+<li><strong>VARKILL</strong>: insieme delle variabili definite (o "uccise") nel blocco.
+<ul>
+<li>esempio: in&nbsp;<code>x = a + b</code>,&nbsp;<code>x</code>&nbsp;appartiene a VARKILL.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>LIVEOUT: LIVEOUT(n) è l'insieme delle variabili vive alla fine del blocco&nbsp;<code>n</code>, si calcola iterativamente utilizzando le definizioni di UEVAR e VARKILL.</li>
+</ol>
+<p>Esempio:</p>
+<pre><code class="language-C">x = a + b;
+y = x * <span class="hljs-number">2</span>;
+<span class="hljs-keyword">if</span> (y &gt; <span class="hljs-number">10</span>) {
+    z = y - <span class="hljs-number">5</span>;
+} <span class="hljs-keyword">else</span> {
+    w = y + <span class="hljs-number">5</span>;
+}
+</code></pre>
+<ul>
+<li>CFG:
+<ul>
+<li>Nodo 1:&nbsp;<code>x = a + b</code></li>
+<li>Nodo 2:&nbsp;<code>y = x * 2</code></li>
+<li>Nodo 3:&nbsp;<code>z = y - 5</code>&nbsp;(ramo&nbsp;<em>if</em>)</li>
+<li>Nodo 4:&nbsp;<code>w = y + 5</code>&nbsp;(ramo&nbsp;<em>else</em>)</li>
+</ul>
+</li>
+<li>UEVAR e VARKILL:
+<ul>
+<li>Nodo 1:&nbsp;<code>UEVAR = {a, b}</code>,&nbsp;<code>VARKILL = {x}</code></li>
+<li>Nodo 2:&nbsp;<code>UEVAR = {x}</code>,&nbsp;<code>VARKILL = {y}</code></li>
+<li>Nodo 3:&nbsp;<code>UEVAR = {y}</code>,&nbsp;<code>VARKILL = {z}</code></li>
+<li>Nodo 4:&nbsp;<code>UEVAR = {y}</code>,&nbsp;<code>VARKILL = {w}</code></li>
+</ul>
+</li>
+<li>LIVEOUT&nbsp;calcolato iterativamente:
+<ul>
+<li>Nodo 3:&nbsp;<code>LIVEOUT(3) = {}</code>&nbsp;(nessun successore, z non viene usato dopo).</li>
+<li>Nodo 4:&nbsp;<code>LIVEOUT(4) = {}</code>&nbsp;(nessun successore, w non viene usato dopo).</li>
+<li>Nodo 2:&nbsp;<code>LIVEOUT(2) = UEVAR(3) ∪ UEVAR(4) = {y}</code>.</li>
+<li>Nodo 1:&nbsp;<code>LIVEOUT(1) = UEVAR(2) ∪ (LIVEOUT(2) - VARKILL(2)) = {x, y}</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Dopo aver calcolato&nbsp;<code>LIVEOUT</code>, controllare:</p>
+<ul>
+<li>Se una variabile è in&nbsp;<code>LIVEOUT</code>&nbsp;del blocco iniziale (<code>LIVEOUT(n0)</code>), ma non è mai stata inizializzata, il compilatore segnala un errore.</li>
+<li>Ad esempio, se&nbsp;<code>a</code>&nbsp;o&nbsp;<code>b</code>&nbsp;non sono inizializzati nel programma sopra, il compilatore lo segnala.</li>
+</ul>
+<p><strong>Ottimizzazioni del codice tramite LIVEOUT</strong></p>
+<ol>
+<li>Eliminazione delle istruzioni non necessarie;</li>
+<li>Ordinare i calcoli per migliorare la convergenza</li>
+<li>Calcolo RPO: PostOrder, ordine in cui i nodi sono visitati terminando ogni ramo del CFG.</li>
+</ol>
+
+		</main>
+	</body>
+</html>
